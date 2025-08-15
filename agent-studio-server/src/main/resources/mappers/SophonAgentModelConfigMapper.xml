@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sophon.agent.studio.mapper.SophonAgentModelConfigMapper">
+  <resultMap id="BaseResultMap" type="com.sophon.agent.studio.model.SophonAgentModelConfig">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="modify_time" jdbcType="VARCHAR" property="modifyTime" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="model_url" jdbcType="VARCHAR" property="modelUrl" />
+    <result column="model_key" jdbcType="VARCHAR" property="modelKey" />
+    <result column="model_name" jdbcType="VARCHAR" property="modelName" />
+    <result column="config" jdbcType="VARCHAR" property="config" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+    <result column="modify_user" jdbcType="VARCHAR" property="modifyUser" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="modalities" jdbcType="VARCHAR" property="modalities" />
+    <result column="max_completion_token_limit" jdbcType="INTEGER" property="maxCompletionTokenLimit" />
+    <result column="model_app_tag" jdbcType="VARCHAR" property="modelAppTag" />
+    <result column="default_params" jdbcType="VARCHAR" property="defaultParams" />
+    <result column="support_stream" jdbcType="INTEGER" property="supportStream" />
+    <result column="support_system" jdbcType="INTEGER" property="supportSystem" />
+    <result column="support_reasoning" jdbcType="INTEGER" property="supportReasoning" />
+    <result column="timeout_seconds" jdbcType="INTEGER" property="timeoutSeconds" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, create_time, modify_time, name, description, model_url, model_key, model_name, 
+    config, is_delete, modify_user, create_user, modalities, max_completion_token_limit, 
+    model_app_tag, default_params, support_stream, support_system, support_reasoning, 
+    timeout_seconds
+  </sql>
+  <select id="selectByExample" parameterType="com.sophon.agent.studio.model.SophonAgentModelConfigExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from sophon_agent_model_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sophon_agent_model_config
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sophon_agent_model_config
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sophon.agent.studio.model.SophonAgentModelConfigExample">
+    delete from sophon_agent_model_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sophon.agent.studio.model.SophonAgentModelConfig" useGeneratedKeys="true">
+    insert into sophon_agent_model_config (create_time, modify_time, name, 
+      description, model_url, model_key, 
+      model_name, config, is_delete, 
+      modify_user, create_user, modalities, 
+      max_completion_token_limit, model_app_tag, default_params, 
+      support_stream, support_system, support_reasoning, 
+      timeout_seconds)
+    values (#{createTime,jdbcType=VARCHAR}, #{modifyTime,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{modelUrl,jdbcType=VARCHAR}, #{modelKey,jdbcType=VARCHAR}, 
+      #{modelName,jdbcType=VARCHAR}, #{config,jdbcType=VARCHAR}, #{isDelete,jdbcType=INTEGER}, 
+      #{modifyUser,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, #{modalities,jdbcType=VARCHAR}, 
+      #{maxCompletionTokenLimit,jdbcType=INTEGER}, #{modelAppTag,jdbcType=VARCHAR}, #{defaultParams,jdbcType=VARCHAR}, 
+      #{supportStream,jdbcType=INTEGER}, #{supportSystem,jdbcType=INTEGER}, #{supportReasoning,jdbcType=INTEGER}, 
+      #{timeoutSeconds,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sophon.agent.studio.model.SophonAgentModelConfig" useGeneratedKeys="true">
+    insert into sophon_agent_model_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="modelUrl != null">
+        model_url,
+      </if>
+      <if test="modelKey != null">
+        model_key,
+      </if>
+      <if test="modelName != null">
+        model_name,
+      </if>
+      <if test="config != null">
+        config,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="modifyUser != null">
+        modify_user,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="modalities != null">
+        modalities,
+      </if>
+      <if test="maxCompletionTokenLimit != null">
+        max_completion_token_limit,
+      </if>
+      <if test="modelAppTag != null">
+        model_app_tag,
+      </if>
+      <if test="defaultParams != null">
+        default_params,
+      </if>
+      <if test="supportStream != null">
+        support_stream,
+      </if>
+      <if test="supportSystem != null">
+        support_system,
+      </if>
+      <if test="supportReasoning != null">
+        support_reasoning,
+      </if>
+      <if test="timeoutSeconds != null">
+        timeout_seconds,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="modelUrl != null">
+        #{modelUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="modelKey != null">
+        #{modelKey,jdbcType=VARCHAR},
+      </if>
+      <if test="modelName != null">
+        #{modelName,jdbcType=VARCHAR},
+      </if>
+      <if test="config != null">
+        #{config,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="modifyUser != null">
+        #{modifyUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="modalities != null">
+        #{modalities,jdbcType=VARCHAR},
+      </if>
+      <if test="maxCompletionTokenLimit != null">
+        #{maxCompletionTokenLimit,jdbcType=INTEGER},
+      </if>
+      <if test="modelAppTag != null">
+        #{modelAppTag,jdbcType=VARCHAR},
+      </if>
+      <if test="defaultParams != null">
+        #{defaultParams,jdbcType=VARCHAR},
+      </if>
+      <if test="supportStream != null">
+        #{supportStream,jdbcType=INTEGER},
+      </if>
+      <if test="supportSystem != null">
+        #{supportSystem,jdbcType=INTEGER},
+      </if>
+      <if test="supportReasoning != null">
+        #{supportReasoning,jdbcType=INTEGER},
+      </if>
+      <if test="timeoutSeconds != null">
+        #{timeoutSeconds,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sophon.agent.studio.model.SophonAgentModelConfigExample" resultType="java.lang.Long">
+    select count(*) from sophon_agent_model_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sophon_agent_model_config
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modifyTime != null">
+        modify_time = #{record.modifyTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelUrl != null">
+        model_url = #{record.modelUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelKey != null">
+        model_key = #{record.modelKey,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelName != null">
+        model_name = #{record.modelName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.config != null">
+        config = #{record.config,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isDelete != null">
+        is_delete = #{record.isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="record.modifyUser != null">
+        modify_user = #{record.modifyUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modalities != null">
+        modalities = #{record.modalities,jdbcType=VARCHAR},
+      </if>
+      <if test="record.maxCompletionTokenLimit != null">
+        max_completion_token_limit = #{record.maxCompletionTokenLimit,jdbcType=INTEGER},
+      </if>
+      <if test="record.modelAppTag != null">
+        model_app_tag = #{record.modelAppTag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.defaultParams != null">
+        default_params = #{record.defaultParams,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supportStream != null">
+        support_stream = #{record.supportStream,jdbcType=INTEGER},
+      </if>
+      <if test="record.supportSystem != null">
+        support_system = #{record.supportSystem,jdbcType=INTEGER},
+      </if>
+      <if test="record.supportReasoning != null">
+        support_reasoning = #{record.supportReasoning,jdbcType=INTEGER},
+      </if>
+      <if test="record.timeoutSeconds != null">
+        timeout_seconds = #{record.timeoutSeconds,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sophon_agent_model_config
+    set id = #{record.id,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=VARCHAR},
+      modify_time = #{record.modifyTime,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      model_url = #{record.modelUrl,jdbcType=VARCHAR},
+      model_key = #{record.modelKey,jdbcType=VARCHAR},
+      model_name = #{record.modelName,jdbcType=VARCHAR},
+      config = #{record.config,jdbcType=VARCHAR},
+      is_delete = #{record.isDelete,jdbcType=INTEGER},
+      modify_user = #{record.modifyUser,jdbcType=VARCHAR},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      modalities = #{record.modalities,jdbcType=VARCHAR},
+      max_completion_token_limit = #{record.maxCompletionTokenLimit,jdbcType=INTEGER},
+      model_app_tag = #{record.modelAppTag,jdbcType=VARCHAR},
+      default_params = #{record.defaultParams,jdbcType=VARCHAR},
+      support_stream = #{record.supportStream,jdbcType=INTEGER},
+      support_system = #{record.supportSystem,jdbcType=INTEGER},
+      support_reasoning = #{record.supportReasoning,jdbcType=INTEGER},
+      timeout_seconds = #{record.timeoutSeconds,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sophon.agent.studio.model.SophonAgentModelConfig">
+    update sophon_agent_model_config
+    <set>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        modify_time = #{modifyTime,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="modelUrl != null">
+        model_url = #{modelUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="modelKey != null">
+        model_key = #{modelKey,jdbcType=VARCHAR},
+      </if>
+      <if test="modelName != null">
+        model_name = #{modelName,jdbcType=VARCHAR},
+      </if>
+      <if test="config != null">
+        config = #{config,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="modifyUser != null">
+        modify_user = #{modifyUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="modalities != null">
+        modalities = #{modalities,jdbcType=VARCHAR},
+      </if>
+      <if test="maxCompletionTokenLimit != null">
+        max_completion_token_limit = #{maxCompletionTokenLimit,jdbcType=INTEGER},
+      </if>
+      <if test="modelAppTag != null">
+        model_app_tag = #{modelAppTag,jdbcType=VARCHAR},
+      </if>
+      <if test="defaultParams != null">
+        default_params = #{defaultParams,jdbcType=VARCHAR},
+      </if>
+      <if test="supportStream != null">
+        support_stream = #{supportStream,jdbcType=INTEGER},
+      </if>
+      <if test="supportSystem != null">
+        support_system = #{supportSystem,jdbcType=INTEGER},
+      </if>
+      <if test="supportReasoning != null">
+        support_reasoning = #{supportReasoning,jdbcType=INTEGER},
+      </if>
+      <if test="timeoutSeconds != null">
+        timeout_seconds = #{timeoutSeconds,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sophon.agent.studio.model.SophonAgentModelConfig">
+    update sophon_agent_model_config
+    set create_time = #{createTime,jdbcType=VARCHAR},
+      modify_time = #{modifyTime,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      model_url = #{modelUrl,jdbcType=VARCHAR},
+      model_key = #{modelKey,jdbcType=VARCHAR},
+      model_name = #{modelName,jdbcType=VARCHAR},
+      config = #{config,jdbcType=VARCHAR},
+      is_delete = #{isDelete,jdbcType=INTEGER},
+      modify_user = #{modifyUser,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      modalities = #{modalities,jdbcType=VARCHAR},
+      max_completion_token_limit = #{maxCompletionTokenLimit,jdbcType=INTEGER},
+      model_app_tag = #{modelAppTag,jdbcType=VARCHAR},
+      default_params = #{defaultParams,jdbcType=VARCHAR},
+      support_stream = #{supportStream,jdbcType=INTEGER},
+      support_system = #{supportSystem,jdbcType=INTEGER},
+      support_reasoning = #{supportReasoning,jdbcType=INTEGER},
+      timeout_seconds = #{timeoutSeconds,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
