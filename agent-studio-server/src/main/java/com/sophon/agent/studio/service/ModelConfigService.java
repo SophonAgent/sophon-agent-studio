@@ -169,6 +169,14 @@ public class ModelConfigService {
             .collect(Collectors.toList());
     }
 
+    public SophonAgentModelConfig getModelConfigEntityById(Long id) {
+        SophonAgentModelConfig model = modelConfigMapper.selectByPrimaryKey(id);
+        if (model == null || model.getIsDelete() == 1) {
+            throw new ResourceNotFoundException("模型配置不存在: " + id);
+        }
+        return model;
+    }
+
     private ModelConfigResponse convertToResponse(SophonAgentModelConfig model) {
         ModelConfigResponse response = new ModelConfigResponse();
         BeanUtils.copyProperties(model, response);

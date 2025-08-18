@@ -64,6 +64,32 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
+        
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.12.0</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-core</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>io.projectreactor.netty</groupId>
+            <artifactId>reactor-netty</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-reflect</artifactId>
+            <version>1.9.24</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -157,6 +183,49 @@
                         <groupId>com.itfsw</groupId>
                         <artifactId>mybatis-generator-plugin</artifactId>
                         <version>1.3.10</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>com.github.kongchen</groupId>
+                <artifactId>swagger-maven-plugin</artifactId>
+                <version>3.1.6</version>
+                <configuration>
+                    <apiSources>
+                        <apiSource>
+                            <springmvc>true</springmvc>
+                            <schemes>http,https</schemes>
+                            <basePath>/</basePath>
+                            <locations>
+                                <!-- 【必填】项目controller的包名 -->
+                                <location>com.sophon.agent.studio.controller</location>
+                                <!-- 如果有多个package，则增加多对<location></location> -->
+                            </locations>
+                            <info>
+                                <title>swagger</title>
+                                <version>v1</version>
+                                <description>agent swagger</description>
+                                <vendorExtensions>
+                                </vendorExtensions>
+                            </info>
+                            <!-- 【必填】swagger.json生成的路径，需和BAM配置一致 -->
+                            <swaggerDirectory>${basedir}/swagger</swaggerDirectory>
+                        </apiSource>
+                    </apiSources>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>javax.xml.bind</groupId>
+                        <artifactId>jaxb-api</artifactId>
+                        <version>2.3.1</version>
                     </dependency>
                 </dependencies>
             </plugin>

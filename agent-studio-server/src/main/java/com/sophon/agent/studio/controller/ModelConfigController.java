@@ -1,6 +1,9 @@
 package com.sophon.agent.studio.controller;
 
-import com.sophon.agent.studio.dto.*;
+import com.sophon.agent.studio.dto.ModelConfigCreateRequest;
+import com.sophon.agent.studio.dto.ModelConfigResponse;
+import com.sophon.agent.studio.dto.ModelConfigUpdateRequest;
+import com.sophon.agent.studio.dto.ResponseDTO;
 import com.sophon.agent.studio.service.ModelConfigService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -50,20 +53,7 @@ public class ModelConfigController {
         return ResponseDTO.success("获取模型配置成功", config);
     }
 
-    @GetMapping("/search")
-    @Operation(summary = "搜索模型配置", description = "根据关键词搜索模型配置")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "搜索成功"),
-        @ApiResponse(responseCode = "500", description = "服务器内部错误")
-    })
-    public ResponseDTO<List<ModelConfigResponse>> searchModelConfigs(
-            @Parameter(description = "搜索关键词", example = "GPT", required = false)
-            @RequestParam(required = false) String keyword) {
-        List<ModelConfigResponse> configs = modelConfigService.searchModelConfigs(keyword);
-        return ResponseDTO.success("搜索成功", configs);
-    }
-
-    @PostMapping
+    @PostMapping("/createModelConfig")
     @Operation(summary = "创建模型配置", description = "创建新的模型配置")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "创建成功"),
@@ -76,7 +66,7 @@ public class ModelConfigController {
         return ResponseDTO.success("创建模型配置成功", config);
     }
 
-    @PutMapping("/{id}")
+    @PostMapping("/updateModelConfig/{id}")
     @Operation(summary = "更新模型配置", description = "根据ID更新模型配置信息")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "更新成功"),
@@ -92,7 +82,7 @@ public class ModelConfigController {
         return ResponseDTO.success("更新模型配置成功", config);
     }
 
-    @DeleteMapping("/{id}")
+    @PostMapping("/deleteModelConfig/{id}")
     @Operation(summary = "删除模型配置", description = "根据ID软删除模型配置")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "删除成功"),
