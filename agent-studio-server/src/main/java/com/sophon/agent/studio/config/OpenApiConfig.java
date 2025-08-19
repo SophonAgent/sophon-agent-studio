@@ -29,7 +29,7 @@ public class OpenApiConfig {
                                 .url("https://www.apache.org/licenses/LICENSE-2.0.html")))
                 .servers(List.of(
                         new Server().url("http://localhost:8080").description("本地开发环境"),
-                        new Server().url("https://api.agent-studio.com").description("生产环境")
+                        new Server().url("http://10.37.19.225:8080/").description("生产环境")
                 ));
     }
 }
