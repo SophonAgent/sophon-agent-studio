@@ -32,7 +32,7 @@ public class ModelConfigUpdateRequest {
     private String config;
     
     @Size(max = 1024, message = "模态支持长度不能超过1024字符")
-    @Schema(description = "模态支持", example = "text,image")
+    @Schema(description = "模态支持", example = "[\"text\",\"image\"]")
     private String modalities;
     
     @Schema(description = "模型最大输出token长度", example = "4096")

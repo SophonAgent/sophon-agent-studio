@@ -34,8 +34,8 @@ public class ChatCompletionRequest {
     private Double topK;
     
     @Schema(description = "最大token数量", example = "2048")
-    @JsonProperty("max_tokens")
-    private Integer maxTokens;
+    @JsonProperty("max_completions_tokens")
+    private Integer maxCompletionsTokens;
     
     @Schema(description = "是否流式响应", example = "false")
     private Boolean stream = false;

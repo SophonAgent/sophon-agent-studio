@@ -1,7 +1,9 @@
 package com.sophon.agent.studio.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sophon.agent.studio.dto.*;
+import com.sophon.agent.studio.dto.ChatCompletionRequest;
+import com.sophon.agent.studio.dto.ChatCompletionResponse;
+import com.sophon.agent.studio.dto.ChatCompletionStreamResponse;
 import com.sophon.agent.studio.exception.BusinessException;
 import com.sophon.agent.studio.exception.ResourceNotFoundException;
 import com.sophon.agent.studio.model.SophonAgentModelConfig;
@@ -208,10 +210,12 @@ public class ModelExecutionService {
             requestBody.put("top_k", request.getTopK());
         }
         
-        if (request.getMaxTokens() != null) {
-            requestBody.put("max_tokens", request.getMaxTokens());
+        if (request.getMaxCompletionsTokens() != null) {
+            requestBody.put("max_tokens", request.getMaxCompletionsTokens());
+            requestBody.put("max_completions_tokens", request.getMaxCompletionsTokens());
         } else if (config.getMaxCompletionTokenLimit() != null) {
             requestBody.put("max_tokens", config.getMaxCompletionTokenLimit());
+            requestBody.put("max_completions_tokens", config.getMaxCompletionTokenLimit());
         }
         
         if (request.getStop() != null && !request.getStop().isEmpty()) {

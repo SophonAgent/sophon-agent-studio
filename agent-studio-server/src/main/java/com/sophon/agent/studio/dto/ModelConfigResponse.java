@@ -43,7 +43,7 @@ public class ModelConfigResponse {
     @Schema(description = "创建人", example = "admin")
     private String createUser;
     
-    @Schema(description = "模态支持", example = "text,image")
+    @Schema(description = "模态支持", example = "[\"text\",\"image\"]")
     private String modalities;
     
     @Schema(description = "模型最大输出token长度", example = "4096")
