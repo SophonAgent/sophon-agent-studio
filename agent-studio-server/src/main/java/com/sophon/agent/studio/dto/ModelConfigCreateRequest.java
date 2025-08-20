@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @Schema(description = "模型配置创建请求")
 public class ModelConfigCreateRequest {
@@ -39,7 +41,7 @@ public class ModelConfigCreateRequest {
     
     @Size(max = 1024, message = "模态支持长度不能超过1024字符")
     @Schema(description = "模态支持", example = "[\"text\",\"image\"]")
-    private String modalities;
+    private List<String> modalities;
     
     @Schema(description = "模型最大输出token长度", example = "4096")
     private Integer maxCompletionTokenLimit;

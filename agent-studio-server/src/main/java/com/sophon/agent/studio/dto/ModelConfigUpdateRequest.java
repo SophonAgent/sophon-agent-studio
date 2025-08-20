@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @Schema(description = "模型配置更新请求")
 public class ModelConfigUpdateRequest {
@@ -30,10 +32,10 @@ public class ModelConfigUpdateRequest {
     
     @Schema(description = "模型配置其他扩展信息", example = "{\"provider\": \"openai\", \"type\": \"chat\"}")
     private String config;
-    
+
     @Size(max = 1024, message = "模态支持长度不能超过1024字符")
     @Schema(description = "模态支持", example = "[\"text\",\"image\"]")
-    private String modalities;
+    private List<String> modalities;
     
     @Schema(description = "模型最大输出token长度", example = "4096")
     private Integer maxCompletionTokenLimit;

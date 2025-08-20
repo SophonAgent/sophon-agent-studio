@@ -1,9 +1,11 @@
 package com.sophon.agent.studio.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 
 @Data
@@ -42,9 +44,10 @@ public class ModelConfigResponse {
     
     @Schema(description = "创建人", example = "admin")
     private String createUser;
-    
+
+    @Size(max = 1024, message = "模态支持长度不能超过1024字符")
     @Schema(description = "模态支持", example = "[\"text\",\"image\"]")
-    private String modalities;
+    private List<String> modalities;
     
     @Schema(description = "模型最大输出token长度", example = "4096")
     private Integer maxCompletionTokenLimit;
