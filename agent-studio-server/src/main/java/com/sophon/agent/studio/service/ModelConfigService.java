@@ -181,6 +181,8 @@ public class ModelConfigService {
     private ModelConfigResponse convertToResponse(SophonAgentModelConfig model) {
         ModelConfigResponse response = new ModelConfigResponse();
         BeanUtils.copyProperties(model, response);
+
+        response.setModalities(JSON.parseArray(model.getModalities(), String.class));
         
         // Hide sensitive information
 //        if (response.getModelKey() != null) {
