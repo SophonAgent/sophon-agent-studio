@@ -1,5 +1,6 @@
 package com.sophon.agent.studio.service;
 
+import com.alibaba.fastjson.JSON;
 import com.sophon.agent.studio.dto.ModelConfigCreateRequest;
 import com.sophon.agent.studio.dto.ModelConfigResponse;
 import com.sophon.agent.studio.dto.ModelConfigUpdateRequest;
@@ -51,7 +52,7 @@ public class ModelConfigService {
         model.setModelKey(request.getModelKey());
         model.setModelName(request.getModelName());
         model.setConfig(request.getConfig());
-        model.setModalities(request.getModalities());
+        model.setModalities(JSON.toJSONString(request.getModalities()));
         model.setMaxCompletionTokenLimit(request.getMaxCompletionTokenLimit());
         model.setModelAppTag(request.getModelAppTag());
         model.setDefaultParams(request.getDefaultParams());
@@ -100,7 +101,7 @@ public class ModelConfigService {
             model.setConfig(request.getConfig());
         }
         if (request.getModalities() != null) {
-            model.setModalities(request.getModalities());
+            model.setModalities(JSON.toJSONString(request.getModalities()));
         }
         if (request.getMaxCompletionTokenLimit() != null) {
             model.setMaxCompletionTokenLimit(request.getMaxCompletionTokenLimit());

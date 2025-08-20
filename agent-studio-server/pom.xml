@@ -90,6 +90,11 @@
             <artifactId>kotlin-reflect</artifactId>
             <version>1.9.24</version>
         </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.83</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
