@@ -153,14 +153,11 @@ public class ModelExecutionService {
                             BufferedSource source = response.body().source();
                             try {
                                 while (!source.exhausted()) {
-                                    String line = source.readUtf8Line();
-                                    if (line != null && line.startsWith("data: ")) {
-                                        String data = line.substring(6);
+                                    String data = source.readUtf8Line();
+                                    if (data != null && data.startsWith("data: ")) {
+//                                        String data = line.substring(6);
                                         
-                                        if (data.equals("[DONE]")) {
-                                            sink.complete();
-                                            return;
-                                        }
+
                                         LOGGER.info("获取流式返回,参数为:{}", data);
 
                                         try {
@@ -170,6 +167,10 @@ public class ModelExecutionService {
                                             }
                                         } catch (Exception e) {
                                             LOGGER.warn("解析流式响应失败: {}", e.getMessage());
+                                        }
+                                        if (data.equals("data: [DONE]")) {
+                                            sink.complete();
+                                            return;
                                         }
                                     }
                                 }
