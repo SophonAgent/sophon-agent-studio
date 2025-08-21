@@ -1,10 +1,11 @@
 package com.sophon.agent.studio.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.sophon.agent.studio.dto.*;
+import com.sophon.agent.studio.dto.ChatCompletionRequest;
+import com.sophon.agent.studio.dto.ChatCompletionResponse;
+import com.sophon.agent.studio.dto.ChatCompletionStreamResponse;
 import com.sophon.agent.studio.service.ModelExecutionService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -15,7 +16,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -53,7 +57,7 @@ public class ModelExecutionController {
             @ApiResponse(responseCode = "404", description = "模型配置不存在"),
             @ApiResponse(responseCode = "500", description = "服务器内部错误")
     })
-    public Flux<ChatCompletionStreamResponse> createChatCompletionStream(
+    public Flux<String> createChatCompletionStream(
             @Valid @RequestBody ChatCompletionRequest request) {
         if (!request.getStream()) {
             request.setStream(true);

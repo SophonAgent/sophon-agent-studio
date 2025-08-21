@@ -59,7 +59,7 @@ public class ModelExecutionService {
     /**
      * 创建流式聊天完成请求
      */
-    public Flux<ChatCompletionStreamResponse> createChatCompletionStream(ChatCompletionRequest request) {
+    public Flux<String> createChatCompletionStream(ChatCompletionRequest request) {
         return getModelConfig(request)
                 .flatMapMany(config -> {
                     try {
@@ -118,7 +118,7 @@ public class ModelExecutionService {
         });
     }
     
-    private Flux<ChatCompletionStreamResponse> executeChatCompletionStream(SophonAgentModelConfig config, ChatCompletionRequest request) {
+    private Flux<String> executeChatCompletionStream(SophonAgentModelConfig config, ChatCompletionRequest request) {
         return Flux.create(sink -> {
             try {
                 String apiUrl = config.getModelUrl() + "/chat/completions";
@@ -159,15 +159,7 @@ public class ModelExecutionService {
                                         
 
                                         LOGGER.info("获取流式返回,参数为:{}", data);
-
-                                        try {
-                                            ChatCompletionStreamResponse streamResponse = objectMapper.readValue(data, ChatCompletionStreamResponse.class);
-                                            if (streamResponse.getChoices() != null && !streamResponse.getChoices().isEmpty()) {
-                                                sink.next(streamResponse);
-                                            }
-                                        } catch (Exception e) {
-                                            LOGGER.warn("解析流式响应失败: {}", e.getMessage());
-                                        }
+                                        sink.next(data);
                                         if (data.equals("data: [DONE]")) {
                                             sink.complete();
                                             return;
