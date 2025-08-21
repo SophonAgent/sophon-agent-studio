@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class ModelExecutionService {
 
-    private static final Logger logger = LoggerFactory.getLogger(ModelExecutionService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ModelExecutionService.class);
     
     @Autowired
     private ModelConfigService modelConfigService;
@@ -161,14 +161,15 @@ public class ModelExecutionService {
                                             sink.complete();
                                             return;
                                         }
-                                        
+                                        LOGGER.info("获取流式返回,参数为:{}", data);
+
                                         try {
                                             ChatCompletionStreamResponse streamResponse = objectMapper.readValue(data, ChatCompletionStreamResponse.class);
                                             if (streamResponse.getChoices() != null && !streamResponse.getChoices().isEmpty()) {
                                                 sink.next(streamResponse);
                                             }
                                         } catch (Exception e) {
-                                            logger.warn("解析流式响应失败: {}", e.getMessage());
+                                            LOGGER.warn("解析流式响应失败: {}", e.getMessage());
                                         }
                                     }
                                 }

@@ -1,5 +1,6 @@
 package com.sophon.agent.studio.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.sophon.agent.studio.dto.*;
 import com.sophon.agent.studio.service.ModelExecutionService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,6 +11,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +23,7 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/api/v1")
 @Tag(name = "模型执行", description = "OpenAI兼容的模型执行接口")
 public class ModelExecutionController {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(ModelExecutionController.class);
     @Autowired
     private ModelExecutionService modelExecutionService;
 
@@ -70,6 +73,7 @@ public class ModelExecutionController {
     public Flux<ChatCompletionStreamResponse> createChatCompletionStreamWithParam(
             @Valid @RequestBody ChatCompletionRequest request) {
         request.setStream(true);
+        LOGGER.info("创建流式开始,参数为:{}", JSON.toJSONString(request));
         return modelExecutionService.createChatCompletionStream(request);
     }
 }
