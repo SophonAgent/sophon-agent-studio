@@ -43,7 +43,7 @@ public class ModelExecutionController {
         return modelExecutionService.createChatCompletion(request);
     }
 
-    @PostMapping(value = "/chat/completions", consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @PostMapping(value = "/chat/completions",produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     @Operation(summary = "创建流式聊天完成", description = "创建流式聊天完成，支持Server-Sent Events")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "成功",

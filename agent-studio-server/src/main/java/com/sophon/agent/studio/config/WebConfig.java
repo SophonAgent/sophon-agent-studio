@@ -54,7 +54,7 @@ public class WebConfig implements WebMvcConfigurer {
         supportedMediaTypes.add(MediaType.IMAGE_GIF);
         supportedMediaTypes.add(MediaType.IMAGE_JPEG);
         supportedMediaTypes.add(MediaType.IMAGE_PNG);
-        supportedMediaTypes.add(MediaType.TEXT_EVENT_STREAM);
+//        supportedMediaTypes.add(MediaType.TEXT_EVENT_STREAM);
         supportedMediaTypes.add(MediaType.TEXT_HTML);
         supportedMediaTypes.add(MediaType.TEXT_MARKDOWN);
         supportedMediaTypes.add(MediaType.TEXT_PLAIN);
