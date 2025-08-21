@@ -62,20 +62,20 @@ public class ModelExecutionController {
         return modelExecutionService.createChatCompletionStream(request);
     }
 
-    @PostMapping(value = "/chat/completions", params = "stream=true", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    @Operation(summary = "创建流式聊天完成（查询参数）", description = "通过查询参数指定流式响应")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "成功",
-                    content = @Content(mediaType = "text/event-stream",
-                            schema = @Schema(implementation = ChatCompletionStreamResponse.class))),
-            @ApiResponse(responseCode = "400", description = "请求参数错误"),
-            @ApiResponse(responseCode = "404", description = "模型配置不存在"),
-            @ApiResponse(responseCode = "500", description = "服务器内部错误")
-    })
-    public Flux<ChatCompletionStreamResponse> createChatCompletionStreamWithParam(
-            @Valid @RequestBody ChatCompletionRequest request) {
-        request.setStream(true);
-        LOGGER.info("创建流式开始,参数为:{}", JSON.toJSONString(request));
-        return modelExecutionService.createChatCompletionStream(request);
-    }
+//    @PostMapping(value = "/chat/completions", params = "stream=true", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+//    @Operation(summary = "创建流式聊天完成（查询参数）", description = "通过查询参数指定流式响应")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "成功",
+//                    content = @Content(mediaType = "text/event-stream",
+//                            schema = @Schema(implementation = ChatCompletionStreamResponse.class))),
+//            @ApiResponse(responseCode = "400", description = "请求参数错误"),
+//            @ApiResponse(responseCode = "404", description = "模型配置不存在"),
+//            @ApiResponse(responseCode = "500", description = "服务器内部错误")
+//    })
+//    public Flux<ChatCompletionStreamResponse> createChatCompletionStreamWithParam(
+//            @Valid @RequestBody ChatCompletionRequest request) {
+//        request.setStream(true);
+//        LOGGER.info("创建流式开始,参数为:{}", JSON.toJSONString(request));
+//        return modelExecutionService.createChatCompletionStream(request);
+//    }
 }
