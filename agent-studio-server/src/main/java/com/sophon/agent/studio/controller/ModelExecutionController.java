@@ -27,7 +27,7 @@ public class ModelExecutionController {
     @Autowired
     private ModelExecutionService modelExecutionService;
 
-    @PostMapping("/chat/completions")
+    @PostMapping(value = "/chat/completions", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "创建聊天完成", description = "创建聊天完成，支持OpenAI兼容格式")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "成功",
@@ -43,7 +43,7 @@ public class ModelExecutionController {
         return modelExecutionService.createChatCompletion(request);
     }
 
-    @PostMapping(value = "/chat/completions", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/chat/completions", consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     @Operation(summary = "创建流式聊天完成", description = "创建流式聊天完成，支持Server-Sent Events")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "成功",
@@ -58,10 +58,11 @@ public class ModelExecutionController {
         if (!request.getStream()) {
             request.setStream(true);
         }
+        LOGGER.info("流式日志开始,参数为:{}", JSON.toJSONString(request));
         return modelExecutionService.createChatCompletionStream(request);
     }
 
-    @PostMapping(value = "/chat/completions", params = "stream=true")
+    @PostMapping(value = "/chat/completions", params = "stream=true", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     @Operation(summary = "创建流式聊天完成（查询参数）", description = "通过查询参数指定流式响应")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "成功",
