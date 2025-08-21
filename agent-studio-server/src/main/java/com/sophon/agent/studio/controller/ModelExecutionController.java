@@ -39,6 +39,7 @@ public class ModelExecutionController {
     })
     public Mono<ChatCompletionResponse> createChatCompletion(
             @Valid @RequestBody ChatCompletionRequest request) {
+        LOGGER.info("流式日志开始,参数为:{}", JSON.toJSONString(request));
         return modelExecutionService.createChatCompletion(request);
     }
 
