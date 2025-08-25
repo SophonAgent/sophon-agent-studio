@@ -11,13 +11,55 @@ CREATE TABLE `sophon_agent_model_config` (
       `is_delete` tinyint NOT NULL DEFAULT '0' COMMENT '是否删除，0否，1是',
       `modify_user` varchar(128)  DEFAULT NULL COMMENT '修改人',
       `create_user` varchar(128)  DEFAULT NULL COMMENT '创建人',
-      `modalities` varchar(1024) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '模态支持',
+      `modalities` varchar(1024)  DEFAULT NULL COMMENT '模态支持',
       `max_completion_token_limit` int DEFAULT NULL COMMENT '模型最大输出token长度',
-      `model_app_tag` varchar(256) COLLATE utf8mb4_general_ci DEFAULT '[]' COMMENT '模型应用标签',
-      `default_params` varchar(512) COLLATE utf8mb4_general_ci DEFAULT '{}' COMMENT '默认参数',
+      `model_app_tag` varchar(256)  DEFAULT '[]' COMMENT '模型应用标签',
+      `default_params` varchar(512)  DEFAULT '{}' COMMENT '默认参数',
       `support_stream` tinyint(1) DEFAULT '1' COMMENT '是否支持stream',
       `support_system` tinyint(1) DEFAULT '1' COMMENT '是否支持system指令',
       `support_reasoning` tinyint(1) DEFAULT '0' COMMENT '是否兼容思维链标准协议',
       `timeout_seconds` int DEFAULT NULL COMMENT '超时时间',
       PRIMARY KEY (`id`),
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='模型配置信息表'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='模型配置信息表';
+
+CREATE TABLE `sophon_mcp_server` (
+      `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'primary_id',
+      `type` varchar(64)  NOT NULL DEFAULT 'sse' COMMENT 'MCPserver类型stdio/sse',
+      `qualified_name` varchar(255)  NOT NULL COMMENT '服务唯一名称(如"baidu-map")',
+      `display_name` varchar(255)  NOT NULL COMMENT '展示名称(如"Brave Search")',
+      `description` varchar(1024)  NOT NULL COMMENT '服务描述',
+      `category` varchar(256)  NOT NULL DEFAULT '' COMMENT '所属分类',
+      `endpoint_url` text  COMMENT 'MCP服务端点地址',
+      `icon_url` varchar(255)  NOT NULL DEFAULT '' COMMENT '服务图标地址',
+      `created_user` varchar(255)  NOT NULL DEFAULT '' COMMENT '创建用户',
+      `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'create time',
+      `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'update time',
+      `command` varchar(255)  NOT NULL DEFAULT '' COMMENT 'stdio时生效,安装命令',
+      `implement_type` varchar(256)  NOT NULL DEFAULT 'INNER' COMMENT '实现类型(INNER/PROXY)',
+      `status` int DEFAULT '0' COMMENT '0:正常、-1:删除',
+      `modify_user` varchar(255)  NOT NULL DEFAULT '' COMMENT '更新用户',
+      `context_config` varchar(1024)  NOT NULL DEFAULT '' COMMENT 'mcp server上下文配置',
+      PRIMARY KEY (`id`),
+      KEY `idx_server_qualified_name` (`qualified_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='sophon mcp服务注册表';
+
+CREATE TABLE `sophon_mcp_server_tool_detail` (
+    `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'primary_id',
+    `qualified_name` varchar(256)  NOT NULL COMMENT '工具唯一名称(如"brave_web_search")',
+    `display_name` varchar(255)  NOT NULL COMMENT '展示名称(如"Brave Search")',
+    `server_qualified_name` varchar(256)  NOT NULL COMMENT '所属服务ID',
+    `description` text  COMMENT '工具功能描述 ',
+    `input_schema` text  COMMENT '输入参数结构 jsonSchema定义',
+    `proxy_type` varchar(256)  NOT NULL DEFAULT '' COMMENT '注册代理类型http/rpc',
+    `request_method` varchar(256)  NOT NULL DEFAULT '' COMMENT 'get/post',
+    `request_url` varchar(2048)  NOT NULL DEFAULT '' COMMENT '请求地址 ',
+    `request_headers` text  COMMENT '请求头信息列表 ',
+    `request_json` text  COMMENT '输入json, jsonata格式，定义json内容，转化逻辑',
+    `response_json` text  COMMENT '输入json, jsonata格式，定义json内容，转化逻辑',
+    `status` int DEFAULT '0' COMMENT '0:正常、-1:删除',
+    `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'create time',
+    `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'update time',
+    `create_user` varchar(255)  NOT NULL DEFAULT '' COMMENT '创建用户',
+    `modify_user` varchar(255)  NOT NULL DEFAULT '' COMMENT '更新用户'
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='MCP server的tool注册表'

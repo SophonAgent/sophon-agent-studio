@@ -28,3 +28,55 @@ CREATE TABLE IF NOT EXISTS sophon_agent_model_config (
 CREATE INDEX IF NOT EXISTS idx_sophon_agent_model_config_name ON sophon_agent_model_config(name);
 CREATE INDEX IF NOT EXISTS idx_sophon_agent_model_config_is_delete ON sophon_agent_model_config(is_delete);
 CREATE INDEX IF NOT EXISTS idx_sophon_agent_model_config_create_time ON sophon_agent_model_config(create_time);
+
+-- Create table for sophon mcp server
+CREATE TABLE IF NOT EXISTS sophon_mcp_server (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    type TEXT NOT NULL DEFAULT 'sse',
+    qualified_name TEXT NOT NULL,
+    display_name TEXT NOT NULL,
+    description TEXT NOT NULL,
+    category TEXT NOT NULL DEFAULT '',
+    endpoint_url TEXT,
+    icon_url TEXT NOT NULL DEFAULT '',
+    created_user TEXT NOT NULL DEFAULT '',
+    create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modify_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    command TEXT NOT NULL DEFAULT '',
+    implement_type TEXT NOT NULL DEFAULT 'INNER',
+    status INTEGER DEFAULT 0,
+    modify_user TEXT NOT NULL DEFAULT '',
+    context_config TEXT NOT NULL DEFAULT ''
+);
+
+-- Create indexes for sophon_mcp_server
+CREATE INDEX IF NOT EXISTS idx_sophon_mcp_server_qualified_name ON sophon_mcp_server(qualified_name);
+CREATE INDEX IF NOT EXISTS idx_sophon_mcp_server_status ON sophon_mcp_server(status);
+CREATE INDEX IF NOT EXISTS idx_sophon_mcp_server_create_time ON sophon_mcp_server(create_time);
+
+-- Create table for sophon mcp server tool detail
+CREATE TABLE IF NOT EXISTS sophon_mcp_server_tool_detail (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    qualified_name TEXT NOT NULL,
+    display_name TEXT NOT NULL,
+    server_qualified_name TEXT NOT NULL,
+    description TEXT,
+    input_schema TEXT,
+    proxy_type TEXT NOT NULL DEFAULT '',
+    request_method TEXT NOT NULL DEFAULT '',
+    request_url TEXT NOT NULL DEFAULT '',
+    request_headers TEXT,
+    request_json TEXT,
+    response_json TEXT,
+    status INTEGER DEFAULT 0,
+    create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modify_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    create_user TEXT NOT NULL DEFAULT '',
+    modify_user TEXT NOT NULL DEFAULT ''
+);
+
+-- Create indexes for sophon_mcp_server_tool_detail
+CREATE INDEX IF NOT EXISTS idx_sophon_mcp_server_tool_detail_qualified_name ON sophon_mcp_server_tool_detail(qualified_name);
+CREATE INDEX IF NOT EXISTS idx_sophon_mcp_server_tool_detail_server_name ON sophon_mcp_server_tool_detail(server_qualified_name);
+CREATE INDEX IF NOT EXISTS idx_sophon_mcp_server_tool_detail_status ON sophon_mcp_server_tool_detail(status);
+CREATE INDEX IF NOT EXISTS idx_sophon_mcp_server_tool_detail_create_time ON sophon_mcp_server_tool_detail(create_time);

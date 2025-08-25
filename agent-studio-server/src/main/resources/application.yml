@@ -26,3 +26,6 @@ springdoc:
     tags-sorter: alpha
     display-request-duration: true
     groups-order: asc
+server:
+  base:
+    host: 127.0.0.1

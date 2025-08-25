@@ -48,13 +48,43 @@
 
 
         
-        <table tableName="sophon_agent_model_config" 
-                domainObjectName="SophonAgentModelConfig"
-                enableCountByExample="true"
-                enableUpdateByExample="true"
-                enableDeleteByExample="true"
-                enableSelectByExample="true"
-                selectByExampleQueryId="false">
+<!--        <table tableName="sophon_agent_model_config" -->
+<!--                domainObjectName="SophonAgentModelConfig"-->
+<!--                enableCountByExample="true"-->
+<!--                enableUpdateByExample="true"-->
+<!--                enableDeleteByExample="true"-->
+<!--                enableSelectByExample="true"-->
+<!--                selectByExampleQueryId="false">-->
+<!--            &lt;!&ndash; 主键 &ndash;&gt;-->
+
+<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
+<!--            <columnOverride column="id" javaType="java.lang.Long"/>-->
+<!--            <columnOverride column="create_time" javaType="java.util.Date" />-->
+<!--            <columnOverride column="modify_time" javaType="java.util.Date" />-->
+<!--        </table>-->
+
+        <table tableName="sophon_mcp_server"
+               domainObjectName="SophonMcpServer"
+               enableCountByExample="true"
+               enableUpdateByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               selectByExampleQueryId="false">
+            <!-- 主键 -->
+
+            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
+            <columnOverride column="id" javaType="java.lang.Long"/>
+            <columnOverride column="create_time" javaType="java.util.Date" />
+            <columnOverride column="modify_time" javaType="java.util.Date" />
+        </table>
+
+        <table tableName="sophon_mcp_server_tool_detail"
+               domainObjectName="SophonMcpServerToolDetail"
+               enableCountByExample="true"
+               enableUpdateByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               selectByExampleQueryId="false">
             <!-- 主键 -->
 
             <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
