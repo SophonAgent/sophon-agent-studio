@@ -1,4 +1,4 @@
-package com.sophon.agent.studio.model;
+package com.sophon.agent.model;
 
 import java.util.ArrayList;
 import java.util.Date;

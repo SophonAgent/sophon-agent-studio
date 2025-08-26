@@ -12,7 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @version: V1.0
  */
 @SpringBootApplication
-@MapperScan("com.sophon.agent.studio.mapper")
+@MapperScan("com.sophon.agent.mapper")
 public class AgentStudioApplication {
 
     public static void main(String[] args) {

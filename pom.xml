@@ -16,6 +16,8 @@
 	<description>agent debugger tool</description>
 	<modules>
 		<module>agent-studio-server</module>
+        <module>agent-dao</module>
+        <module>agent-mcp-registry</module>
 	</modules>
 
 	<properties>
@@ -40,6 +42,21 @@
                 <version>${spring-ai.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.sophon.agent</groupId>
+                <artifactId>agent-dao</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sophon.agent</groupId>
+                <artifactId>agent-mcp-registry</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>3.0.3</version>
             </dependency>
         </dependencies>
 

@@ -1,12 +1,11 @@
 package com.sophon.agent.studio.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sophon.agent.model.SophonAgentModelConfig;
 import com.sophon.agent.studio.dto.ChatCompletionRequest;
 import com.sophon.agent.studio.dto.ChatCompletionResponse;
-import com.sophon.agent.studio.dto.ChatCompletionStreamResponse;
 import com.sophon.agent.studio.exception.BusinessException;
 import com.sophon.agent.studio.exception.ResourceNotFoundException;
-import com.sophon.agent.studio.model.SophonAgentModelConfig;
 import okhttp3.*;
 import okio.BufferedSource;
 import org.slf4j.Logger;

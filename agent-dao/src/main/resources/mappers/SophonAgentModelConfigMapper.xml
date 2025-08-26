@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sophon.agent.studio.mapper.SophonAgentModelConfigMapper">
-  <resultMap id="BaseResultMap" type="com.sophon.agent.studio.model.SophonAgentModelConfig">
+<mapper namespace="com.sophon.agent.mapper.SophonAgentModelConfigMapper">
+  <resultMap id="BaseResultMap" type="com.sophon.agent.model.SophonAgentModelConfig">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="create_time" jdbcType="VARCHAR" property="createTime" />
     <result column="modify_time" jdbcType="VARCHAR" property="modifyTime" />
@@ -87,7 +87,7 @@
     model_app_tag, default_params, support_stream, support_system, support_reasoning, 
     timeout_seconds
   </sql>
-  <select id="selectByExample" parameterType="com.sophon.agent.studio.model.SophonAgentModelConfigExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.sophon.agent.model.SophonAgentModelConfigExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -112,13 +112,13 @@
     delete from sophon_agent_model_config
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.sophon.agent.studio.model.SophonAgentModelConfigExample">
+  <delete id="deleteByExample" parameterType="com.sophon.agent.model.SophonAgentModelConfigExample">
     delete from sophon_agent_model_config
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sophon.agent.studio.model.SophonAgentModelConfig" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sophon.agent.model.SophonAgentModelConfig" useGeneratedKeys="true">
     insert into sophon_agent_model_config (create_time, modify_time, name, 
       description, model_url, model_key, 
       model_name, config, is_delete, 
@@ -134,7 +134,7 @@
       #{supportStream,jdbcType=INTEGER}, #{supportSystem,jdbcType=INTEGER}, #{supportReasoning,jdbcType=INTEGER}, 
       #{timeoutSeconds,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sophon.agent.studio.model.SophonAgentModelConfig" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sophon.agent.model.SophonAgentModelConfig" useGeneratedKeys="true">
     insert into sophon_agent_model_config
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="createTime != null">
@@ -255,7 +255,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.sophon.agent.studio.model.SophonAgentModelConfigExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.sophon.agent.model.SophonAgentModelConfigExample" resultType="java.lang.Long">
     select count(*) from sophon_agent_model_config
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -355,7 +355,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.sophon.agent.studio.model.SophonAgentModelConfig">
+  <update id="updateByPrimaryKeySelective" parameterType="com.sophon.agent.model.SophonAgentModelConfig">
     update sophon_agent_model_config
     <set>
       <if test="createTime != null">
@@ -418,7 +418,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.sophon.agent.studio.model.SophonAgentModelConfig">
+  <update id="updateByPrimaryKey" parameterType="com.sophon.agent.model.SophonAgentModelConfig">
     update sophon_agent_model_config
     set create_time = #{createTime,jdbcType=VARCHAR},
       modify_time = #{modifyTime,jdbcType=VARCHAR},

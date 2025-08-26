@@ -1,7 +1,7 @@
-package com.sophon.agent.studio.mapper;
+package com.sophon.agent.mapper;
 
-import com.sophon.agent.studio.model.SophonMcpServerToolDetail;
-import com.sophon.agent.studio.model.SophonMcpServerToolDetailExample;
+import com.sophon.agent.model.SophonMcpServerToolDetail;
+import com.sophon.agent.model.SophonMcpServerToolDetailExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 

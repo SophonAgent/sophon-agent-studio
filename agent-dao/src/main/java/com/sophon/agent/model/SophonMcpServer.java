@@ -1,43 +1,41 @@
-package com.sophon.agent.studio.model;
+package com.sophon.agent.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
-public class SophonMcpServerToolDetail {
+public class SophonMcpServer {
     private Long id;
+
+    private String type;
 
     private String qualifiedName;
 
     private String displayName;
 
-    private String serverQualifiedName;
-
     private String description;
 
-    private String inputSchema;
+    private String category;
 
-    private String proxyType;
+    private String endpointUrl;
 
-    private String requestMethod;
+    private String iconUrl;
 
-    private String requestUrl;
-
-    private String requestHeaders;
-
-    private String requestJson;
-
-    private String responseJson;
-
-    private Integer status;
+    private String createdUser;
 
     private Date createTime;
 
     private Date modifyTime;
 
-    private String createUser;
+    private String command;
+
+    private String implementType;
+
+    private Integer status;
 
     private String modifyUser;
+
+    private String contextConfig;
 
     public Long getId() {
         return id;
@@ -45,6 +43,14 @@ public class SophonMcpServerToolDetail {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type == null ? null : type.trim();
     }
 
     public String getQualifiedName() {
@@ -63,14 +69,6 @@ public class SophonMcpServerToolDetail {
         this.displayName = displayName == null ? null : displayName.trim();
     }
 
-    public String getServerQualifiedName() {
-        return serverQualifiedName;
-    }
-
-    public void setServerQualifiedName(String serverQualifiedName) {
-        this.serverQualifiedName = serverQualifiedName == null ? null : serverQualifiedName.trim();
-    }
-
     public String getDescription() {
         return description;
     }
@@ -79,68 +77,36 @@ public class SophonMcpServerToolDetail {
         this.description = description == null ? null : description.trim();
     }
 
-    public String getInputSchema() {
-        return inputSchema;
+    public String getCategory() {
+        return category;
     }
 
-    public void setInputSchema(String inputSchema) {
-        this.inputSchema = inputSchema == null ? null : inputSchema.trim();
+    public void setCategory(String category) {
+        this.category = category == null ? null : category.trim();
     }
 
-    public String getProxyType() {
-        return proxyType;
+    public String getEndpointUrl() {
+        return endpointUrl;
     }
 
-    public void setProxyType(String proxyType) {
-        this.proxyType = proxyType == null ? null : proxyType.trim();
+    public void setEndpointUrl(String endpointUrl) {
+        this.endpointUrl = endpointUrl == null ? null : endpointUrl.trim();
     }
 
-    public String getRequestMethod() {
-        return requestMethod;
+    public String getIconUrl() {
+        return iconUrl;
     }
 
-    public void setRequestMethod(String requestMethod) {
-        this.requestMethod = requestMethod == null ? null : requestMethod.trim();
+    public void setIconUrl(String iconUrl) {
+        this.iconUrl = iconUrl == null ? null : iconUrl.trim();
     }
 
-    public String getRequestUrl() {
-        return requestUrl;
+    public String getCreatedUser() {
+        return createdUser;
     }
 
-    public void setRequestUrl(String requestUrl) {
-        this.requestUrl = requestUrl == null ? null : requestUrl.trim();
-    }
-
-    public String getRequestHeaders() {
-        return requestHeaders;
-    }
-
-    public void setRequestHeaders(String requestHeaders) {
-        this.requestHeaders = requestHeaders == null ? null : requestHeaders.trim();
-    }
-
-    public String getRequestJson() {
-        return requestJson;
-    }
-
-    public void setRequestJson(String requestJson) {
-        this.requestJson = requestJson == null ? null : requestJson.trim();
-    }
-
-    public String getResponseJson() {
-        return responseJson;
-    }
-
-    public void setResponseJson(String responseJson) {
-        this.responseJson = responseJson == null ? null : responseJson.trim();
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setCreatedUser(String createdUser) {
+        this.createdUser = createdUser == null ? null : createdUser.trim();
     }
 
     public Date getCreateTime() {
@@ -159,12 +125,28 @@ public class SophonMcpServerToolDetail {
         this.modifyTime = modifyTime;
     }
 
-    public String getCreateUser() {
-        return createUser;
+    public String getCommand() {
+        return command;
     }
 
-    public void setCreateUser(String createUser) {
-        this.createUser = createUser == null ? null : createUser.trim();
+    public void setCommand(String command) {
+        this.command = command == null ? null : command.trim();
+    }
+
+    public String getImplementType() {
+        return implementType;
+    }
+
+    public void setImplementType(String implementType) {
+        this.implementType = implementType == null ? null : implementType.trim();
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public String getModifyUser() {
@@ -175,24 +157,31 @@ public class SophonMcpServerToolDetail {
         this.modifyUser = modifyUser == null ? null : modifyUser.trim();
     }
 
+    public String getContextConfig() {
+        return contextConfig;
+    }
+
+    public void setContextConfig(String contextConfig) {
+        this.contextConfig = contextConfig == null ? null : contextConfig.trim();
+    }
+
     public enum Column {
         id("id", "id", "INTEGER", false),
+        type("type", "type", "VARCHAR", false),
         qualifiedName("qualified_name", "qualifiedName", "VARCHAR", false),
         displayName("display_name", "displayName", "VARCHAR", false),
-        serverQualifiedName("server_qualified_name", "serverQualifiedName", "VARCHAR", false),
         description("description", "description", "VARCHAR", false),
-        inputSchema("input_schema", "inputSchema", "VARCHAR", false),
-        proxyType("proxy_type", "proxyType", "VARCHAR", false),
-        requestMethod("request_method", "requestMethod", "VARCHAR", false),
-        requestUrl("request_url", "requestUrl", "VARCHAR", false),
-        requestHeaders("request_headers", "requestHeaders", "VARCHAR", false),
-        requestJson("request_json", "requestJson", "VARCHAR", false),
-        responseJson("response_json", "responseJson", "VARCHAR", false),
-        status("status", "status", "INTEGER", false),
+        category("category", "category", "VARCHAR", false),
+        endpointUrl("endpoint_url", "endpointUrl", "VARCHAR", false),
+        iconUrl("icon_url", "iconUrl", "VARCHAR", false),
+        createdUser("created_user", "createdUser", "VARCHAR", false),
         createTime("create_time", "createTime", "VARCHAR", false),
         modifyTime("modify_time", "modifyTime", "VARCHAR", false),
-        createUser("create_user", "createUser", "VARCHAR", false),
-        modifyUser("modify_user", "modifyUser", "VARCHAR", false);
+        command("command", "command", "VARCHAR", false),
+        implementType("implement_type", "implementType", "VARCHAR", false),
+        status("status", "status", "INTEGER", false),
+        modifyUser("modify_user", "modifyUser", "VARCHAR", false),
+        contextConfig("context_config", "contextConfig", "VARCHAR", false);
 
         private static final String BEGINNING_DELIMITER = "\"";
 

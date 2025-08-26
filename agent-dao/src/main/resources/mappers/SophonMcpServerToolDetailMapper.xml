@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sophon.agent.studio.mapper.SophonMcpServerToolDetailMapper">
-  <resultMap id="BaseResultMap" type="com.sophon.agent.studio.model.SophonMcpServerToolDetail">
+<mapper namespace="com.sophon.agent.mapper.SophonMcpServerToolDetailMapper">
+  <resultMap id="BaseResultMap" type="com.sophon.agent.model.SophonMcpServerToolDetail">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="qualified_name" jdbcType="VARCHAR" property="qualifiedName" />
     <result column="display_name" jdbcType="VARCHAR" property="displayName" />
@@ -83,7 +83,7 @@
     proxy_type, request_method, request_url, request_headers, request_json, response_json, 
     status, create_time, modify_time, create_user, modify_user
   </sql>
-  <select id="selectByExample" parameterType="com.sophon.agent.studio.model.SophonMcpServerToolDetailExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.sophon.agent.model.SophonMcpServerToolDetailExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -108,13 +108,13 @@
     delete from sophon_mcp_server_tool_detail
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.sophon.agent.studio.model.SophonMcpServerToolDetailExample">
+  <delete id="deleteByExample" parameterType="com.sophon.agent.model.SophonMcpServerToolDetailExample">
     delete from sophon_mcp_server_tool_detail
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sophon.agent.studio.model.SophonMcpServerToolDetail" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sophon.agent.model.SophonMcpServerToolDetail" useGeneratedKeys="true">
     insert into sophon_mcp_server_tool_detail (qualified_name, display_name, server_qualified_name, 
       description, input_schema, proxy_type, 
       request_method, request_url, request_headers, 
@@ -128,7 +128,7 @@
       #{createTime,jdbcType=VARCHAR}, #{modifyTime,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, 
       #{modifyUser,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sophon.agent.studio.model.SophonMcpServerToolDetail" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sophon.agent.model.SophonMcpServerToolDetail" useGeneratedKeys="true">
     insert into sophon_mcp_server_tool_detail
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="qualifiedName != null">
@@ -231,7 +231,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.sophon.agent.studio.model.SophonMcpServerToolDetailExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.sophon.agent.model.SophonMcpServerToolDetailExample" resultType="java.lang.Long">
     select count(*) from sophon_mcp_server_tool_detail
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -319,7 +319,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.sophon.agent.studio.model.SophonMcpServerToolDetail">
+  <update id="updateByPrimaryKeySelective" parameterType="com.sophon.agent.model.SophonMcpServerToolDetail">
     update sophon_mcp_server_tool_detail
     <set>
       <if test="qualifiedName != null">
@@ -373,7 +373,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.sophon.agent.studio.model.SophonMcpServerToolDetail">
+  <update id="updateByPrimaryKey" parameterType="com.sophon.agent.model.SophonMcpServerToolDetail">
     update sophon_mcp_server_tool_detail
     set qualified_name = #{qualifiedName,jdbcType=VARCHAR},
       display_name = #{displayName,jdbcType=VARCHAR},

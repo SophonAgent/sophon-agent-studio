@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:sqlite:${user.dir}/agent-studio-server/src/main/resources/db/agent-debugger.db
+    url: jdbc:sqlite:${user.dir}/agent-dao/src/main/resources/db/agent-debugger.db
     driver-class-name: org.sqlite.JDBC
     username: 
     password: 
