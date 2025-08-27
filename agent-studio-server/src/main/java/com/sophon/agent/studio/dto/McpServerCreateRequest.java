@@ -38,10 +38,6 @@ public class McpServerCreateRequest {
     @Size(max = 255, message = "图标地址长度不能超过255字符")
     private String iconUrl = "";
 
-    @Schema(description = "创建用户", example = "admin")
-    @Size(max = 255, message = "创建用户长度不能超过255字符")
-    private String createdUser = "system";
-
     @Schema(description = "stdio模式下的安装命令", example = "npm install -g @modelcontextprotocol/server-brave-search")
     @Size(max = 255, message = "安装命令长度不能超过255字符")
     private String command = "";

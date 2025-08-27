@@ -30,10 +30,6 @@ public class McpServerUpdateRequest {
     @Size(max = 255, message = "图标地址长度不能超过255字符")
     private String iconUrl;
 
-    @Schema(description = "更新用户", example = "admin")
-    @Size(max = 255, message = "更新用户长度不能超过255字符")
-    private String modifyUser;
-
     @Schema(description = "stdio模式下的安装命令", example = "npm install -g @modelcontextprotocol/server-brave-search")
     @Size(max = 255, message = "安装命令长度不能超过255字符")
     private String command;

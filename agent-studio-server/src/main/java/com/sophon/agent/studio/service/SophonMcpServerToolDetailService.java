@@ -8,10 +8,13 @@ import com.sophon.agent.model.SophonMcpServer;
 import com.sophon.agent.model.SophonMcpServerExample;
 import com.sophon.agent.model.SophonMcpServerToolDetail;
 import com.sophon.agent.model.SophonMcpServerToolDetailExample;
+import com.sophon.agent.registry.DynamicRegistryMcpServerConfig;
+import com.sophon.agent.registry.constant.McpImplementTypeEnum;
 import com.sophon.agent.studio.dto.McpToolCreateRequest;
 import com.sophon.agent.studio.dto.McpToolResponse;
 import com.sophon.agent.studio.dto.McpToolUpdateRequest;
 import com.sophon.agent.studio.exception.ResourceNotFoundException;
+import jakarta.annotation.Resource;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +33,8 @@ public class SophonMcpServerToolDetailService {
 
     @Autowired
     private SophonMcpServerMapper mcpServerMapper;
+    @Resource
+    private DynamicRegistryMcpServerConfig dynamicRegistryMcpServerConfig;
 
     public List<McpToolResponse> getAllToolDetails() {
         SophonMcpServerToolDetailExample example = new SophonMcpServerToolDetailExample();
@@ -107,6 +112,9 @@ public class SophonMcpServerToolDetailService {
         }
 
         toolDetailMapper.insertSelective(toolDetail);
+        if(McpImplementTypeEnum.PROXY.name().equals(servers.get(0).getImplementType())){
+            dynamicRegistryMcpServerConfig.registerOneServer(servers.get(0).getQualifiedName());
+        }
         return convertToResponse(toolDetail);
     }
 
@@ -161,6 +169,8 @@ public class SophonMcpServerToolDetailService {
         toolDetail.setModifyUser(updateRequest.getModifyUser() != null ? updateRequest.getModifyUser() : "system");
         
         toolDetailMapper.updateByPrimaryKeySelective(toolDetail);
+
+        dynamicRegistryMcpServerConfig.registerOneServer(existing.getServerQualifiedName());
     }
 
     private McpToolResponse convertToResponse(SophonMcpServerToolDetail toolDetail) {

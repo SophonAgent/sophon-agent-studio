@@ -3,6 +3,7 @@ package com.sophon.agent.studio;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * agent studio 服务starter
@@ -12,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @version: V1.0
  */
 @SpringBootApplication
+@ComponentScan(basePackages = {"com.sophon.agent"})
 @MapperScan("com.sophon.agent.mapper")
 public class AgentStudioApplication {
 

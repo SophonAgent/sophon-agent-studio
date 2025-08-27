@@ -35,7 +35,7 @@ CREATE TABLE `sophon_mcp_server` (
       `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'create time',
       `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'update time',
       `command` varchar(255)  NOT NULL DEFAULT '' COMMENT 'stdio时生效,安装命令',
-      `implement_type` varchar(256)  NOT NULL DEFAULT 'INNER' COMMENT '实现类型(INNER/PROXY)',
+      `implement_type` varchar(256)  NOT NULL DEFAULT 'DIRECT_LINK' COMMENT '实现类型(DIRECT_LINK/PROXY)',
       `status` int DEFAULT '0' COMMENT '0:正常、-1:删除',
       `modify_user` varchar(255)  NOT NULL DEFAULT '' COMMENT '更新用户',
       `context_config` varchar(1024)  NOT NULL DEFAULT '' COMMENT 'mcp server上下文配置',

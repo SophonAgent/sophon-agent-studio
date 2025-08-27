@@ -4,11 +4,14 @@ import com.sophon.agent.mapper.SophonMcpServerMapper;
 import com.sophon.agent.mapper.SophonMcpServerToolDetailMapper;
 import com.sophon.agent.model.SophonMcpServer;
 import com.sophon.agent.model.SophonMcpServerExample;
+import com.sophon.agent.registry.DynamicRegistryMcpServerConfig;
+import com.sophon.agent.registry.constant.McpImplementTypeEnum;
 import com.sophon.agent.studio.dto.McpServerCreateRequest;
 import com.sophon.agent.studio.dto.McpServerResponse;
 import com.sophon.agent.studio.dto.McpServerUpdateRequest;
 import com.sophon.agent.studio.exception.BusinessException;
 import com.sophon.agent.studio.exception.ResourceNotFoundException;
+import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,8 @@ public class SophonMcpServerService {
     private SophonMcpServerMapper mcpServerMapper;
     @Autowired
     private SophonMcpServerToolDetailMapper toolDetailMapper;
+    @Resource
+    private DynamicRegistryMcpServerConfig dynamicRegistryMcpServerConfig;
     @Value("${server.base.host}")
     private String serverBaseHost;
 
@@ -76,7 +81,7 @@ public class SophonMcpServerService {
         BeanUtils.copyProperties(request, server);
 
         String randomQualifiedName = UUID.randomUUID().toString().replace("-", "").substring(0, 16);
-        if("proxy".equalsIgnoreCase(request.getImplementType())) {
+        if(McpImplementTypeEnum.PROXY.name().equalsIgnoreCase(request.getImplementType())) {
             String qualifiedName = request.getQualifiedName();
             //proxy场景自定义qualifiedName，需要检查是否存在
             if (StringUtils.isNotBlank(qualifiedName)) {
@@ -86,14 +91,20 @@ public class SophonMcpServerService {
                 }
                 randomQualifiedName = qualifiedName;
             }
-            request.setEndpointUrl(serverBaseHost + "/" + randomQualifiedName + "/sse");
+            server.setEndpointUrl(serverBaseHost + "/mcp/" + randomQualifiedName + "/sse");
         }
         
         server.setCreateTime(new Date());
         server.setModifyTime(new Date());
+        server.setCreatedUser("system");
         server.setStatus(0);
+        server.setModifyUser("system");
         
         mcpServerMapper.insertSelective(server);
+
+        if(McpImplementTypeEnum.PROXY.name().equals(request.getImplementType())){
+            dynamicRegistryMcpServerConfig.registerOneServer(randomQualifiedName);
+        }
         return convertToResponse(server);
     }
 
@@ -132,9 +143,11 @@ public class SophonMcpServerService {
         }
         
         server.setModifyTime(new Date());
-        server.setModifyUser(updateRequest.getModifyUser() != null ? updateRequest.getModifyUser() : "system");
-        
+        server.setModifyUser("system");
         mcpServerMapper.updateByPrimaryKeySelective(server);
+        if(McpImplementTypeEnum.PROXY.name().equals(existing.getImplementType())){
+            dynamicRegistryMcpServerConfig.registerOneServer(existing.getQualifiedName());
+        }
         return convertToResponse(getMcpServerById(updateRequest.getId()));
     }
 
