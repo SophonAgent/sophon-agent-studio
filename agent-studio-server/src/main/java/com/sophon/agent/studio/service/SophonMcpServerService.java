@@ -72,11 +72,6 @@ public class SophonMcpServerService {
 
     @Transactional
     public McpServerResponse createMcpServer(McpServerCreateRequest request) {
-        // Validate unique qualified_name
-        if (getMcpServerByQualifiedName(request.getQualifiedName()) != null) {
-            throw new IllegalArgumentException("MCP服务器标识已存在: " + request.getQualifiedName());
-        }
-
         SophonMcpServer server = new SophonMcpServer();
         BeanUtils.copyProperties(request, server);
 
