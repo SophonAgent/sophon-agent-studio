@@ -21,7 +21,7 @@ public class SophonMcpServer {
 
     private String iconUrl;
 
-    private String createdUser;
+    private String createUser;
 
     private Date createTime;
 
@@ -101,12 +101,12 @@ public class SophonMcpServer {
         this.iconUrl = iconUrl == null ? null : iconUrl.trim();
     }
 
-    public String getCreatedUser() {
-        return createdUser;
+    public String getCreateUser() {
+        return createUser;
     }
 
-    public void setCreatedUser(String createdUser) {
-        this.createdUser = createdUser == null ? null : createdUser.trim();
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser == null ? null : createUser.trim();
     }
 
     public Date getCreateTime() {
@@ -174,7 +174,7 @@ public class SophonMcpServer {
         category("category", "category", "VARCHAR", false),
         endpointUrl("endpoint_url", "endpointUrl", "VARCHAR", false),
         iconUrl("icon_url", "iconUrl", "VARCHAR", false),
-        createdUser("created_user", "createdUser", "VARCHAR", false),
+        createUser("create_user", "createUser", "VARCHAR", false),
         createTime("create_time", "createTime", "VARCHAR", false),
         modifyTime("modify_time", "modifyTime", "VARCHAR", false),
         command("command", "command", "VARCHAR", false),

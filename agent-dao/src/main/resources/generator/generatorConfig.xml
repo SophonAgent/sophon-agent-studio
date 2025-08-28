@@ -30,7 +30,7 @@
         </javaTypeResolver>
 
         <!-- 生成模型的包名和位置-->
-        <javaModelGenerator targetPackage="com.sophon.agent.studio.model" targetProject="src/main/java">
+        <javaModelGenerator targetPackage="com.sophon.agent.model" targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
@@ -41,7 +41,7 @@
         </sqlMapGenerator>
 
         <!-- 生成DAO的包名和位置 -->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.sophon.agent.studio.mapper"
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.sophon.agent.mapper"
                              targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
@@ -78,20 +78,20 @@
             <columnOverride column="modify_time" javaType="java.util.Date" />
         </table>
 
-        <table tableName="sophon_mcp_server_tool_detail"
-               domainObjectName="SophonMcpServerToolDetail"
-               enableCountByExample="true"
-               enableUpdateByExample="true"
-               enableDeleteByExample="true"
-               enableSelectByExample="true"
-               selectByExampleQueryId="false">
-            <!-- 主键 -->
+<!--        <table tableName="sophon_mcp_server_tool_detail"-->
+<!--               domainObjectName="SophonMcpServerToolDetail"-->
+<!--               enableCountByExample="true"-->
+<!--               enableUpdateByExample="true"-->
+<!--               enableDeleteByExample="true"-->
+<!--               enableSelectByExample="true"-->
+<!--               selectByExampleQueryId="false">-->
+<!--            &lt;!&ndash; 主键 &ndash;&gt;-->
 
-            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-            <columnOverride column="id" javaType="java.lang.Long"/>
-            <columnOverride column="create_time" javaType="java.util.Date" />
-            <columnOverride column="modify_time" javaType="java.util.Date" />
-        </table>
+<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
+<!--            <columnOverride column="id" javaType="java.lang.Long"/>-->
+<!--            <columnOverride column="create_time" javaType="java.util.Date" />-->
+<!--            <columnOverride column="modify_time" javaType="java.util.Date" />-->
+<!--        </table>-->
     
     </context>
 

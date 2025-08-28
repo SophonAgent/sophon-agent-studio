@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS sophon_mcp_server (
     category TEXT NOT NULL DEFAULT '',
     endpoint_url TEXT,
     icon_url TEXT NOT NULL DEFAULT '',
-    created_user TEXT NOT NULL DEFAULT '',
+    create_user TEXT NOT NULL DEFAULT '',
     create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modify_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     command TEXT NOT NULL DEFAULT '',

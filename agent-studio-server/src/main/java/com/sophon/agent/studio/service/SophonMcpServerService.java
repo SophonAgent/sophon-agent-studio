@@ -91,7 +91,7 @@ public class SophonMcpServerService {
         server.setQualifiedName(randomQualifiedName);
         server.setCreateTime(new Date());
         server.setModifyTime(new Date());
-        server.setCreatedUser("system");
+        server.setCreateUser("system");
         server.setStatus(0);
         server.setModifyUser("system");
         

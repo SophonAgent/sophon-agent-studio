@@ -35,7 +35,7 @@ public class McpServerResponse {
     private String iconUrl;
 
     @Schema(description = "创建用户", example = "admin")
-    private String createdUser;
+    private String createUser;
 
     @Schema(description = "创建时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

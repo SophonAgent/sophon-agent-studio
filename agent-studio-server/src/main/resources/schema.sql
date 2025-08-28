@@ -31,7 +31,7 @@ CREATE TABLE `sophon_mcp_server` (
       `category` varchar(256)  NOT NULL DEFAULT '' COMMENT '所属分类',
       `endpoint_url` text  COMMENT 'MCP服务端点地址',
       `icon_url` varchar(255)  NOT NULL DEFAULT '' COMMENT '服务图标地址',
-      `created_user` varchar(255)  NOT NULL DEFAULT '' COMMENT '创建用户',
+      `create_user` varchar(255)  NOT NULL DEFAULT '' COMMENT '创建用户',
       `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'create time',
       `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'update time',
       `command` varchar(255)  NOT NULL DEFAULT '' COMMENT 'stdio时生效,安装命令',

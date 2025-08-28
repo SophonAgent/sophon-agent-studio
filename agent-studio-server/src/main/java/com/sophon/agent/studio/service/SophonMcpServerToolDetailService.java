@@ -105,6 +105,7 @@ public class SophonMcpServerToolDetailService {
         toolDetail.setCreateTime(new Date());
         toolDetail.setModifyTime(new Date());
         toolDetail.setStatus(0);
+        toolDetail.setCreateUser("system");
         if(request.getRequestHeaders() != null){
             toolDetail.setRequestHeaders(JSON.toJSONString(request.getRequestHeaders()));
         }else{
@@ -166,7 +167,7 @@ public class SophonMcpServerToolDetailService {
         }
         
         toolDetail.setModifyTime(new Date());
-        toolDetail.setModifyUser(updateRequest.getModifyUser() != null ? updateRequest.getModifyUser() : "system");
+        toolDetail.setModifyUser("system");
         
         toolDetailMapper.updateByPrimaryKeySelective(toolDetail);
 

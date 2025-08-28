@@ -48,8 +48,4 @@ public class McpToolUpdateRequest {
 
     @Schema(description = "响应JSON转换配置(JSONata)")
     private String responseJson;
-
-    @Schema(description = "更新用户", example = "admin")
-    @Size(max = 255, message = "更新用户长度不能超过255字符")
-    private String modifyUser;
 }

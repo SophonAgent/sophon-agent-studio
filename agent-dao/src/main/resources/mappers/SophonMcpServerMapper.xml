@@ -10,7 +10,7 @@
     <result column="category" jdbcType="VARCHAR" property="category" />
     <result column="endpoint_url" jdbcType="VARCHAR" property="endpointUrl" />
     <result column="icon_url" jdbcType="VARCHAR" property="iconUrl" />
-    <result column="created_user" jdbcType="VARCHAR" property="createdUser" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
     <result column="create_time" jdbcType="VARCHAR" property="createTime" />
     <result column="modify_time" jdbcType="VARCHAR" property="modifyTime" />
     <result column="command" jdbcType="VARCHAR" property="command" />
@@ -79,7 +79,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, type, qualified_name, display_name, description, category, endpoint_url, icon_url, 
-    created_user, create_time, modify_time, command, implement_type, status, modify_user, 
+    create_user, create_time, modify_time, command, implement_type, status, modify_user, 
     context_config
   </sql>
   <select id="selectByExample" parameterType="com.sophon.agent.model.SophonMcpServerExample" resultMap="BaseResultMap">
@@ -116,13 +116,13 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sophon.agent.model.SophonMcpServer" useGeneratedKeys="true">
     insert into sophon_mcp_server (type, qualified_name, display_name, 
       description, category, endpoint_url, 
-      icon_url, created_user, create_time, 
+      icon_url, create_user, create_time, 
       modify_time, command, implement_type, 
       status, modify_user, context_config
       )
     values (#{type,jdbcType=VARCHAR}, #{qualifiedName,jdbcType=VARCHAR}, #{displayName,jdbcType=VARCHAR}, 
       #{description,jdbcType=VARCHAR}, #{category,jdbcType=VARCHAR}, #{endpointUrl,jdbcType=VARCHAR}, 
-      #{iconUrl,jdbcType=VARCHAR}, #{createdUser,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, 
+      #{iconUrl,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, 
       #{modifyTime,jdbcType=VARCHAR}, #{command,jdbcType=VARCHAR}, #{implementType,jdbcType=VARCHAR}, 
       #{status,jdbcType=INTEGER}, #{modifyUser,jdbcType=VARCHAR}, #{contextConfig,jdbcType=VARCHAR}
       )
@@ -151,8 +151,8 @@
       <if test="iconUrl != null">
         icon_url,
       </if>
-      <if test="createdUser != null">
-        created_user,
+      <if test="createUser != null">
+        create_user,
       </if>
       <if test="createTime != null">
         create_time,
@@ -198,8 +198,8 @@
       <if test="iconUrl != null">
         #{iconUrl,jdbcType=VARCHAR},
       </if>
-      <if test="createdUser != null">
-        #{createdUser,jdbcType=VARCHAR},
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=VARCHAR},
@@ -257,8 +257,8 @@
       <if test="record.iconUrl != null">
         icon_url = #{record.iconUrl,jdbcType=VARCHAR},
       </if>
-      <if test="record.createdUser != null">
-        created_user = #{record.createdUser,jdbcType=VARCHAR},
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=VARCHAR},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=VARCHAR},
@@ -296,7 +296,7 @@
       category = #{record.category,jdbcType=VARCHAR},
       endpoint_url = #{record.endpointUrl,jdbcType=VARCHAR},
       icon_url = #{record.iconUrl,jdbcType=VARCHAR},
-      created_user = #{record.createdUser,jdbcType=VARCHAR},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=VARCHAR},
       modify_time = #{record.modifyTime,jdbcType=VARCHAR},
       command = #{record.command,jdbcType=VARCHAR},
@@ -332,8 +332,8 @@
       <if test="iconUrl != null">
         icon_url = #{iconUrl,jdbcType=VARCHAR},
       </if>
-      <if test="createdUser != null">
-        created_user = #{createdUser,jdbcType=VARCHAR},
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=VARCHAR},
@@ -368,7 +368,7 @@
       category = #{category,jdbcType=VARCHAR},
       endpoint_url = #{endpointUrl,jdbcType=VARCHAR},
       icon_url = #{iconUrl,jdbcType=VARCHAR},
-      created_user = #{createdUser,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=VARCHAR},
       modify_time = #{modifyTime,jdbcType=VARCHAR},
       command = #{command,jdbcType=VARCHAR},

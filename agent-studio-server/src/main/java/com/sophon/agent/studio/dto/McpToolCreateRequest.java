@@ -51,10 +51,6 @@ public class McpToolCreateRequest {
     @Schema(description = "响应JSON转换配置(JSONata)", example = "{}")
     private String responseJson;
 
-    @Schema(description = "创建用户", example = "admin")
-    @Size(max = 255, message = "创建用户长度不能超过255字符")
-    private String createUser = "system";
-
     // Getters and Setters
     public String getQualifiedName() {
         return qualifiedName;
@@ -142,13 +138,5 @@ public class McpToolCreateRequest {
 
     public void setResponseJson(String responseJson) {
         this.responseJson = responseJson;
-    }
-
-    public String getCreateUser() {
-        return createUser;
-    }
-
-    public void setCreateUser(String createUser) {
-        this.createUser = createUser;
     }
 }
