@@ -93,7 +93,7 @@ public class SophonMcpServerService {
             }
             server.setEndpointUrl(serverBaseHost + "/mcp/" + randomQualifiedName + "/sse");
         }
-        
+        server.setQualifiedName(randomQualifiedName);
         server.setCreateTime(new Date());
         server.setModifyTime(new Date());
         server.setCreatedUser("system");
