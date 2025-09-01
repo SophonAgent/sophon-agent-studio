@@ -1,5 +1,6 @@
 package com.sophon.agent.studio.dto;
 
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -132,9 +133,21 @@ public class ChatCompletionRequest {
         private String description;
         
         @Schema(description = "函数参数")
-        private Map<String, Object> parameters;
+        private FunctionParameters parameters;
     }
-    
+
+    @Data
+    @Schema(description = "函数参数定义")
+    public class FunctionParameters {
+        @Schema(description = "属性信息")
+        private JSONObject properties;
+        @Schema(description = "必要字段信息")
+        private List<String> required;
+        @Schema(description = "字段类型")
+        private String type;
+    }
+
+
     @Data
     @Schema(description = "响应格式")
     public static class ResponseFormat {
