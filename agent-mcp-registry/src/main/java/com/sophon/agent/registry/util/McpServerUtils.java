@@ -5,7 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @author: xingjun.hz@bytedance.com
+ * @author: chun
  * @date: 2025-03-31 14:50
  * @Description:
  * @version: V1.0

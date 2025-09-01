@@ -4,7 +4,7 @@ import com.sophon.agent.studio.dto.McpToolCreateRequest;
 import com.sophon.agent.studio.dto.McpToolResponse;
 import com.sophon.agent.studio.dto.McpToolUpdateRequest;
 import com.sophon.agent.studio.dto.ResponseDTO;
-import com.sophon.agent.studio.service.SophonMcpServerToolDetailService;
+import com.sophon.agent.studio.service.mcp.SophonMcpServerToolDetailService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

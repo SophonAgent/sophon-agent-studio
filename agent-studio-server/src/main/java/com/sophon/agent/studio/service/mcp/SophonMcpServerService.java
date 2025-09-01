@@ -1,4 +1,4 @@
-package com.sophon.agent.studio.service;
+package com.sophon.agent.studio.service.mcp;
 
 import com.sophon.agent.mapper.SophonMcpServerMapper;
 import com.sophon.agent.mapper.SophonMcpServerToolDetailMapper;

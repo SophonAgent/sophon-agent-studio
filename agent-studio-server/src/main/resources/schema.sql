@@ -62,4 +62,33 @@ CREATE TABLE `sophon_mcp_server_tool_detail` (
     `create_user` varchar(255)  NOT NULL DEFAULT '' COMMENT '创建用户',
     `modify_user` varchar(255)  NOT NULL DEFAULT '' COMMENT '更新用户'
     PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='MCP server的tool注册表'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='MCP server的tool注册表';
+
+CREATE TABLE `sophon_prompt_config` (
+   `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'primary_id',
+   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+   `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
+   `uid` varchar(128)  NOT NULL COMMENT '场景唯一标识',
+   `name` varchar(128)  NOT NULL COMMENT '场景名称',
+   `description` varchar(256)  DEFAULT NULL COMMENT '场景描述',
+   `create_user` varchar(128)  DEFAULT NULL COMMENT '创建人',
+   `status` int NOT NULL COMMENT '1生效、0失效、-1删除',
+   `classify` varchar(64)  DEFAULT '' COMMENT '分类，枚举值：system、customized',
+   PRIMARY KEY (`id`),
+   KEY `idx_uid` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='prompt配置表';
+
+CREATE TABLE `sophon_prompt_config_detail` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'primary_id',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
+  `prompt_uid` varchar(128)  NOT NULL COMMENT 'prompt表的uid',
+  `prompt_content` longtext  COMMENT 'prompt详情',
+  `content_placeholder` varchar(2000)  DEFAULT NULL COMMENT 'prompt内容中的参数变量，存储格式为list',
+  `status` int NOT NULL COMMENT '1生效、0失效、-1删除',
+  `version` int NOT NULL DEFAULT '1' COMMENT '版本',
+  `create_user` varchar(128)  DEFAULT NULL COMMENT '操作人',
+  `comment` varchar(512) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '说明',
+  `framework` varchar(50) COLLATE utf8mb4_general_ci DEFAULT 'COMMON' COMMENT 'prompt生成框架',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 OMMENT='prompt配置关联模型表';

@@ -80,3 +80,42 @@ CREATE INDEX IF NOT EXISTS idx_sophon_mcp_server_tool_detail_qualified_name ON s
 CREATE INDEX IF NOT EXISTS idx_sophon_mcp_server_tool_detail_server_name ON sophon_mcp_server_tool_detail(server_qualified_name);
 CREATE INDEX IF NOT EXISTS idx_sophon_mcp_server_tool_detail_status ON sophon_mcp_server_tool_detail(status);
 CREATE INDEX IF NOT EXISTS idx_sophon_mcp_server_tool_detail_create_time ON sophon_mcp_server_tool_detail(create_time);
+
+-- Create table for sophon prompt configuration
+CREATE TABLE IF NOT EXISTS sophon_prompt_config (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modify_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    uid TEXT NOT NULL UNIQUE,
+    name TEXT NOT NULL,
+    description TEXT,
+    create_user TEXT,
+    status INTEGER NOT NULL,
+    classify TEXT DEFAULT ''
+);
+
+-- Create table for sophon prompt configuration detail
+CREATE TABLE IF NOT EXISTS sophon_prompt_config_detail (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modify_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    prompt_uid TEXT NOT NULL,
+    prompt_content TEXT,
+    content_placeholder TEXT,
+    status INTEGER NOT NULL,
+    version INTEGER NOT NULL DEFAULT 1,
+    create_user TEXT,
+    comment TEXT,
+    framework TEXT DEFAULT 'COMMON',
+    FOREIGN KEY (prompt_uid) REFERENCES sophon_prompt_config(uid)
+);
+
+-- Create indexes for prompt tables
+CREATE INDEX IF NOT EXISTS idx_sophon_prompt_config_uid ON sophon_prompt_config(uid);
+CREATE INDEX IF NOT EXISTS idx_sophon_prompt_config_status ON sophon_prompt_config(status);
+CREATE INDEX IF NOT EXISTS idx_sophon_prompt_config_create_time ON sophon_prompt_config(create_time);
+
+CREATE INDEX IF NOT EXISTS idx_sophon_prompt_config_detail_prompt_uid ON sophon_prompt_config_detail(prompt_uid);
+CREATE INDEX IF NOT EXISTS idx_sophon_prompt_config_detail_status ON sophon_prompt_config_detail(status);
+CREATE INDEX IF NOT EXISTS idx_sophon_prompt_config_detail_version ON sophon_prompt_config_detail(version);
+CREATE INDEX IF NOT EXISTS idx_sophon_prompt_config_detail_create_time ON sophon_prompt_config_detail(create_time);

@@ -1,4 +1,4 @@
-package com.sophon.agent.studio.service;
+package com.sophon.agent.studio.service.mcp;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
