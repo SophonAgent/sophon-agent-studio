@@ -138,7 +138,7 @@ public class ChatCompletionRequest {
 
     @Data
     @Schema(description = "函数参数定义")
-    public class FunctionParameters {
+    public static class FunctionParameters {
         @Schema(description = "属性信息")
         private JSONObject properties;
         @Schema(description = "必要字段信息")
