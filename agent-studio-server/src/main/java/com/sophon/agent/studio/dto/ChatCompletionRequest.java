@@ -110,7 +110,7 @@ public class ChatCompletionRequest {
         private String name;
         
         @Schema(description = "函数参数")
-        private Map<String, Object> arguments;
+        private String arguments;
     }
     
     @Data
