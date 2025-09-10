@@ -92,24 +92,39 @@
 <!--            <columnOverride column="create_time" javaType="java.util.Date" />-->
 <!--            <columnOverride column="modify_time" javaType="java.util.Date" />-->
 <!--        </table>-->
-        <table tableName="sophon_prompt_config"
-               domainObjectName="SophonPromptConfig"
-               enableCountByExample="true"
-               enableUpdateByExample="true"
-               enableDeleteByExample="true"
-               enableSelectByExample="true"
-               selectByExampleQueryId="false">
-            <!-- 主键 -->
+<!--        <table tableName="sophon_prompt_config"-->
+<!--               domainObjectName="SophonPromptConfig"-->
+<!--               enableCountByExample="true"-->
+<!--               enableUpdateByExample="true"-->
+<!--               enableDeleteByExample="true"-->
+<!--               enableSelectByExample="true"-->
+<!--               selectByExampleQueryId="false">-->
+<!--            &lt;!&ndash; 主键 &ndash;&gt;-->
 
-            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
-            <columnOverride column="id" javaType="java.lang.Long"/>
-            <columnOverride column="create_time" javaType="java.util.Date" />
-            <columnOverride column="modify_time" javaType="java.util.Date" />
-        </table>
+<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
+<!--            <columnOverride column="id" javaType="java.lang.Long"/>-->
+<!--            <columnOverride column="create_time" javaType="java.util.Date" />-->
+<!--            <columnOverride column="modify_time" javaType="java.util.Date" />-->
+<!--        </table>-->
 
 
-        <table tableName="sophon_prompt_config_detail"
-               domainObjectName="SophonPromptConfigDetail"
+<!--        <table tableName="sophon_prompt_config_detail"-->
+<!--               domainObjectName="SophonPromptConfigDetail"-->
+<!--               enableCountByExample="true"-->
+<!--               enableUpdateByExample="true"-->
+<!--               enableDeleteByExample="true"-->
+<!--               enableSelectByExample="true"-->
+<!--               selectByExampleQueryId="false">-->
+<!--            &lt;!&ndash; 主键 &ndash;&gt;-->
+
+<!--            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>-->
+<!--            <columnOverride column="id" javaType="java.lang.Long"/>-->
+<!--            <columnOverride column="create_time" javaType="java.util.Date" />-->
+<!--            <columnOverride column="modify_time" javaType="java.util.Date" />-->
+<!--        </table>-->
+<!--        -->
+        <table tableName="sophon_playground_chat_record"
+               domainObjectName="SophonPlaygroundChatRecord"
                enableCountByExample="true"
                enableUpdateByExample="true"
                enableDeleteByExample="true"

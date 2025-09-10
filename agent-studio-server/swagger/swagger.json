@@ -11,7 +11,7 @@
     "/api/v1/chat/completions" : {
       "post" : {
         "operationId" : "createChatCompletionStream",
-        "consumes" : [ "application/json" ],
+        "produces" : [ "text/event-stream" ],
         "parameters" : [ {
           "in" : "body",
           "name" : "body",
@@ -24,7 +24,231 @@
           "200" : {
             "description" : "successful operation",
             "schema" : {
-              "$ref" : "#/definitions/FluxChatCompletionStreamResponse"
+              "$ref" : "#/definitions/FluxString"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mcp-servers" : {
+      "get" : {
+        "operationId" : "getAllMcpServers",
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ResponseDTOListMcpServerResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mcp-servers/createMcpServer" : {
+      "post" : {
+        "operationId" : "createMcpServer",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/McpServerCreateRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ResponseDTOMcpServerResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mcp-servers/deleteMcpServer/{id}" : {
+      "delete" : {
+        "operationId" : "deleteMcpServer",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ResponseDTOBoolean"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mcp-servers/search" : {
+      "get" : {
+        "operationId" : "searchMcpServers",
+        "parameters" : [ {
+          "name" : "keyword",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "category",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ResponseDTOListMcpServerResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mcp-servers/updateMcpServer/{id}" : {
+      "put" : {
+        "operationId" : "updateMcpServer",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/McpServerUpdateRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ResponseDTOMcpServerResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mcp-servers/{id}" : {
+      "get" : {
+        "operationId" : "getMcpServerById",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ResponseDTOMcpServerResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mcp-tools/createToolDetail" : {
+      "post" : {
+        "operationId" : "createToolDetail",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/McpToolCreateRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ResponseDTOMcpToolResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mcp-tools/getMcpServerToolDetail/{serverQualifiedName}" : {
+      "get" : {
+        "operationId" : "getToolDetailsByServerQualifiedName",
+        "parameters" : [ {
+          "name" : "serverQualifiedName",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ResponseDTOListMcpToolResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mcp-tools/updateToolDetail/{id}" : {
+      "put" : {
+        "operationId" : "updateToolDetail",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/McpToolUpdateRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ResponseDTOBoolean"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mcp-tools/{id}" : {
+      "get" : {
+        "operationId" : "getToolDetailById",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ResponseDTOMcpToolResponse"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "operationId" : "deleteToolDetail",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ResponseDTOBoolean"
             }
           }
         }
@@ -41,7 +265,9 @@
             }
           }
         }
-      },
+      }
+    },
+    "/api/v1/model-configs/createModelConfig" : {
       "post" : {
         "operationId" : "createModelConfig",
         "parameters" : [ {
@@ -62,28 +288,9 @@
         }
       }
     },
-    "/api/v1/model-configs/search" : {
-      "get" : {
-        "operationId" : "searchModelConfigs",
-        "parameters" : [ {
-          "name" : "keyword",
-          "in" : "query",
-          "required" : false,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "schema" : {
-              "$ref" : "#/definitions/ResponseDTOListModelConfigResponse"
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/model-configs/{id}" : {
-      "get" : {
-        "operationId" : "getModelConfigById",
+    "/api/v1/model-configs/deleteModelConfig/{id}" : {
+      "post" : {
+        "operationId" : "deleteModelConfig",
         "parameters" : [ {
           "name" : "id",
           "in" : "path",
@@ -95,12 +302,14 @@
           "200" : {
             "description" : "successful operation",
             "schema" : {
-              "$ref" : "#/definitions/ResponseDTOModelConfigResponse"
+              "$ref" : "#/definitions/ResponseDTOBoolean"
             }
           }
         }
-      },
-      "put" : {
+      }
+    },
+    "/api/v1/model-configs/updateModelConfig/{id}" : {
+      "post" : {
         "operationId" : "updateModelConfig",
         "parameters" : [ {
           "name" : "id",
@@ -124,9 +333,11 @@
             }
           }
         }
-      },
-      "delete" : {
-        "operationId" : "deleteModelConfig",
+      }
+    },
+    "/api/v1/model-configs/{id}" : {
+      "get" : {
+        "operationId" : "getModelConfigById",
         "parameters" : [ {
           "name" : "id",
           "in" : "path",
@@ -138,7 +349,217 @@
           "200" : {
             "description" : "successful operation",
             "schema" : {
+              "$ref" : "#/definitions/ResponseDTOModelConfigResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/prompt-configs" : {
+      "get" : {
+        "operationId" : "getAllPromptConfigs",
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ResponseDTOListPromptConfigVO"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/prompt-configs/createPromptConfig" : {
+      "post" : {
+        "operationId" : "createPromptConfig",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/PromptConfigRequestDTO"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
               "$ref" : "#/definitions/ResponseDTOBoolean"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/prompt-configs/deletePromptConfig/{uid}" : {
+      "delete" : {
+        "operationId" : "deletePromptConfig",
+        "parameters" : [ {
+          "name" : "uid",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ResponseDTOBoolean"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/prompt-configs/generatePromptTemplate" : {
+      "post" : {
+        "operationId" : "generatePromptTemplate",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/PromptGenerateRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ResponseDTOPromptGenerateVO"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/prompt-configs/history/{uid}" : {
+      "get" : {
+        "operationId" : "getPromptConfigHistory",
+        "parameters" : [ {
+          "name" : "uid",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "pageNum",
+          "in" : "query",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "pageSize",
+          "in" : "query",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ResponseDTOPromptConfigHistoryListVO"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/prompt-configs/rollback/{uid}" : {
+      "post" : {
+        "operationId" : "rollbackToVersion",
+        "parameters" : [ {
+          "name" : "uid",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "version",
+          "in" : "query",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ResponseDTOBoolean"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/prompt-configs/updatePromptConfig" : {
+      "put" : {
+        "operationId" : "updatePromptConfig",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/PromptConfigRequestDTO"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ResponseDTOBoolean"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/prompt-configs/{uid}" : {
+      "get" : {
+        "operationId" : "getPromptConfigDetails",
+        "parameters" : [ {
+          "name" : "uid",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ResponseDTOListPromptConfigDetailVO"
+            }
+          }
+        }
+      }
+    },
+    "/mcp/wrapper/toolCall" : {
+      "post" : {
+        "operationId" : "callTool",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/McpToolCallRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ResponseDTOCallToolResult"
+            }
+          }
+        }
+      }
+    },
+    "/mcp/wrapper/toolList" : {
+      "post" : {
+        "operationId" : "getToolList",
+        "parameters" : [ {
+          "name" : "endpointUrl",
+          "in" : "query",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ResponseDTOListTool"
             }
           }
         }
@@ -146,6 +567,110 @@
     }
   },
   "definitions" : {
+    "Annotations" : {
+      "type" : "object",
+      "properties" : {
+        "audience" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "type" : "string",
+            "enum" : [ "USER", "ASSISTANT" ]
+          }
+        },
+        "priority" : {
+          "type" : "number",
+          "format" : "double",
+          "readOnly" : true
+        }
+      }
+    },
+    "AudioContent" : {
+      "allOf" : [ {
+        "$ref" : "#/definitions/Content"
+      }, {
+        "type" : "object",
+        "properties" : {
+          "annotations" : {
+            "readOnly" : true,
+            "$ref" : "#/definitions/Annotations"
+          },
+          "data" : {
+            "type" : "string",
+            "readOnly" : true
+          },
+          "mimeType" : {
+            "type" : "string",
+            "readOnly" : true
+          },
+          "_meta" : {
+            "type" : "object",
+            "readOnly" : true,
+            "additionalProperties" : {
+              "type" : "object"
+            }
+          }
+        }
+      } ]
+    },
+    "BlobResourceContents" : {
+      "allOf" : [ {
+        "$ref" : "#/definitions/ResourceContents"
+      }, {
+        "type" : "object",
+        "properties" : {
+          "uri" : {
+            "type" : "string",
+            "readOnly" : true
+          },
+          "mimeType" : {
+            "type" : "string",
+            "readOnly" : true
+          },
+          "blob" : {
+            "type" : "string",
+            "readOnly" : true
+          },
+          "_meta" : {
+            "type" : "object",
+            "readOnly" : true,
+            "additionalProperties" : {
+              "type" : "object"
+            }
+          }
+        }
+      } ]
+    },
+    "CallToolResult" : {
+      "type" : "object",
+      "properties" : {
+        "content" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "$ref" : "#/definitions/Content"
+          }
+        },
+        "isError" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "structuredContent" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "type" : "object"
+          }
+        },
+        "_meta" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "type" : "object"
+          }
+        }
+      }
+    },
     "ChatCompletionRequest" : {
       "type" : "object",
       "properties" : {
@@ -192,7 +717,11 @@
           "type" : "number",
           "format" : "double"
         },
-        "max_tokens" : {
+        "top_k" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "max_completions_tokens" : {
           "type" : "integer",
           "format" : "int32"
         },
@@ -212,6 +741,34 @@
         }
       }
     },
+    "Content" : {
+      "type" : "object",
+      "discriminator" : "type"
+    },
+    "EmbeddedResource" : {
+      "allOf" : [ {
+        "$ref" : "#/definitions/Content"
+      }, {
+        "type" : "object",
+        "properties" : {
+          "annotations" : {
+            "readOnly" : true,
+            "$ref" : "#/definitions/Annotations"
+          },
+          "resource" : {
+            "readOnly" : true,
+            "$ref" : "#/definitions/ResourceContents"
+          },
+          "_meta" : {
+            "type" : "object",
+            "readOnly" : true,
+            "additionalProperties" : {
+              "type" : "object"
+            }
+          }
+        }
+      } ]
+    },
     "Flux" : {
       "type" : "object",
       "properties" : {
@@ -221,7 +778,7 @@
         }
       }
     },
-    "FluxChatCompletionStreamResponse" : {
+    "FluxString" : {
       "type" : "object",
       "properties" : {
         "prefetch" : {
@@ -240,10 +797,7 @@
           "type" : "string"
         },
         "parameters" : {
-          "type" : "object",
-          "additionalProperties" : {
-            "type" : "object"
-          }
+          "$ref" : "#/definitions/FunctionParameters"
         }
       }
     },
@@ -254,10 +808,383 @@
           "type" : "string"
         },
         "arguments" : {
+          "type" : "string"
+        }
+      }
+    },
+    "FunctionParameters" : {
+      "type" : "object",
+      "properties" : {
+        "properties" : {
           "type" : "object",
           "additionalProperties" : {
             "type" : "object"
           }
+        },
+        "required" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "type" : {
+          "type" : "string"
+        }
+      }
+    },
+    "ImageContent" : {
+      "allOf" : [ {
+        "$ref" : "#/definitions/Content"
+      }, {
+        "type" : "object",
+        "properties" : {
+          "annotations" : {
+            "readOnly" : true,
+            "$ref" : "#/definitions/Annotations"
+          },
+          "data" : {
+            "type" : "string",
+            "readOnly" : true
+          },
+          "mimeType" : {
+            "type" : "string",
+            "readOnly" : true
+          },
+          "_meta" : {
+            "type" : "object",
+            "readOnly" : true,
+            "additionalProperties" : {
+              "type" : "object"
+            }
+          }
+        }
+      } ]
+    },
+    "JsonSchema" : {
+      "type" : "object",
+      "properties" : {
+        "type" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "properties" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "type" : "object"
+          }
+        },
+        "required" : {
+          "type" : "array",
+          "readOnly" : true,
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "additionalProperties" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "$defs" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "type" : "object"
+          }
+        },
+        "definitions" : {
+          "type" : "object",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "type" : "object"
+          }
+        }
+      }
+    },
+    "McpServerCreateRequest" : {
+      "type" : "object",
+      "properties" : {
+        "type" : {
+          "type" : "string"
+        },
+        "qualifiedName" : {
+          "type" : "string"
+        },
+        "displayName" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "category" : {
+          "type" : "string"
+        },
+        "endpointUrl" : {
+          "type" : "string"
+        },
+        "iconUrl" : {
+          "type" : "string"
+        },
+        "command" : {
+          "type" : "string"
+        },
+        "implementType" : {
+          "type" : "string"
+        },
+        "contextConfig" : {
+          "type" : "string"
+        }
+      }
+    },
+    "McpServerResponse" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "type" : {
+          "type" : "string"
+        },
+        "qualifiedName" : {
+          "type" : "string"
+        },
+        "displayName" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "category" : {
+          "type" : "string"
+        },
+        "endpointUrl" : {
+          "type" : "string"
+        },
+        "iconUrl" : {
+          "type" : "string"
+        },
+        "createUser" : {
+          "type" : "string"
+        },
+        "createTime" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "modifyTime" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "command" : {
+          "type" : "string"
+        },
+        "implementType" : {
+          "type" : "string"
+        },
+        "status" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "modifyUser" : {
+          "type" : "string"
+        },
+        "contextConfig" : {
+          "type" : "string"
+        }
+      }
+    },
+    "McpServerUpdateRequest" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "displayName" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "category" : {
+          "type" : "string"
+        },
+        "endpointUrl" : {
+          "type" : "string"
+        },
+        "iconUrl" : {
+          "type" : "string"
+        },
+        "command" : {
+          "type" : "string"
+        },
+        "implementType" : {
+          "type" : "string"
+        },
+        "contextConfig" : {
+          "type" : "string"
+        }
+      }
+    },
+    "McpToolCallRequest" : {
+      "type" : "object",
+      "properties" : {
+        "endpointUrl" : {
+          "type" : "string"
+        },
+        "toolName" : {
+          "type" : "string"
+        },
+        "args" : {
+          "type" : "object",
+          "additionalProperties" : {
+            "type" : "object"
+          }
+        }
+      }
+    },
+    "McpToolCreateRequest" : {
+      "type" : "object",
+      "properties" : {
+        "qualifiedName" : {
+          "type" : "string"
+        },
+        "displayName" : {
+          "type" : "string"
+        },
+        "serverQualifiedName" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "inputSchema" : {
+          "type" : "string"
+        },
+        "proxyType" : {
+          "type" : "string"
+        },
+        "requestMethod" : {
+          "type" : "string"
+        },
+        "requestUrl" : {
+          "type" : "string"
+        },
+        "requestHeaders" : {
+          "type" : "object",
+          "additionalProperties" : {
+            "type" : "string"
+          }
+        },
+        "requestJson" : {
+          "type" : "string"
+        },
+        "responseJson" : {
+          "type" : "string"
+        }
+      }
+    },
+    "McpToolResponse" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "qualifiedName" : {
+          "type" : "string"
+        },
+        "displayName" : {
+          "type" : "string"
+        },
+        "serverQualifiedName" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "inputSchema" : {
+          "type" : "string"
+        },
+        "proxyType" : {
+          "type" : "string"
+        },
+        "requestMethod" : {
+          "type" : "string"
+        },
+        "requestUrl" : {
+          "type" : "string"
+        },
+        "requestHeaders" : {
+          "type" : "object",
+          "additionalProperties" : {
+            "type" : "string"
+          }
+        },
+        "requestJson" : {
+          "type" : "string"
+        },
+        "responseJson" : {
+          "type" : "string"
+        },
+        "status" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "createTime" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "modifyTime" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "createUser" : {
+          "type" : "string"
+        },
+        "modifyUser" : {
+          "type" : "string"
+        }
+      }
+    },
+    "McpToolUpdateRequest" : {
+      "type" : "object",
+      "properties" : {
+        "qualifiedName" : {
+          "type" : "string"
+        },
+        "displayName" : {
+          "type" : "string"
+        },
+        "serverQualifiedName" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "inputSchema" : {
+          "type" : "string"
+        },
+        "proxyType" : {
+          "type" : "string"
+        },
+        "requestMethod" : {
+          "type" : "string"
+        },
+        "requestUrl" : {
+          "type" : "string"
+        },
+        "requestHeaders" : {
+          "type" : "object",
+          "additionalProperties" : {
+            "type" : "string"
+          }
+        },
+        "requestJson" : {
+          "type" : "string"
+        },
+        "responseJson" : {
+          "type" : "string"
         }
       }
     },
@@ -306,7 +1233,10 @@
           "type" : "string"
         },
         "modalities" : {
-          "type" : "string"
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
         },
         "maxCompletionTokenLimit" : {
           "type" : "integer",
@@ -376,7 +1306,10 @@
           "type" : "string"
         },
         "modalities" : {
-          "type" : "string"
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
         },
         "maxCompletionTokenLimit" : {
           "type" : "integer",
@@ -428,7 +1361,10 @@
           "type" : "string"
         },
         "modalities" : {
-          "type" : "string"
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
         },
         "maxCompletionTokenLimit" : {
           "type" : "integer",
@@ -464,6 +1400,237 @@
     "MonoChatCompletionResponse" : {
       "type" : "object"
     },
+    "PageInfoVO" : {
+      "type" : "object",
+      "properties" : {
+        "pageNum" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "pageSize" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "prePage" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "nextPage" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "pages" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "hasNextPage" : {
+          "type" : "boolean"
+        },
+        "total" : {
+          "type" : "integer",
+          "format" : "int64"
+        }
+      }
+    },
+    "PromptConfigDetailVO" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "createTime" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "promptUid" : {
+          "type" : "string"
+        },
+        "promptContent" : {
+          "type" : "string"
+        },
+        "contentPlaceholders" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "createUser" : {
+          "type" : "string"
+        },
+        "status" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "version" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "comment" : {
+          "type" : "string"
+        },
+        "framework" : {
+          "type" : "string",
+          "enum" : [ "COMMON", "ICIO", "CRISPE", "RASCEF" ]
+        }
+      }
+    },
+    "PromptConfigHistoryListVO" : {
+      "type" : "object",
+      "properties" : {
+        "pageInfo" : {
+          "$ref" : "#/definitions/PageInfoVO"
+        },
+        "historyVOS" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/PromptConfigHistoryVO"
+          }
+        },
+        "classify" : {
+          "type" : "string"
+        }
+      }
+    },
+    "PromptConfigHistoryVO" : {
+      "type" : "object",
+      "properties" : {
+        "createTime" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "promptUid" : {
+          "type" : "string"
+        },
+        "version" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "createUser" : {
+          "type" : "string"
+        },
+        "status" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "promptDetails" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/PromptConfigDetailVO"
+          }
+        }
+      }
+    },
+    "PromptConfigRequestDTO" : {
+      "type" : "object",
+      "properties" : {
+        "baseConfig" : {
+          "$ref" : "#/definitions/PromptConfigVO"
+        },
+        "detail" : {
+          "$ref" : "#/definitions/PromptConfigDetailVO"
+        }
+      }
+    },
+    "PromptConfigVO" : {
+      "type" : "object",
+      "properties" : {
+        "createTime" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "uid" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "createUser" : {
+          "type" : "string"
+        },
+        "classify" : {
+          "type" : "string"
+        }
+      }
+    },
+    "PromptGenerateRequest" : {
+      "type" : "object",
+      "properties" : {
+        "userPrompt" : {
+          "type" : "string"
+        },
+        "framework" : {
+          "type" : "string",
+          "enum" : [ "COMMON", "ICIO", "CRISPE", "RASCEF" ]
+        },
+        "stream" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "PromptGenerateVO" : {
+      "type" : "object",
+      "properties" : {
+        "finalPrompt" : {
+          "type" : "string"
+        },
+        "modelConfigId" : {
+          "type" : "integer",
+          "format" : "int64"
+        }
+      }
+    },
+    "ResourceContents" : {
+      "type" : "object"
+    },
+    "ResourceLink" : {
+      "allOf" : [ {
+        "$ref" : "#/definitions/Content"
+      }, {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "readOnly" : true
+          },
+          "title" : {
+            "type" : "string",
+            "readOnly" : true
+          },
+          "uri" : {
+            "type" : "string",
+            "readOnly" : true
+          },
+          "description" : {
+            "type" : "string",
+            "readOnly" : true
+          },
+          "mimeType" : {
+            "type" : "string",
+            "readOnly" : true
+          },
+          "size" : {
+            "type" : "integer",
+            "format" : "int64",
+            "readOnly" : true
+          },
+          "annotations" : {
+            "readOnly" : true,
+            "$ref" : "#/definitions/Annotations"
+          },
+          "_meta" : {
+            "type" : "object",
+            "readOnly" : true,
+            "additionalProperties" : {
+              "type" : "object"
+            }
+          }
+        }
+      } ]
+    },
     "ResponseDTO" : {
       "type" : "object",
       "properties" : {
@@ -494,6 +1661,57 @@
         }
       }
     },
+    "ResponseDTOCallToolResult" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "message" : {
+          "type" : "string"
+        },
+        "data" : {
+          "$ref" : "#/definitions/CallToolResult"
+        }
+      }
+    },
+    "ResponseDTOListMcpServerResponse" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "message" : {
+          "type" : "string"
+        },
+        "data" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/McpServerResponse"
+          }
+        }
+      }
+    },
+    "ResponseDTOListMcpToolResponse" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "message" : {
+          "type" : "string"
+        },
+        "data" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/McpToolResponse"
+          }
+        }
+      }
+    },
     "ResponseDTOListModelConfigResponse" : {
       "type" : "object",
       "properties" : {
@@ -512,6 +1730,90 @@
         }
       }
     },
+    "ResponseDTOListPromptConfigDetailVO" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "message" : {
+          "type" : "string"
+        },
+        "data" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/PromptConfigDetailVO"
+          }
+        }
+      }
+    },
+    "ResponseDTOListPromptConfigVO" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "message" : {
+          "type" : "string"
+        },
+        "data" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/PromptConfigVO"
+          }
+        }
+      }
+    },
+    "ResponseDTOListTool" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "message" : {
+          "type" : "string"
+        },
+        "data" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Tool"
+          }
+        }
+      }
+    },
+    "ResponseDTOMcpServerResponse" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "message" : {
+          "type" : "string"
+        },
+        "data" : {
+          "$ref" : "#/definitions/McpServerResponse"
+        }
+      }
+    },
+    "ResponseDTOMcpToolResponse" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "message" : {
+          "type" : "string"
+        },
+        "data" : {
+          "$ref" : "#/definitions/McpToolResponse"
+        }
+      }
+    },
     "ResponseDTOModelConfigResponse" : {
       "type" : "object",
       "properties" : {
@@ -524,6 +1826,36 @@
         },
         "data" : {
           "$ref" : "#/definitions/ModelConfigResponse"
+        }
+      }
+    },
+    "ResponseDTOPromptConfigHistoryListVO" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "message" : {
+          "type" : "string"
+        },
+        "data" : {
+          "$ref" : "#/definitions/PromptConfigHistoryListVO"
+        }
+      }
+    },
+    "ResponseDTOPromptGenerateVO" : {
+      "type" : "object",
+      "properties" : {
+        "code" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "message" : {
+          "type" : "string"
+        },
+        "data" : {
+          "$ref" : "#/definitions/PromptGenerateVO"
         }
       }
     },
@@ -541,6 +1873,58 @@
         }
       }
     },
+    "TextContent" : {
+      "allOf" : [ {
+        "$ref" : "#/definitions/Content"
+      }, {
+        "type" : "object",
+        "properties" : {
+          "annotations" : {
+            "readOnly" : true,
+            "$ref" : "#/definitions/Annotations"
+          },
+          "text" : {
+            "type" : "string",
+            "readOnly" : true
+          },
+          "_meta" : {
+            "type" : "object",
+            "readOnly" : true,
+            "additionalProperties" : {
+              "type" : "object"
+            }
+          }
+        }
+      } ]
+    },
+    "TextResourceContents" : {
+      "allOf" : [ {
+        "$ref" : "#/definitions/ResourceContents"
+      }, {
+        "type" : "object",
+        "properties" : {
+          "uri" : {
+            "type" : "string",
+            "readOnly" : true
+          },
+          "mimeType" : {
+            "type" : "string",
+            "readOnly" : true
+          },
+          "text" : {
+            "type" : "string",
+            "readOnly" : true
+          },
+          "_meta" : {
+            "type" : "object",
+            "readOnly" : true,
+            "additionalProperties" : {
+              "type" : "object"
+            }
+          }
+        }
+      } ]
+    },
     "Tool" : {
       "type" : "object",
       "properties" : {
@@ -549,6 +1933,35 @@
         },
         "function" : {
           "$ref" : "#/definitions/Function"
+        }
+      }
+    },
+    "ToolAnnotations" : {
+      "type" : "object",
+      "properties" : {
+        "title" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "readOnlyHint" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "destructiveHint" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "idempotentHint" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "openWorldHint" : {
+          "type" : "boolean",
+          "readOnly" : true
+        },
+        "returnDirect" : {
+          "type" : "boolean",
+          "readOnly" : true
         }
       }
     },

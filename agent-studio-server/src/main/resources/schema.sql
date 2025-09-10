@@ -88,7 +88,28 @@ CREATE TABLE `sophon_prompt_config_detail` (
   `status` int NOT NULL COMMENT '1生效、0失效、-1删除',
   `version` int NOT NULL DEFAULT '1' COMMENT '版本',
   `create_user` varchar(128)  DEFAULT NULL COMMENT '操作人',
-  `comment` varchar(512) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '说明',
-  `framework` varchar(50) COLLATE utf8mb4_general_ci DEFAULT 'COMMON' COMMENT 'prompt生成框架',
+  `comment` varchar(512)  DEFAULT NULL COMMENT '说明',
+  `framework` varchar(50)  DEFAULT 'COMMON' COMMENT 'prompt生成框架',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 OMMENT='prompt配置关联模型表';
+
+CREATE TABLE `sophon_playground_chat_record` (
+     `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'primary_id',
+     `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'create time',
+     `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'update time',
+     `user_id` varchar(128)  DEFAULT NULL COMMENT '用户id',
+     `session_id` varchar(128)  NOT NULL COMMENT '会话id',
+     `model_args` longtext  COMMENT '模型参数',
+     `complete_content` longtext  COMMENT '完整对话内容',
+     `prompt_uid` varchar(128)  DEFAULT NULL COMMENT 'prompt表的uid',
+     `prompt_content` longtext  COMMENT '场景描述',
+     `prompt_dynamic_values` text  COMMENT 'prompt动态替换值',
+     `name` longtext  COMMENT '对话记录名称',
+     `is_shared` tinyint DEFAULT '0' COMMENT '0 未被分享 1 被分享',
+     `extra` longtext  COMMENT '额外信息',
+     `prompt_version` int DEFAULT NULL COMMENT '版本',
+     `chat_id` varchar(128)  NOT NULL DEFAULT '' COMMENT '对话id',
+     PRIMARY KEY (`id`),
+     KEY `idx_user_id` (`user_id`),
+     KEY `idx_session_id` (`session_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='playground对话记录'

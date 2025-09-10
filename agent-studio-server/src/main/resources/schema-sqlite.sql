@@ -119,3 +119,27 @@ CREATE INDEX IF NOT EXISTS idx_sophon_prompt_config_detail_prompt_uid ON sophon_
 CREATE INDEX IF NOT EXISTS idx_sophon_prompt_config_detail_status ON sophon_prompt_config_detail(status);
 CREATE INDEX IF NOT EXISTS idx_sophon_prompt_config_detail_version ON sophon_prompt_config_detail(version);
 CREATE INDEX IF NOT EXISTS idx_sophon_prompt_config_detail_create_time ON sophon_prompt_config_detail(create_time);
+
+-- Create table for sophon playground chat record
+CREATE TABLE IF NOT EXISTS sophon_playground_chat_record (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modify_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    user_id TEXT DEFAULT NULL,
+    session_id TEXT NOT NULL,
+    model_args TEXT,
+    complete_content TEXT,
+    prompt_uid TEXT DEFAULT NULL,
+    prompt_content TEXT,
+    prompt_dynamic_values TEXT,
+    name TEXT,
+    is_shared INTEGER DEFAULT 0,
+    extra TEXT,
+    prompt_version INTEGER DEFAULT NULL,
+    chat_id TEXT NOT NULL DEFAULT ''
+);
+
+-- Create indexes for sophon_playground_chat_record
+CREATE INDEX IF NOT EXISTS idx_sophon_playground_chat_record_user_id ON sophon_playground_chat_record(user_id);
+CREATE INDEX IF NOT EXISTS idx_sophon_playground_chat_record_session_id ON sophon_playground_chat_record(session_id);
+CREATE INDEX IF NOT EXISTS idx_sophon_playground_chat_record_create_time ON sophon_playground_chat_record(create_time);
