@@ -99,7 +99,7 @@ public class PlaygroundChatRecordController {
     })
     public ResponseDTO<Boolean> removeChatRecord(
             @Parameter(description = "会话ID", required = true)
-            @PathVariable String sessionId,
+            @RequestParam String sessionId,
             @Parameter(description = "用户ID", required = true)
             @RequestParam @NonNull String userId) {
         try {
