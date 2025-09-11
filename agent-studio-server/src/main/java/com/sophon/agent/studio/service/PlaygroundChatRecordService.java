@@ -117,7 +117,7 @@ public class PlaygroundChatRecordService {
         }
 
         // 非记录作者查看未分享的记录，则抛出异常
-        if((record.getIsShared() == null || record.getIsShared() == 0) || !Objects.equals(record.getUserId(), userId)) {
+        if(!Objects.equals(record.getUserId(), userId) && (record.getIsShared() == null || record.getIsShared() == 0)) {
             throw new BusinessException("该对话记录未被分享");
         }
 
