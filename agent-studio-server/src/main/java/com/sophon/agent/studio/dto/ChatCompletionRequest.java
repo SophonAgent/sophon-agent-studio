@@ -29,10 +29,6 @@ public class ChatCompletionRequest {
     @JsonProperty("top_p")
     private Double topP;
 
-
-    @Schema(description = "top_k，选择预测值最大的k个token进行采样，取值范围0-1000，0表示不生效", example = "0")
-    @JsonProperty("top_k")
-    private Double topK;
     
     @Schema(description = "最大token数量", example = "2048")
     @JsonProperty("max_completions_tokens")

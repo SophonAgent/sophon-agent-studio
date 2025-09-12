@@ -203,10 +203,6 @@ public class ModelExecutionService {
         if (request.getTopP() != null) {
             requestBody.put("top_p", request.getTopP());
         }
-
-        if (request.getTopK() != null) {
-            requestBody.put("top_k", request.getTopK());
-        }
         
         if (request.getMaxCompletionsTokens() != null) {
             requestBody.put("max_tokens", request.getMaxCompletionsTokens());
