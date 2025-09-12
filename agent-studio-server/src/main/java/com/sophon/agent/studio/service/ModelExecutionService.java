@@ -86,7 +86,7 @@ public class ModelExecutionService {
     private Mono<ChatCompletionResponse> executeChatCompletion(SophonAgentModelConfig config, ChatCompletionRequest request) {
         return Mono.fromCallable(() -> {
             try {
-                String apiUrl = config.getModelUrl()+ "/chat/completions";
+                String apiUrl = config.getModelUrl();
                 
                 // 构建请求体
                 Map<String, Object> requestBody = buildOpenAIRequest(config, request);
@@ -123,7 +123,7 @@ public class ModelExecutionService {
     private Flux<String> executeChatCompletionStream(SophonAgentModelConfig config, ChatCompletionRequest request) {
         return Flux.create(sink -> {
             try {
-                String apiUrl = config.getModelUrl() + "/chat/completions";
+                String apiUrl = config.getModelUrl();
                 
                 // 构建请求体
                 Map<String, Object> requestBody = buildOpenAIRequest(config, request);
