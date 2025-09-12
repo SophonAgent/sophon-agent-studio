@@ -73,6 +73,29 @@ public class PlaygroundChatRecordService {
         return playgroundChatRecord.getId();
     }
 
+    public boolean updateSimpleInfo(ChatRecordSimpleVO chatRecordSimpleVO){
+        SophonPlaygroundChatRecord sophonPlaygroundChatRecord = getChatRecordBySessionId(chatRecordSimpleVO.getSessionId());
+        if(StringUtils.isBlank(chatRecordSimpleVO.getUserId())) {
+            throw new BusinessException("userId非法");
+        }
+
+        if(sophonPlaygroundChatRecord == null){
+            throw new BusinessException("不存在的对话记录");
+        }
+
+        if(!Objects.equals(sophonPlaygroundChatRecord.getUserId(), chatRecordSimpleVO.getUserId())){
+            throw new BusinessException("无权限修改该对话记录");
+        }
+        SophonPlaygroundChatRecord updateRecord = new SophonPlaygroundChatRecord();
+        updateRecord.setId(sophonPlaygroundChatRecord.getId());
+        if(StringUtils.isBlank(chatRecordSimpleVO.getName())){
+            updateRecord.setName(chatRecordSimpleVO.getName());
+        }
+        updateRecord.setIsShared(chatRecordSimpleVO.getIsShared());
+        playgroundChatRecordMapper.updateByPrimaryKeySelective(updateRecord);
+        return true;
+    }
+
     public ChatRecordListVO listChatRecords( ChatRecordListQueryDTO chatRecordListQueryDTO) {
         if(StringUtils.isBlank(chatRecordListQueryDTO.getUserId())) {
             throw new BusinessException("userId非法");

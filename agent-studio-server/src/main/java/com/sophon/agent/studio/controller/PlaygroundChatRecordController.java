@@ -1,9 +1,6 @@
 package com.sophon.agent.studio.controller;
 
-import com.sophon.agent.studio.dto.ChatRecordListQueryDTO;
-import com.sophon.agent.studio.dto.ChatRecordListVO;
-import com.sophon.agent.studio.dto.ChatRecordVO;
-import com.sophon.agent.studio.dto.ResponseDTO;
+import com.sophon.agent.studio.dto.*;
 import com.sophon.agent.studio.service.PlaygroundChatRecordService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -44,6 +41,24 @@ public class PlaygroundChatRecordController {
             return ResponseDTO.success("添加或更新对话记录成功", id);
         } catch (Exception e) {
             return ResponseDTO.error("添加或更新对话记录失败: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/updateSimpleInfo")
+    @Operation(summary = "更新对话记录", description = "更新对话记录")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "操作成功",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ResponseDTO.class))),
+            @ApiResponse(responseCode = "400", description = "请求参数错误"),
+            @ApiResponse(responseCode = "500", description = "服务器内部错误")
+    })
+    public ResponseDTO<Boolean> updateSimpleInfo(@RequestBody ChatRecordSimpleVO chatRecordVO) {
+        try {
+            playgroundChatRecordService.updateSimpleInfo(chatRecordVO);
+            return ResponseDTO.success("更新对话记录成功", true);
+        } catch (Exception e) {
+            return ResponseDTO.error("更新对话记录成功: " + e.getMessage());
         }
     }
 
