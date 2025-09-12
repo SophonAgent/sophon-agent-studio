@@ -1,5 +1,6 @@
 package com.sophon.agent.studio.service;
 
+import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sophon.agent.model.SophonAgentModelConfig;
 import com.sophon.agent.studio.dto.ChatCompletionRequest;
@@ -85,15 +86,17 @@ public class ModelExecutionService {
     private Mono<ChatCompletionResponse> executeChatCompletion(SophonAgentModelConfig config, ChatCompletionRequest request) {
         return Mono.fromCallable(() -> {
             try {
-                String apiUrl = config.getModelUrl();
+                String apiUrl = config.getModelUrl()+ "/chat/completions";
                 
                 // 构建请求体
                 Map<String, Object> requestBody = buildOpenAIRequest(config, request);
+                LOGGER.info("请求url:{} 调用模型请求体:{}", apiUrl, JSON.toJSON(requestBody));
                 String jsonBody = objectMapper.writeValueAsString(requestBody);
                 
                 Request httpRequest = new Request.Builder()
                         .url(apiUrl)
                         .addHeader("Authorization", "Bearer " + config.getModelKey())
+                        .addHeader("api-key", config.getModelKey())
                         .addHeader("Content-Type", "application/json")
                         .post(RequestBody.create(jsonBody, MediaType.parse("application/json")))
                         .build();
@@ -127,10 +130,12 @@ public class ModelExecutionService {
                 requestBody.put("stream", true);
                 
                 String jsonBody = objectMapper.writeValueAsString(requestBody);
-                
+                LOGGER.info("请求url:{} 调用模型请求体:{}", apiUrl, JSON.toJSON(requestBody));
+
                 Request httpRequest = new Request.Builder()
                         .url(apiUrl)
                         .addHeader("Authorization", "Bearer " + config.getModelKey())
+                        .addHeader("api-key", config.getModelKey())
                         .addHeader("Content-Type", "application/json")
                         .post(RequestBody.create(jsonBody, MediaType.parse("application/json")))
                         .build();
