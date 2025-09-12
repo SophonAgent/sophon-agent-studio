@@ -7,10 +7,7 @@ import com.github.pagehelper.page.PageMethod;
 import com.sophon.agent.mapper.SophonPlaygroundChatRecordMapper;
 import com.sophon.agent.model.SophonPlaygroundChatRecord;
 import com.sophon.agent.model.SophonPlaygroundChatRecordExample;
-import com.sophon.agent.studio.dto.ChatRecordListQueryDTO;
-import com.sophon.agent.studio.dto.ChatRecordListVO;
-import com.sophon.agent.studio.dto.ChatRecordSimpleVO;
-import com.sophon.agent.studio.dto.ChatRecordVO;
+import com.sophon.agent.studio.dto.*;
 import com.sophon.agent.studio.dto.common.PageInfoVO;
 import com.sophon.agent.studio.exception.BusinessException;
 import lombok.NonNull;
@@ -73,9 +70,9 @@ public class PlaygroundChatRecordService {
         return playgroundChatRecord.getId();
     }
 
-    public boolean updateSimpleInfo(ChatRecordSimpleVO chatRecordSimpleVO){
-        SophonPlaygroundChatRecord sophonPlaygroundChatRecord = getChatRecordBySessionId(chatRecordSimpleVO.getSessionId());
-        if(StringUtils.isBlank(chatRecordSimpleVO.getUserId())) {
+    public boolean updateSimpleInfo(ChatRecordUpdateSimpleVO updateInfo){
+        SophonPlaygroundChatRecord sophonPlaygroundChatRecord = getChatRecordBySessionId(updateInfo.getSessionId());
+        if(StringUtils.isBlank(updateInfo.getUserId())) {
             throw new BusinessException("userId非法");
         }
 
@@ -83,15 +80,15 @@ public class PlaygroundChatRecordService {
             throw new BusinessException("不存在的对话记录");
         }
 
-        if(!Objects.equals(sophonPlaygroundChatRecord.getUserId(), chatRecordSimpleVO.getUserId())){
+        if(!Objects.equals(sophonPlaygroundChatRecord.getUserId(), updateInfo.getUserId())){
             throw new BusinessException("无权限修改该对话记录");
         }
         SophonPlaygroundChatRecord updateRecord = new SophonPlaygroundChatRecord();
         updateRecord.setId(sophonPlaygroundChatRecord.getId());
-        if(StringUtils.isBlank(chatRecordSimpleVO.getName())){
-            updateRecord.setName(chatRecordSimpleVO.getName());
+        if(StringUtils.isNotBlank(updateInfo.getName())){
+            updateRecord.setName(updateInfo.getName());
         }
-        updateRecord.setIsShared(chatRecordSimpleVO.getIsShared());
+        updateRecord.setIsShared(updateInfo.getIsShared());
         playgroundChatRecordMapper.updateByPrimaryKeySelective(updateRecord);
         return true;
     }

@@ -53,7 +53,7 @@ public class PlaygroundChatRecordController {
             @ApiResponse(responseCode = "400", description = "请求参数错误"),
             @ApiResponse(responseCode = "500", description = "服务器内部错误")
     })
-    public ResponseDTO<Boolean> updateSimpleInfo(@RequestBody ChatRecordSimpleVO chatRecordVO) {
+    public ResponseDTO<Boolean> updateSimpleInfo(@RequestBody ChatRecordUpdateSimpleVO chatRecordVO) {
         try {
             playgroundChatRecordService.updateSimpleInfo(chatRecordVO);
             return ResponseDTO.success("更新对话记录成功", true);
