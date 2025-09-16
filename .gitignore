@@ -167,3 +167,5 @@ gradle/
 **/target/
 
 **/frontend/node/**
+
+.vscode

@@ -1,0 +1,91 @@
+.react-markdown {
+    font-size: 13px;
+
+    h1 {
+        font-size: 23px;
+        font-weight: 700;
+        margin: 20px 0;
+        white-space: pre-line;
+    }
+
+    h2 {
+        font-size: 19px;
+        font-weight: 700;
+        margin: 18px 0;
+        white-space: pre-line;
+    }
+
+    h3 {
+        font-size: 17px;
+        font-weight: 600;
+        margin: 16px 0;
+        white-space: pre-line;
+    }
+
+    h4 {
+        font-size: 15px;
+        font-weight: 500;
+        margin: 12px 0;
+        white-space: pre-line;
+    }
+
+    h5 {
+        font-size: 13px;
+        font-weight: 500;
+        margin: 8px 0;
+        white-space: pre-line;
+    }
+
+    h6 {
+        font-size: 13px;
+        font-weight: 500;
+        margin: 5px 0;
+        white-space: pre-line;
+    }
+
+    p {
+        line-height: 24px;
+        margin: 0;
+        white-space: pre-line;
+    }
+
+    ol,
+    ul {
+        padding-left: 24px;
+        white-space: normal;
+        margin: 15px 0;
+    }
+
+    ol {
+        list-style-type: decimal;
+    }
+
+    ul {
+        list-style-type: disc;
+    }
+
+    ol ul,
+    ul ul {
+        list-style-type: circle;
+    }
+
+    ol ol,
+    ul ol {
+        list-style-type: lower-alpha;
+    }
+
+    ul li,
+    ol li {
+        margin-bottom: 4px;
+    }
+
+    hr {
+        margin: 6.5px 0;
+    }
+
+    .react-markdown-table th,
+    .react-markdown-table td {
+        border: 1px solid var(--text-primary);
+        padding: 4px 8px;
+    }
+}
