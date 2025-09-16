@@ -1,0 +1,9 @@
+.monaco-editor-readonly {
+    .cursor {
+        display: none !important;
+    }
+
+    .overflowingContentWidgets {
+        display: none;
+    }
+}
