@@ -1,12 +1,12 @@
 import type { FC } from 'react';
+import type { McpToolInfo, McpToolRunHistoryItem } from '@/interface/mcpTool';
+import type { McpServerItem } from '@/interface/mcpServer';
 
 import { memo, useEffect, useState } from 'react';
 import { cn } from '@/utils/tw';
-import { McpToolInfo, McpToolRunHistoryItem } from '@/interface/mcpTool';
 import Paragraph3Line from '@/components/paragraph3Line';
 import DividingLine from '@/lib/dividingLine';
 import McpToolCallTest from '@/components/mcpToolCallTest';
-import { McpServerItem } from '@/interface/mcpServer';
 import RunHistoryPanel from '@/components/mcpToolInspector/RunHistoryPanel';
 import { Empty, Skeleton } from 'antd';
 

@@ -1,10 +1,11 @@
 import type { FC } from 'react';
+import type { TableActionItem } from '@/lib/table';
+import type { PromptDetailItem, PromptHistoryItem } from '@/interface/prompt';
+import type { PaginationProps } from 'antd';
 
 import { Fragment, memo, useEffect, useMemo, useState } from 'react';
-import Table, { TableActionItem } from '@/lib/table';
-import { PromptDetailItem, PromptHistoryItem } from '@/interface/prompt';
+import Table from '@/lib/table';
 import usePromptManage from '@/hooks/usePromptManage';
-import { PaginationProps } from 'antd';
 import { dataColumns } from './constant';
 import useQueryRouter from '@/utils/router';
 import PromptDetailModal from './PromptDetailModal';

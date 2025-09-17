@@ -1,15 +1,16 @@
-import { INIT_CHAT_MODEL_CONFIG, INIT_GROUPS } from '@/constant/chat';
-import useMcpTool from '@/hooks/useMcpTool';
-import {
+import type {
   ChatCompletionRequestParams,
   ChatDisplayConfig,
   ConversationBaseItem,
   ConversationItem,
   MessageItem,
-  RoleEnum,
   ToolItem,
 } from '@/interface/chat';
-import { FunctionDefinition, FunctionInfo } from '@/interface/functionCall';
+import type { FunctionDefinition, FunctionInfo } from '@/interface/functionCall';
+
+import { INIT_CHAT_MODEL_CONFIG, INIT_GROUPS } from '@/constant/chat';
+import useMcpTool from '@/hooks/useMcpTool';
+import { RoleEnum } from '@/interface/chat';
 import { createChatCompletion } from '@/services/chat';
 import useConversationModel, { conversationModel } from '@/store/chat/conversationModel';
 import useFunctionCallModel, { functionCallModel } from '@/store/chat/functionCallModel';

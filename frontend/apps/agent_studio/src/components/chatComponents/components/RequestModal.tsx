@@ -1,4 +1,6 @@
 import type { FC } from 'react';
+import type { MessageItem, ToolItem } from '@/interface/chat';
+import type { FunctionDefinition } from '@/interface/functionCall';
 
 import { memo, useEffect } from 'react';
 import Modal from '@/lib/modal';
@@ -6,7 +8,7 @@ import JsonEditor from '@/components/jsonEditor';
 import { cn } from '@/utils/tw';
 import useMessageGroupModel from '@/store/chat/messageGroupModel';
 import useModelConfigModel from '@/store/chat/modelConfigModel';
-import { MessageItem, RoleEnum, ToolItem } from '@/interface/chat';
+import { RoleEnum } from '@/interface/chat';
 import useSystemPromptModel from '@/store/chat/systemPromptModel';
 import useMessageModel from '@/store/chat/messageModel';
 import useFunctionCallModel from '@/store/chat/functionCallModel';
@@ -16,7 +18,6 @@ import { tranJsonToObject } from '@/utils/json';
 import { Form } from 'antd';
 import { JsonValidator } from '@/utils/validator';
 import { INIT_CHAT_MODEL_CONFIG, INIT_DISPLAY_CONFIG } from '@/constant/chat';
-import { FunctionDefinition } from '@/interface/functionCall';
 import { cloneDeep } from 'lodash-es';
 
 const { Item: FormItem } = Form;

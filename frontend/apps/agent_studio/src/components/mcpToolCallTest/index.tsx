@@ -1,14 +1,15 @@
 import type { FC } from 'react';
+import type { McpToolCallParams, McpToolInfo, McpToolRunHistoryItem } from '@/interface/mcpTool';
+import type { TabsProps } from 'antd';
+import type { McpServerItem } from '@/interface/mcpServer';
 
 import { Fragment, memo, useState } from 'react';
 import { cn } from '@/utils/tw';
-import { McpToolCallParams, McpToolInfo, McpToolRunHistoryItem } from '@/interface/mcpTool';
-import { Button, Form, Input, InputNumber, Radio, Tabs, TabsProps } from 'antd';
+import { Button, Form, Input, InputNumber, Radio, Tabs } from 'antd';
 import { isJSON } from '@/utils/json';
 import JsonView from '@/components/jsonView';
 import JSONbig from 'json-bigint';
 import useMcpTool from '@/hooks/useMcpTool';
-import { McpServerItem } from '@/interface/mcpServer';
 import useFeedback from '@/context/feedbackContext';
 import DividingLine from '@/lib/dividingLine';
 import ReactMarkdown from '@/components/reactMarkdown';

@@ -1,7 +1,14 @@
+import type { PageInfo } from '@/interface/base';
+import type {
+  PromptConfigEditParams,
+  PromptDetailItem,
+  PromptHistoryItem,
+  PromptItem,
+} from '@/interface/prompt';
+
 import { NAV_PATH_MAP } from '@/constant/nav';
 import useFeedback from '@/context/feedbackContext';
-import { PageInfo, ResourceClassify } from '@/interface/base';
-import { PromptConfigEditParams, PromptDetailItem, PromptHistoryItem, PromptItem } from '@/interface/prompt';
+import { ResourceClassify } from '@/interface/base';
 import prompt from '@/services/prompt';
 import { useState } from 'react';
 

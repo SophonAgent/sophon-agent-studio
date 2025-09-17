@@ -1,9 +1,9 @@
 import type { FC } from 'react';
+import type { McpServerItem } from '@/interface/mcpServer';
 
 import { memo, useMemo } from 'react';
 import AccentBorderHeader from '@/components/accentBorderHeader';
 import CopyButton from '@/components/copyButton';
-import { McpServerItem } from '@/interface/mcpServer';
 import { cn } from '@/utils/tw';
 import JsonView from '@/components/jsonView';
 

@@ -1,14 +1,15 @@
-import {
+import type {
   ChatCompletionRequestParams,
   ConversationItem,
   ConversationListRequestParams,
-  RoleEnum,
   SimpleConversationItem,
   ToolCallItem,
   UpdateConversationRequestParams,
 } from '@/interface/chat';
+import type { PageInfo } from '@/interface/base';
+
 import request from './request';
-import { PageInfo } from '@/interface/base';
+import { RoleEnum } from '@/interface/chat';
 import { getUuid } from '@/utils/uuid';
 import { isJSON, tranJsonToObject } from '@/utils/json';
 import dayjs from 'dayjs';

@@ -1,9 +1,9 @@
 import type { FC } from 'react';
+import type { PromptDetailItem } from '@/interface/prompt';
 
 import { memo } from 'react';
 import PromptEditor from '@/components/promptEditor';
 import PromptVariables from '@/components/promptVariables';
-import { PromptDetailItem } from '@/interface/prompt';
 import Modal from '@/lib/modal';
 import { cn } from '@/utils/tw';
 

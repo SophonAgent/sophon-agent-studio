@@ -1,5 +1,7 @@
+import type { SliderSingleProps } from 'antd';
+
 import { cn } from '@/utils/tw';
-import { InputNumber, Slider, SliderSingleProps } from 'antd';
+import { InputNumber, Slider } from 'antd';
 import type { FC, ReactNode } from 'react';
 
 import { memo } from 'react';

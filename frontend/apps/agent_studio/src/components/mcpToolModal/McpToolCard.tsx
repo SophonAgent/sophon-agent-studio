@@ -1,7 +1,7 @@
 import type { FC } from 'react';
+import type { FunctionDefinition } from '@/interface/functionCall';
 
 import { memo } from 'react';
-import { FunctionDefinition } from '@/interface/functionCall';
 import { Button } from 'antd';
 import { Cross2Icon } from '@radix-ui/react-icons';
 import { cn } from '@/utils/tw';

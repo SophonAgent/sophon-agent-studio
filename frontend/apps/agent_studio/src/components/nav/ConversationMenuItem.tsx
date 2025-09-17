@@ -1,19 +1,20 @@
 import type { FC } from 'react';
+import type { DropdownMenuItem } from '../actionDropdown';
+import type { SimpleConversationItem } from '@/interface/chat';
 
 import { memo, useMemo, useState } from 'react';
-import ActionDropdown, { DropdownMenuItem } from '../actionDropdown';
+import ActionDropdown from '../actionDropdown';
 import { DotsHorizontalIcon, Pencil1Icon, Share1Icon } from '@radix-ui/react-icons';
 import Paragraph3Line from '../paragraph3Line';
 import { Input } from 'antd';
 import { cn } from '@/utils/tw';
-import { SimpleConversationItem } from '@/interface/chat';
 import DeleteIcon from '@/icons/deleteIcon';
 import useConversationModel from '@/store/chat/conversationModel';
-import { usePathname, useRouter } from 'next/navigation';
 import { NAV_PATH_MAP } from '@/constant/nav';
 import useFeedback from '@/context/feedbackContext';
 import useConversationManage from '@/hooks/useConversationManage';
 import useChat from '@/hooks/useChat';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface ConversationMenuItemProps {
   data: SimpleConversationItem;
@@ -21,8 +22,8 @@ interface ConversationMenuItemProps {
 }
 
 const ConversationMenuItem: FC<ConversationMenuItemProps> = ({ data, className }) => {
-  const router = useRouter();
-  const pathname = usePathname();
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const { currentConversation, __updateCurrentConversation, getConversationList } = useConversationModel();
   const { onConversationChange } = useChat();
@@ -72,7 +73,7 @@ const ConversationMenuItem: FC<ConversationMenuItemProps> = ({ data, className }
   ];
 
   const onChange = () => {
-    router.push(`${NAV_PATH_MAP.CHAT}?sid=${data.sessionId}`);
+    navigate(`${NAV_PATH_MAP.CHAT}?sid=${data.sessionId}`);
     getConversationBySessionId(data.sessionId).then(res => {
       if (res) {
         onConversationChange(res);

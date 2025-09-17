@@ -1,6 +1,7 @@
-import { ChatDisplayConfig, ChatModelConfig, MessageGroup } from '@/interface/chat';
+import type { ChatDisplayConfig, ChatModelConfig, MessageGroup } from '@/interface/chat';
+import type { ReactNode } from 'react';
+
 import { cn } from '@/utils/tw';
-import { ReactNode } from 'react';
 
 export const INIT_DISPLAY_CONFIG: ChatDisplayConfig = {
   stream: true,

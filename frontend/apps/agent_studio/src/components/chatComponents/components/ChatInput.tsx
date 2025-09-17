@@ -22,7 +22,7 @@ const ChatInput: FC = () => {
 
   const [isComposing, setIsComposing] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>();
-  const [inputRole, setInputRole] = useState<RoleEnum.USER | RoleEnum.ASSISTANT>(RoleEnum.USER);
+  const [inputRole, setInputRole] = useState<RoleEnum>(RoleEnum.USER);
 
   const isSomeChatRunning = useMemo(() => Object.values(isRunningMap).some(Boolean), [isRunningMap]);
 

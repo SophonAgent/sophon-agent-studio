@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import type { ModelConfigItem } from '@/interface/modelConfig';
 
 import { Fragment, memo, useEffect, useMemo, useState } from 'react';
 import useModelConfigModel from '@/store/chat/modelConfigModel';
@@ -10,7 +11,6 @@ import {
   TriangleRightIcon,
 } from '@radix-ui/react-icons';
 import { Button, Checkbox, Collapse, Input, Popover } from 'antd';
-import { ModelConfigItem } from '@/interface/modelConfig';
 import Paragraph3Line from '@/components/paragraph3Line';
 import { cloneDeep } from 'lodash-es';
 import { tranJsonToObject } from '@/utils/json';

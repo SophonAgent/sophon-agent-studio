@@ -1,7 +1,8 @@
-import { cn } from '@/utils/tw';
-import { Dropdown, DropdownProps } from 'antd';
+import type { DropdownProps } from 'antd';
 import type { FC, ReactNode } from 'react';
 
+import { cn } from '@/utils/tw';
+import { Dropdown } from 'antd';
 import { memo } from 'react';
 
 export interface DropdownMenuItem {

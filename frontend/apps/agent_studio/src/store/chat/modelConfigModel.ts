@@ -1,6 +1,7 @@
+import type { ChatModelConfig, MsgGroupKeyType } from '@/interface/chat';
+import type { ModelConfigItem } from '@/interface/modelConfig';
+
 import useFeedback from '@/context/feedbackContext';
-import { ChatModelConfig, MsgGroupKeyType } from '@/interface/chat';
-import { ModelConfigItem } from '@/interface/modelConfig';
 import modelConfig from '@/services/modelConfig';
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';

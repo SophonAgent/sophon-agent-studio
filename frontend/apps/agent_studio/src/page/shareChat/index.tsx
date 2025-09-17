@@ -2,7 +2,6 @@ import type { FC } from 'react';
 
 import { memo, useEffect, useState } from 'react';
 import { cn } from '@/utils/tw';
-import { useParams, useRouter } from 'next/navigation';
 import { Skeleton } from 'antd';
 import ChatHeader from '@/components/chatComponents/ChatHeader';
 import useSystemPromptModel from '@/store/chat/systemPromptModel';
@@ -14,10 +13,13 @@ import NormalChat from '@/components/chatComponents/NormalChat';
 import { NAV_PATH_MAP } from '@/constant/nav';
 import useChat from '@/hooks/useChat';
 import useGlobalModel from '@/store/globalModel';
+import useQueryRouter from '@/utils/router';
+import { useNavigate } from 'react-router-dom';
 
 const ShareChat: FC = () => {
-  const { sessionId } = useParams();
-  const router = useRouter();
+  const navigate = useNavigate();
+  const queryRouter = useQueryRouter();
+  const sid = queryRouter.get('sid');
 
   const { userId } = useGlobalModel();
   const { initConversation } = useConversationModel();
@@ -34,19 +36,20 @@ const ShareChat: FC = () => {
   }, []);
 
   useEffect(() => {
-    if (!sessionId || !userId) return;
-    getShareChatPageDetail();
-  }, [sessionId, userId]);
+    if (userId) {
+      getShareChatPageDetail();
+    }
+  }, [userId]);
 
   const getShareChatPageDetail = async () => {
-    if (typeof sessionId !== 'string') return;
+    if (!sid) return;
 
     setIsShareChatPageLoading(true);
-    const res = await getConversationBySessionId(sessionId);
+    const res = await getConversationBySessionId(sid);
     if (res && res.isShared === 1) {
       onConversationChange(res);
     } else {
-      router.push(`${NAV_PATH_MAP.CHAT}`);
+      navigate(NAV_PATH_MAP.CHAT);
       initConversation();
     }
     setIsShareChatPageLoading(false);

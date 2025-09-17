@@ -1,5 +1,6 @@
-import { MsgGroupKeyType, SystemPrompt } from '@/interface/chat';
-import { PromptItem } from '@/interface/prompt';
+import type { MsgGroupKeyType, SystemPrompt } from '@/interface/chat';
+import type { PromptItem } from '@/interface/prompt';
+
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 import { set as _set, get as _get, isEmpty } from 'lodash-es';

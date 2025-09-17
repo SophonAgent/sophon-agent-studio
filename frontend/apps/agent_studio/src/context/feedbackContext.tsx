@@ -1,11 +1,10 @@
-'use client';
-
 import type { ReactNode } from 'react';
+import type { MessageInstance } from 'antd/es/message/interface';
+import type { HookAPI } from 'antd/es/modal/useModal';
+import type { NotificationInstance } from 'antd/es/notification/interface';
+
 import { createContext, useContext } from 'react';
 import { message, Modal, notification } from 'antd';
-import { MessageInstance } from 'antd/es/message/interface';
-import { HookAPI } from 'antd/es/modal/useModal';
-import { NotificationInstance } from 'antd/es/notification/interface';
 
 const FeedbackContext = createContext<{
   messageApi: MessageInstance;

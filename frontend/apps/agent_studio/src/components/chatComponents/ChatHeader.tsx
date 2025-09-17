@@ -1,23 +1,24 @@
 import type { FC } from 'react';
+import type { MenuProps } from 'antd';
 
 import { memo } from 'react';
 import { cn } from '@/utils/tw';
 import useConversationModel from '@/store/chat/conversationModel';
 import Paragraph3Line from '@/components/paragraph3Line';
-import { Button, Dropdown, MenuProps } from 'antd';
+import { Button, Dropdown } from 'antd';
 import { CopyIcon, CounterClockwiseClockIcon, Pencil2Icon, Share1Icon } from '@radix-ui/react-icons';
 import useGlobalModel from '@/store/globalModel';
 import useQueryRouter from '@/utils/router';
 import useConversationManage from '@/hooks/useConversationManage';
-import { useRouter } from 'next/navigation';
 import { NAV_PATH_MAP } from '@/constant/nav';
+import { useNavigate } from 'react-router-dom';
 
 interface ChatHeaderProps {
   isSharePage?: boolean;
 }
 
 const ChatHeader: FC<ChatHeaderProps> = ({ isSharePage }) => {
-  const router = useRouter();
+  const navigate = useNavigate();
   const queryRouter = useQueryRouter();
 
   const { __setShowConversationListModal } = useGlobalModel();
@@ -31,9 +32,9 @@ const ChatHeader: FC<ChatHeaderProps> = ({ isSharePage }) => {
       label: '保留配置',
       onClick: () => {
         if (isSharePage) {
-          router.push(`${NAV_PATH_MAP.CHAT}?copyConfig=true`);
+          navigate(`${NAV_PATH_MAP.CHAT}?copyConfig=true`);
         } else {
-          router.push(NAV_PATH_MAP.CHAT);
+          navigate(NAV_PATH_MAP.CHAT);
           initConversation({ keepCurrentCfg: true });
         }
       },
@@ -43,7 +44,7 @@ const ChatHeader: FC<ChatHeaderProps> = ({ isSharePage }) => {
       label: '清空配置',
       onClick: () => {
         clearConversation();
-        router.push(NAV_PATH_MAP.CHAT);
+        navigate(NAV_PATH_MAP.CHAT);
         initConversation();
       },
     },
@@ -112,7 +113,7 @@ const ChatHeader: FC<ChatHeaderProps> = ({ isSharePage }) => {
             variant="solid"
             color="default"
             style={{ fontSize: 13, height: 28 }}
-            onClick={() => router.push(`${NAV_PATH_MAP.CHAT}?copyChat=true`)}
+            onClick={() => navigate(`${NAV_PATH_MAP.CHAT}?copyChat=true`)}
           >
             复制对话
           </Button>

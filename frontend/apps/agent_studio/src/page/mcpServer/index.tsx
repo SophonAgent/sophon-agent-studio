@@ -1,20 +1,23 @@
 import type { FC } from 'react';
+import type { PageHeaderFilterItem } from '@/components/pageHeader';
+import type { TableActionItem } from '@/lib/table';
+import type { McpServerItem } from '@/interface/mcpServer';
 
 import { memo, useEffect, useMemo, useState } from 'react';
-import PageHeader, { PageHeaderFilterItem } from '@/components/pageHeader';
-import Table, { TableActionItem } from '@/lib/table';
+import PageHeader from '@/components/pageHeader';
+import Table from '@/lib/table';
 import { McpImplementTypeTextMap } from '@/constant/mcpServer';
 import useMcpServer from '@/hooks/useMcpServer';
-import { McpImplementType, McpServerItem } from '@/interface/mcpServer';
+import { McpImplementType } from '@/interface/mcpServer';
 import { cn } from '@/utils/tw';
 import { dataColumns } from './constant';
 import { cloneDeep } from 'lodash-es';
 import McpServerEditModal from '@/components/mcpServerEditModal';
-import { useRouter } from 'next/navigation';
 import { NAV_PATH_MAP } from '@/constant/nav';
+import { useNavigate } from 'react-router-dom';
 
 const McpServer: FC = () => {
-  const router = useRouter();
+  const navigate = useNavigate();
 
   const { mcpServerList, isMcpServerListLoading, getMcpServerList, deleteMcpServer } = useMcpServer();
 
@@ -83,8 +86,8 @@ const McpServer: FC = () => {
       key: 'detail',
       label: '详情',
       onClick: (record: McpServerItem) => {
-        const url = `${NAV_PATH_MAP.MCP}/${record.id}`;
-        router.push(url);
+        const url = `${NAV_PATH_MAP.MCP_TOOL}?id=${record.id}`;
+        navigate(url);
       },
     },
     {

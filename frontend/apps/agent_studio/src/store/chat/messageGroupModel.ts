@@ -1,6 +1,7 @@
+import type { ChatDisplayConfig, MessageGroup, MsgGroupKeyType, SystemPrompt } from '@/interface/chat';
+import type { FunctionDefinition } from '@/interface/functionCall';
+
 import { INIT_CHAT_MODEL_CONFIG, INIT_DISPLAY_CONFIG, INIT_GROUPS } from '@/constant/chat';
-import { ChatDisplayConfig, MessageGroup, MsgGroupKeyType, SystemPrompt } from '@/interface/chat';
-import { FunctionDefinition } from '@/interface/functionCall';
 import { functionCallModel } from '@/store/chat/functionCallModel';
 import { messageModel } from '@/store/chat/messageModel';
 import { modelConfigModel } from '@/store/chat/modelConfigModel';

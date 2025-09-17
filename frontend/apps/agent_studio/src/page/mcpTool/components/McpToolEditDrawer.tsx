@@ -1,13 +1,9 @@
 import type { FC } from 'react';
+import type { McpToolConfigItem, McpToolConfigItemEditParams } from '@/interface/mcpTool';
 
 import { Fragment, memo, useEffect } from 'react';
 import { Form, Input, Radio } from 'antd';
-import {
-  McpToolConfigItem,
-  McpToolConfigItemEditParams,
-  McpToolProxyType,
-  McpToolRequestMethodType,
-} from '@/interface/mcpTool';
+import { McpToolProxyType, McpToolRequestMethodType } from '@/interface/mcpTool';
 import useMcpTool from '@/hooks/useMcpTool';
 import Drawer from '@/lib/drawer';
 import {

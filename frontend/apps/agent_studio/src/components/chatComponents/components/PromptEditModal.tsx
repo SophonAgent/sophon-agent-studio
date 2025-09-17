@@ -1,12 +1,12 @@
 import type { FC } from 'react';
+import type { SystemPrompt } from '@/interface/chat';
+import type { PromptConfigEditParams, PromptHistoryItem } from '@/interface/prompt';
 
 import { memo, useEffect, useMemo } from 'react';
 import Modal from '@/lib/modal';
 import usePromptManage from '@/hooks/usePromptManage';
 import { Form, Input, Radio } from 'antd';
-import { SystemPrompt } from '@/interface/chat';
 import { RequiredValidator } from '@/utils/validator';
-import { PromptConfigEditParams, PromptHistoryItem } from '@/interface/prompt';
 import { ResourceClassify } from '@/interface/base';
 import useFeedback from '@/context/feedbackContext';
 

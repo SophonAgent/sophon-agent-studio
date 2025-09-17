@@ -1,7 +1,8 @@
 import type { FC, ReactNode } from 'react';
+import type { MessageItem } from '@/interface/chat';
 
 import { memo, useEffect, useMemo, useRef, useState } from 'react';
-import { MessageItem, RoleEnum } from '@/interface/chat';
+import { RoleEnum } from '@/interface/chat';
 import { cn } from '@/utils/tw';
 import UserIcon from '@/icons/userIcon';
 import RobotIcon from '@/icons/robotIcon';
@@ -40,18 +41,24 @@ const MessageTool: FC<MessageToolProps> = ({ msgGroupKey, messageItem, onEdit, i
   const isRunning = useMemo(() => isRunningMap[msgGroupKey], [msgGroupKey, isRunningMap]);
   const isRoleDisabled = useMemo(
     () =>
-      [RoleEnum.ERROR, RoleEnum.TOOL].includes(messageItem.role) ||
+      ([RoleEnum.ERROR, RoleEnum.TOOL] as RoleEnum[]).includes(messageItem.role) ||
       Boolean(messageItem.tool_calls?.length) ||
       isReadonly,
     [messageItem],
   );
 
   const canRefresh = useMemo(
-    () => [RoleEnum.ASSISTANT, RoleEnum.ERROR].includes(messageItem.role) && !isRunning && !isReadonly,
+    () =>
+      ([RoleEnum.ASSISTANT, RoleEnum.ERROR] as RoleEnum[]).includes(messageItem.role) &&
+      !isRunning &&
+      !isReadonly,
     [messageItem.role, isRunning],
   );
   const canEdit = useMemo(
-    () => [RoleEnum.USER, RoleEnum.ASSISTANT].includes(messageItem.role) && !isRunning && !isReadonly,
+    () =>
+      ([RoleEnum.USER, RoleEnum.ASSISTANT] as RoleEnum[]).includes(messageItem.role) &&
+      !isRunning &&
+      !isReadonly,
     [isRunning],
   );
   const canRemove = useMemo(() => !isRunning && !isReadonly, [isRunning]);

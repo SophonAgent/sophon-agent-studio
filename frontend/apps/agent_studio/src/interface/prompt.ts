@@ -3,12 +3,13 @@ import { ResourceClassify } from './base';
 /**
  * prompt 框架
  */
-export enum PromptFrameworkEnum {
-  COMMON = 'COMMON', // 无框架
-  CRISPE = 'CRISPE',
-  ICIO = 'ICIO',
-  RASCEF = 'RASCEF',
-}
+export const PromptFrameworkEnum = {
+  COMMON: 'COMMON', // 无框架
+  CRISPE: 'CRISPE',
+  ICIO: 'ICIO',
+  RASCEF: 'RASCEF',
+} as const;
+export type PromptFrameworkEnum = (typeof PromptFrameworkEnum)[keyof typeof PromptFrameworkEnum];
 
 /**
  * prompt 列表项

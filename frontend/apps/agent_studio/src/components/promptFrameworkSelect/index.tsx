@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import type { DropdownMenuItem } from '../actionDropdown';
 
 import { memo } from 'react';
 import { Button } from 'antd';
@@ -6,7 +7,7 @@ import { cn } from '@/utils/tw';
 import { DashboardIcon, InfoCircledIcon } from '@radix-ui/react-icons';
 import { PromptFrameworkEnum } from '@/interface/prompt';
 import { PROMPT_FRAMEWORK_LIST, PROMPT_FRAMEWORK_MAP } from '@/constant/prompt';
-import ActionDropdown, { DropdownMenuItem } from '../actionDropdown';
+import ActionDropdown from '../actionDropdown';
 import Tooltip from '@/lib/tooltip';
 
 interface PromptFrameworkSelectProps {

@@ -13,12 +13,12 @@ import useConversationModel from '@/store/chat/conversationModel';
 import { Skeleton } from 'antd';
 import useGlobalModel from '@/store/globalModel';
 import useConversationManage from '@/hooks/useConversationManage';
-import { useRouter } from 'next/navigation';
 import { NAV_PATH_MAP } from '@/constant/nav';
 import useChat from '@/hooks/useChat';
+import { useNavigate } from 'react-router-dom';
 
 const Chat: FC = () => {
-  const router = useRouter();
+  const navigate = useNavigate();
   const queryRouter = useQueryRouter();
 
   const { userId } = useGlobalModel();
@@ -60,7 +60,7 @@ const Chat: FC = () => {
         if (res.userId === userId) {
           onConversationChange(res);
         } else if (res.isShared === 1) {
-          router.push(`${NAV_PATH_MAP.CHAT}/share/${res.sessionId}`);
+          navigate(`${NAV_PATH_MAP.CHAT_SHARE}?sid=${res.sessionId}`);
         } else {
           queryRouter.remove('sid');
           initConversation();

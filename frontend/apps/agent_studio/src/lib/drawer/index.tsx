@@ -1,7 +1,8 @@
 import type { FC } from 'react';
+import type { DrawerProps as AntdDrawerProps } from 'antd';
 
 import { memo } from 'react';
-import { Drawer as AntdDrawer, DrawerProps as AntdDrawerProps, Button } from 'antd';
+import { Drawer as AntdDrawer, Button } from 'antd';
 import { Cross1Icon } from '@radix-ui/react-icons';
 import { cn } from '@/utils/tw';
 

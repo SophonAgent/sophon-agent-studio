@@ -1,5 +1,6 @@
+import type { ModelConfigItem, ModelConfigItemEditParams } from '@/interface/modelConfig';
+
 import useFeedback from '@/context/feedbackContext';
-import { ModelConfigItem, ModelConfigItemEditParams } from '@/interface/modelConfig';
 import modelConfig from '@/services/modelConfig';
 import { useState } from 'react';
 

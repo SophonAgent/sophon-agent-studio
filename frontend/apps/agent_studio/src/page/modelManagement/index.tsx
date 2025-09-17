@@ -1,15 +1,17 @@
 import type { FC } from 'react';
+import type { PageHeaderFilterItem } from '@/components/pageHeader';
+import type { TableActionItem } from '@/lib/table';
+import type { ModelConfigItem } from '@/interface/modelConfig';
 
 import { memo, useEffect, useMemo, useState } from 'react';
-import PageHeader, { PageHeaderFilterItem } from '@/components/pageHeader';
+import PageHeader from '@/components/pageHeader';
 import { cn } from '@/utils/tw';
 import useModelManagement from '@/hooks/useModelManage';
-import Table, { TableActionItem } from '@/lib/table';
+import Table from '@/lib/table';
 import { dataColumns } from './constant';
 import { cloneDeep } from 'lodash-es';
 import ModelEditDrawer from './ModelEditDrawer';
 import { tranJsonToObject } from '@/utils/json';
-import { ModelConfigItem } from '@/interface/modelConfig';
 
 const ModelManagement: FC = () => {
   const { modelList, isModelListLoading, getModelList, deleteModel } = useModelManagement();

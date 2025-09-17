@@ -1,8 +1,9 @@
 import type { FC } from 'react';
+import type { ButtonProps } from 'antd';
 
 import { memo, useEffect, useRef, useState } from 'react';
 import copyToClipboard from 'copy-to-clipboard';
-import { Button, ButtonProps } from 'antd';
+import { Button } from 'antd';
 import { CheckCircledIcon, CopyIcon } from '@radix-ui/react-icons';
 import Tooltip from '@/lib/tooltip';
 import { cn } from '@/utils/tw';

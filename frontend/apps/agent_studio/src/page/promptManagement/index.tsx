@@ -1,13 +1,15 @@
 import type { FC } from 'react';
+import type { PageHeaderFilterItem } from '@/components/pageHeader';
+import type { TableActionItem, TableProps } from '@/lib/table';
+import type { PromptConfigItem, PromptItem } from '@/interface/prompt';
 
 import { memo, useEffect, useMemo, useState } from 'react';
-import PageHeader, { PageHeaderFilterItem } from '@/components/pageHeader';
+import PageHeader from '@/components/pageHeader';
 import usePromptManage from '@/hooks/usePromptManage';
 import { cn } from '@/utils/tw';
 import { cloneDeep } from 'lodash-es';
-import Table, { TableActionItem, TableProps } from '@/lib/table';
+import Table from '@/lib/table';
 import Paragraph3Line from '@/components/paragraph3Line';
-import { PromptConfigItem, PromptItem } from '@/interface/prompt';
 import PromptEditDrawer from './PromptEditDrawer';
 import PromptDetailDrawer from './promptDetailDrawer';
 import useQueryRouter from '@/utils/router';
