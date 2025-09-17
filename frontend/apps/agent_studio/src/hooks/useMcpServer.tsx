@@ -1,12 +1,17 @@
+import type {
+  McpServerItem,
+  McpServerItemCreateParams,
+  McpServerItemUpdateParams,
+} from '@/interface/mcpServer';
+
 import { NAV_PATH_MAP } from '@/constant/nav';
 import useFeedback from '@/context/feedbackContext';
-import { McpServerItem, McpServerItemCreateParams, McpServerItemUpdateParams } from '@/interface/mcpServer';
 import mcpServer from '@/services/mcpServer';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function useMcpServer() {
-  const router = useRouter();
+  const navigate = useNavigate();
 
   const { messageApi } = useFeedback();
 
@@ -39,7 +44,7 @@ function useMcpServer() {
       }
     } catch (err) {
       messageApi.error(`获取MCP服务器详情失败：${err}`);
-      router.push(NAV_PATH_MAP.MCP);
+      navigate(NAV_PATH_MAP.MCP);
     } finally {
       setIsCurrentMcpServerLoading(false);
     }

@@ -1,7 +1,8 @@
 import type { FC } from 'react';
+import type { RadioChangeEvent } from 'antd';
 
 import { memo } from 'react';
-import { Radio, RadioChangeEvent } from 'antd';
+import { Radio } from 'antd';
 import { PROMPT_FRAMEWORK_LIST } from '@/constant/prompt';
 import { PromptFrameworkEnum } from '@/interface/prompt';
 import useFeedback from '@/context/feedbackContext';

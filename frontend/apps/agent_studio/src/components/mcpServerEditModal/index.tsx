@@ -1,8 +1,9 @@
 import type { FC } from 'react';
+import type { McpServerItem } from '@/interface/mcpServer';
 
 import { memo, useEffect } from 'react';
 import useMcpServer from '@/hooks/useMcpServer';
-import { McpImplementType, McpServerItem, McpServerType } from '@/interface/mcpServer';
+import { McpImplementType, McpServerType } from '@/interface/mcpServer';
 import { Form, Input, Select } from 'antd';
 import Modal from '@/lib/modal';
 import { RequiredValidator } from '@/utils/validator';

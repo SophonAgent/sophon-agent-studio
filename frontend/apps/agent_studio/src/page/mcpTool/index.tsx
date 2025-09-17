@@ -1,12 +1,13 @@
 import type { FC } from 'react';
+import type { PageHeaderTitleItem } from '@/components/pageHeader';
+import type { TabsProps } from 'antd';
 
 import { memo, useEffect, useState } from 'react';
-import PageHeader, { PageHeaderTitleItem } from '@/components/pageHeader';
+import PageHeader from '@/components/pageHeader';
 import { NAV_PATH_MAP } from '@/constant/nav';
 import useMcpServer from '@/hooks/useMcpServer';
 import { cn } from '@/utils/tw';
-import { Skeleton, Tabs, TabsProps } from 'antd';
-import { useParams, useRouter } from 'next/navigation';
+import { Skeleton, Tabs } from 'antd';
 import HeaderDescription from './components/HeaderDescription';
 import McpServerEditModal from '@/components/mcpServerEditModal';
 import DetailPanel from './components/DetailPanel';
@@ -15,16 +16,17 @@ import useMcpTool from '@/hooks/useMcpTool';
 import useQueryRouter from '@/utils/router';
 import McpToolInspector from '@/components/mcpToolInspector';
 import { McpImplementType } from '@/interface/mcpServer';
+import { useNavigate } from 'react-router-dom';
 
-enum McpToolTabKey {
-  DETAIL = 'detail',
-  TOOL = 'tool',
-  INSPECTOR = 'inspector',
-}
+const McpToolTabKey = {
+  DETAIL: 'detail',
+  TOOL: 'tool',
+  INSPECTOR: 'inspector',
+} as const;
+type McpToolTabKey = (typeof McpToolTabKey)[keyof typeof McpToolTabKey];
 
 const McpTool: FC = () => {
-  const { id } = useParams();
-  const router = useRouter();
+  const navigate = useNavigate();
   const queryRouter = useQueryRouter();
 
   const { currentMcpServer, isCurrentMcpServerLoading, getMcpServerById } = useMcpServer();
@@ -51,10 +53,13 @@ const McpTool: FC = () => {
   }, []);
 
   useEffect(() => {
+    const id = queryRouter.get('id');
     if (Number(id)) {
       getMcpServerById(Number(id));
+    } else {
+      navigate(NAV_PATH_MAP.MCP);
     }
-  }, [id]);
+  }, []);
 
   useEffect(() => {
     if (currentMcpServer?.qualifiedName) {
@@ -77,7 +82,7 @@ const McpTool: FC = () => {
   const headerTitles: PageHeaderTitleItem[] = [
     {
       label: 'MCP Server',
-      onClick: () => router.push(NAV_PATH_MAP.MCP),
+      onClick: () => navigate(NAV_PATH_MAP.MCP),
     },
     { label: currentMcpServer?.displayName || '详情' },
   ];

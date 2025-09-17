@@ -1,10 +1,11 @@
-import { MsgGroupKeyType, ToolCallItem } from '@/interface/chat';
-import { FunctionDefinition } from '@/interface/functionCall';
+import type { MsgGroupKeyType, ToolCallItem } from '@/interface/chat';
+import type { FunctionDefinition } from '@/interface/functionCall';
+import type { McpToolCallParams } from '@/interface/mcpTool';
+
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 import { set as _set, get as _get } from 'lodash-es';
 import useFeedback from '@/context/feedbackContext';
-import { McpToolCallParams } from '@/interface/mcpTool';
 import { isJSON, tranJsonToObject } from '@/utils/json';
 import mcpTool from '@/services/mcpTool';
 import { conversationModel } from '@/store/chat/conversationModel';

@@ -1,7 +1,8 @@
-export enum ResourceClassify {
-  SYSTEM = 'system',
-  CUSTOMIZED = 'customized',
-}
+export const ResourceClassify = {
+  SYSTEM: 'system',
+  CUSTOMIZED: 'customized',
+} as const;
+export type ResourceClassify = (typeof ResourceClassify)[keyof typeof ResourceClassify];
 
 export interface PageInfo {
   hasNextPage?: boolean;

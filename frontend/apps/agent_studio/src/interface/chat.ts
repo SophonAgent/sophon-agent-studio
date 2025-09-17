@@ -2,13 +2,14 @@ import type { JSONSchema7 } from 'json-schema';
 
 export type MsgGroupKeyType = string;
 
-export enum RoleEnum {
-  SYSTEM = 'system',
-  USER = 'user',
-  ASSISTANT = 'assistant',
-  TOOL = 'tool',
-  ERROR = 'error',
-}
+export const RoleEnum = {
+  SYSTEM: 'system',
+  USER: 'user',
+  ASSISTANT: 'assistant',
+  TOOL: 'tool',
+  ERROR: 'error',
+} as const;
+export type RoleEnum = (typeof RoleEnum)[keyof typeof RoleEnum];
 
 export interface ConversationListRequestParams {
   userId: string;

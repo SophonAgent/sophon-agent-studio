@@ -1,11 +1,12 @@
-import useFeedback from '@/context/feedbackContext';
-import { McpServerItem } from '@/interface/mcpServer';
-import {
+import type { McpServerItem } from '@/interface/mcpServer';
+import type {
   McpToolCallParams,
   McpToolConfigItem,
   McpToolConfigItemEditParams,
   McpToolInfo,
 } from '@/interface/mcpTool';
+
+import useFeedback from '@/context/feedbackContext';
 import mcpTool from '@/services/mcpTool';
 import { useState } from 'react';
 

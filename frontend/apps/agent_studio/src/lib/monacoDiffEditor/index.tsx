@@ -1,12 +1,16 @@
 import type { FC } from 'react';
 import type { editor } from 'monaco-editor';
+import type { DiffEditorProps, Monaco } from '@monaco-editor/react';
 
 import { memo, useEffect, useMemo, useRef, useState } from 'react';
-import { DiffEditor, DiffEditorProps, Monaco, loader } from '@monaco-editor/react';
+import * as monaco from 'monaco-editor';
+import { DiffEditor, loader } from '@monaco-editor/react';
 import { DIFF_EDITOR_OPTIONS } from './constant';
 import Spin from '@/lib/spin';
 import './index.css';
 import { cn } from '@/utils/tw';
+
+loader.config({ monaco });
 
 interface MonacoDiffEditorProps extends DiffEditorProps {
   className?: string;

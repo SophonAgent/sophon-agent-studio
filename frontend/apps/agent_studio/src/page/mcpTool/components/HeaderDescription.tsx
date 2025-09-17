@@ -1,9 +1,9 @@
 import type { FC, ReactNode } from 'react';
+import type { McpServerItem } from '@/interface/mcpServer';
 
 import { memo } from 'react';
 import Paragraph3Line from '@/components/paragraph3Line';
 import { McpImplementTypeTextMap } from '@/constant/mcpServer';
-import { McpServerItem } from '@/interface/mcpServer';
 import Tooltip from '@/lib/tooltip';
 import { cn } from '@/utils/tw';
 import { Pencil1Icon } from '@radix-ui/react-icons';

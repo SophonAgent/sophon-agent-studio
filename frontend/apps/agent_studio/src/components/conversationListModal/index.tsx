@@ -1,15 +1,16 @@
 import type { FC } from 'react';
+import type { PaginationProps } from 'antd';
+import type { ConversationListRequestParams, SimpleConversationItem } from '@/interface/chat';
+import type { TableActionItem, TableProps } from '@/lib/table';
 
 import { memo, useCallback, useEffect, useState } from 'react';
 import Modal from '@/lib/modal';
 import useConversationManage from '@/hooks/useConversationManage';
-import { Button, Input, PaginationProps } from 'antd';
-import { ConversationListRequestParams, SimpleConversationItem } from '@/interface/chat';
+import { Button, Input } from 'antd';
 import { cn } from '@/utils/tw';
 import { debounce } from 'lodash-es';
-import Table, { TableActionItem, TableProps } from '@/lib/table';
+import Table from '@/lib/table';
 import Paragraph3Line from '@/components/paragraph3Line';
-import { useRouter } from 'next/navigation';
 import { NAV_PATH_MAP } from '@/constant/nav';
 import useConversationModel from '@/store/chat/conversationModel';
 import { Pencil1Icon } from '@radix-ui/react-icons';
@@ -17,13 +18,14 @@ import Tooltip from '@/lib/tooltip';
 import useFeedback from '@/context/feedbackContext';
 import useChat from '@/hooks/useChat';
 import useGlobalModel from '@/store/globalModel';
+import { useNavigate } from 'react-router-dom';
 
 interface ConversationListModalProps {
   onCancel: () => void;
 }
 
 const ConversationListModal: FC<ConversationListModalProps> = ({ onCancel }) => {
-  const router = useRouter();
+  const navigate = useNavigate();
 
   const { userId } = useGlobalModel();
   const { getConversationList } = useConversationModel();
@@ -124,7 +126,7 @@ const ConversationListModal: FC<ConversationListModalProps> = ({ onCancel }) => 
               value={value}
               rows={1}
               onClick={() => {
-                router.push(`${NAV_PATH_MAP.CHAT}?sid=${record.sessionId}`);
+                navigate(`${NAV_PATH_MAP.CHAT}?sid=${record.sessionId}`);
                 getConversationBySessionId(record.sessionId).then(res => {
                   if (res) {
                     onConversationChange(res);

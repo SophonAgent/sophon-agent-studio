@@ -1,16 +1,16 @@
 import type { FC } from 'react';
+import type { FunctionBase, FunctionDefinition } from '@/interface/functionCall';
+import type { McpServerItem } from '@/interface/mcpServer';
+import type { McpToolConfigItem } from '@/interface/mcpTool';
 
 import { memo, useEffect, useMemo, useState } from 'react';
 import Modal from '@/lib/modal';
-import { FunctionBase, FunctionDefinition } from '@/interface/functionCall';
 import useMcpServer from '@/hooks/useMcpServer';
 import { Input, Skeleton } from 'antd';
 import { cn } from '@/utils/tw';
 import McpServerCard from './McpServerCard';
 import DividingLine from '@/lib/dividingLine';
 import useMcpTool from '@/hooks/useMcpTool';
-import { McpServerItem } from '@/interface/mcpServer';
-import { McpToolConfigItem } from '@/interface/mcpTool';
 import { getUuid } from '@/utils/uuid';
 import { tranJsonToObject } from '@/utils/json';
 import McpToolCard from './McpToolCard';

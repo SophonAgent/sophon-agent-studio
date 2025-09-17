@@ -1,7 +1,7 @@
 import type { FC } from 'react';
+import type { McpServerItem } from '@/interface/mcpServer';
 
 import { memo } from 'react';
-import { McpServerItem } from '@/interface/mcpServer';
 import { cn } from '@/utils/tw';
 import Paragraph3Line from '@/components/paragraph3Line';
 import { Switch } from 'antd';

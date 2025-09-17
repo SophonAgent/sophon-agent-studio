@@ -1,5 +1,3 @@
-'use client';
-
 import { Fragment, useEffect, type FC } from 'react';
 
 import useGlobalModel, { LOCAL_KEY_AGENT_STUDIO_USER_ID } from '@/store/globalModel';

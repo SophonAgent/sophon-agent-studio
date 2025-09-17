@@ -1,4 +1,8 @@
-import { McpServerItem, McpServerItemCreateParams, McpServerItemUpdateParams } from '@/interface/mcpServer';
+import type {
+  McpServerItem,
+  McpServerItemCreateParams,
+  McpServerItemUpdateParams,
+} from '@/interface/mcpServer';
 import request from './request';
 
 export default {

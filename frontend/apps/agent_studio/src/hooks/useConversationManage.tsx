@@ -1,12 +1,13 @@
-import { NAV_PATH_MAP } from '@/constant/nav';
-import useFeedback from '@/context/feedbackContext';
-import { PageInfo } from '@/interface/base';
-import {
+import type { PageInfo } from '@/interface/base';
+import type {
   ConversationItem,
   ConversationListRequestParams,
   SimpleConversationItem,
   UpdateConversationRequestParams,
 } from '@/interface/chat';
+
+import { NAV_PATH_MAP } from '@/constant/nav';
+import useFeedback from '@/context/feedbackContext';
 import chat from '@/services/chat';
 import useConversationModel from '@/store/chat/conversationModel';
 import useQueryRouter from '@/utils/router';
@@ -109,7 +110,7 @@ function useConversationManage() {
       if (!res) return;
     }
 
-    const url = `${location.host}/paas${NAV_PATH_MAP.CHAT}/share/${sessionId}`;
+    const url = `${location.host}/paas${NAV_PATH_MAP.CHAT_SHARE}?sid=${sessionId}`;
     copyToClipboard(url, { format: 'text/plain' });
     notificationApi.success({
       message: '链接复制成功，可分享',

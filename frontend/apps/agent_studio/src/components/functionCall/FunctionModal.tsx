@@ -1,8 +1,8 @@
 import type { FC } from 'react';
 import type { JSONSchema7 } from 'json-schema';
+import type { FunctionDefinition } from '@/interface/functionCall';
 
 import { memo, useEffect, useMemo } from 'react';
-import { FunctionDefinition } from '@/interface/functionCall';
 import { cn } from '@/utils/tw';
 import { Button, Form, Input } from 'antd';
 import { JsonSchemaValidator, RequiredValidator } from '@/utils/validator';

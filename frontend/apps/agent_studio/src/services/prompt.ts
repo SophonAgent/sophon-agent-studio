@@ -1,12 +1,14 @@
-import { PageInfo, ResourceClassify } from '@/interface/base';
-import request from './request';
-import {
+import type { PageInfo } from '@/interface/base';
+import type {
   PromptConfigEditParams,
   PromptDetailItem,
-  PromptFrameworkEnum,
   PromptHistoryItem,
   PromptItem,
 } from '@/interface/prompt';
+
+import { ResourceClassify } from '@/interface/base';
+import request from './request';
+import { PromptFrameworkEnum } from '@/interface/prompt';
 
 export default {
   /**

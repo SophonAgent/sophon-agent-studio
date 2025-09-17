@@ -1,8 +1,8 @@
 import type { FC } from 'react';
+import type { PromptDetailItem } from '@/interface/prompt';
 
 import { memo } from 'react';
 import { cn } from '@/utils/tw';
-import { PromptDetailItem } from '@/interface/prompt';
 import { Button } from 'antd';
 import PromptEditor from '@/components/promptEditor';
 import PromptVariables from '@/components/promptVariables';

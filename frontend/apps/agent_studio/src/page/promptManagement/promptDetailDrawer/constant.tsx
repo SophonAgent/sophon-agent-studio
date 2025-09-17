@@ -1,7 +1,8 @@
+import type { TableProps } from '@/lib/table';
+
 import Paragraph3Line from '@/components/paragraph3Line';
 import { PROMPT_FRAMEWORK_MAP } from '@/constant/prompt';
 import { PromptFrameworkEnum } from '@/interface/prompt';
-import { TableProps } from '@/lib/table';
 import { cn } from '@/utils/tw';
 import { Tag } from 'antd';
 

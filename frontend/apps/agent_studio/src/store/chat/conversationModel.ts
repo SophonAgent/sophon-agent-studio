@@ -1,17 +1,18 @@
-import {
+import type {
   ChatDisplayConfig,
   ChatModelConfig,
   ConversationItem,
   MsgGroupKeyType,
   SimpleConversationItem,
 } from '@/interface/chat';
+import type { FunctionInfo } from '@/interface/functionCall';
+
 import chat from '@/services/chat';
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 import { messageModel } from './messageModel';
 import { systemPromptModel } from './systemPromptModel';
 import { tranJsonToObject } from '@/utils/json';
-import { FunctionInfo } from '@/interface/functionCall';
 import { messageGroupModel } from './messageGroupModel';
 import { INIT_CHAT_MODEL_CONFIG, INIT_GROUPS } from '@/constant/chat';
 import { functionCallModel } from './functionCallModel';

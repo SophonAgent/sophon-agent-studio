@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import type { TableProps } from 'antd';
 
 import { memo, useMemo } from 'react';
 import Markdown from 'react-markdown';
@@ -12,7 +13,7 @@ import rehypeSanitize, { defaultSchema } from 'rehype-sanitize';
 import katex from 'katex';
 import 'katex/dist/katex.min.css'; // `rehype-katex` does not import the CSS for you
 import './index.css';
-import { Button, Image, Table, TableProps } from 'antd';
+import { Button, Image, Table } from 'antd';
 import { DownloadIcon } from '@radix-ui/react-icons';
 import { exportToExcel } from '@/utils/downloadExcel';
 import CodeBlock from '../codeBlock';

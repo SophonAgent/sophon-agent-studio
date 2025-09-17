@@ -1,12 +1,16 @@
 import type { FC } from 'react';
 import type { editor } from 'monaco-editor';
+import type { EditorProps, Monaco } from '@monaco-editor/react';
 
 import { memo, useEffect, useMemo, useRef, useState } from 'react';
-import { Editor, EditorProps, Monaco, loader } from '@monaco-editor/react';
+import * as monaco from 'monaco-editor';
+import { Editor, loader } from '@monaco-editor/react';
 import { EDITOR_OPTIONS } from './constant';
 import Spin from '@/lib/spin';
 import { cn } from '@/utils/tw';
 import './index.css';
+
+loader.config({ monaco });
 
 interface MonacoEditorProps extends EditorProps {
   className?: string;
