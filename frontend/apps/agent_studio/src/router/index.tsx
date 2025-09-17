@@ -1,6 +1,6 @@
 import type { RouteObject } from 'react-router-dom';
 
-import { createBrowserRouter, redirect } from 'react-router-dom';
+import { createHashRouter, redirect } from 'react-router-dom';
 import App from '@/app';
 import { NAV_PATH_MAP } from '@/constant/nav';
 import Chat from '@/page/chat';
@@ -51,6 +51,6 @@ export const routeList: RouteObject[] = [
   },
 ];
 
-const router = createBrowserRouter(routeList, { basename: import.meta.env.BASE_URL });
+const router = createHashRouter(routeList);
 
 export default router;
