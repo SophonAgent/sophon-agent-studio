@@ -1,4 +1,5 @@
-import { ModelConfigItem, ModelConfigItemEditParams } from '@/interface/modelConfig';
+import type { ModelConfigItem, ModelConfigItemEditParams } from '@/interface/modelConfig';
+
 import request from './request';
 
 export default {

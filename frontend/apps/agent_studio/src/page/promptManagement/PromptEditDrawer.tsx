@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import type { PromptConfigItem } from '@/interface/prompt';
 
 import { memo, useEffect, useMemo } from 'react';
 import Drawer from '@/lib/drawer';
@@ -8,7 +9,7 @@ import AccentBorderHeader from '@/components/accentBorderHeader';
 import { cn } from '@/utils/tw';
 import { AlphanumericWithDashesValidator, RequiredValidator } from '@/utils/validator';
 import { ResourceClassify } from '@/interface/base';
-import { PromptConfigItem, PromptFrameworkEnum } from '@/interface/prompt';
+import { PromptFrameworkEnum } from '@/interface/prompt';
 import PromptEditor from '@/components/promptEditor';
 import PromptVariables from '@/components/promptVariables';
 import FrameworkRadio from '@/page/promptManagement/FrameworkRadio';

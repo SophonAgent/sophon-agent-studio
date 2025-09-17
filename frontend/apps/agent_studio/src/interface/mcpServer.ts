@@ -1,13 +1,15 @@
-export enum McpServerType {
-  SSE = 'sse',
-  STDIO = 'stdio', // 暂无
-}
+export const McpServerType = {
+  SSE: 'sse',
+  STDIO: 'stdio', // 暂无
+} as const;
+export type McpServerType = (typeof McpServerType)[keyof typeof McpServerType];
 
-export enum McpImplementType {
-  INNER = 'INNER',
-  PROXY = 'PROXY',
-  EXTERNAL = 'EXTERNAL',
-}
+export const McpImplementType = {
+  INNER: 'INNER',
+  PROXY: 'PROXY',
+  EXTERNAL: 'EXTERNAL',
+} as const;
+export type McpImplementType = (typeof McpImplementType)[keyof typeof McpImplementType];
 
 export interface McpServerItem {
   id: number;

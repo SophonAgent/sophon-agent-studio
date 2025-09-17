@@ -1,11 +1,12 @@
-import request, { MCP_TOOL_BASE_URL } from './request';
-import {
+import type {
   McpToolCallParams,
   McpToolCallResult,
   McpToolConfigItem,
   McpToolConfigItemEditParams,
   McpToolInfo,
 } from '@/interface/mcpTool';
+
+import request, { MCP_TOOL_BASE_URL } from './request';
 
 export default {
   /**

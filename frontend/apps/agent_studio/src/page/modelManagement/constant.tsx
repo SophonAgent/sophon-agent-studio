@@ -1,5 +1,6 @@
+import type { TableProps } from '@/lib/table';
+
 import Paragraph3Line from '@/components/paragraph3Line';
-import { TableProps } from '@/lib/table';
 import { tranJsonToObject } from '@/utils/json';
 
 export const dataColumns: TableProps['dataColumns'] = [

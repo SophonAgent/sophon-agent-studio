@@ -1,10 +1,11 @@
 import type { FC } from 'react';
+import type { TabsProps } from 'antd';
+import type { PromptConfigItem } from '@/interface/prompt';
 
 import { memo, useState } from 'react';
 import Drawer from '@/lib/drawer';
 import { cn } from '@/utils/tw';
-import { Button, Tabs, TabsProps } from 'antd';
-import { PromptConfigItem } from '@/interface/prompt';
+import { Button, Tabs } from 'antd';
 import Paragraph3Line from '@/components/paragraph3Line';
 import Secret from '@/components/secret';
 import CurrentVersionPanel from './CurrentVersionPanel';

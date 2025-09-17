@@ -1,72 +1,61 @@
-import { usePathname, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'react-router-dom';
 import { useCallback, useMemo } from 'react';
 
 interface QueryRouter {
   get: (key: string) => string | null;
-  getAll: () => URLSearchParams;
   set: (key: string, value?: string | number) => void;
   remove: (key: string) => void;
   getQueryString: () => string;
 }
 
 function useQueryRouter(): QueryRouter {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  const getAll = useCallback(() => {
-    if (!searchParams) {
-      return new URLSearchParams();
-    }
-    return new URLSearchParams(searchParams);
-  }, [searchParams]);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const get = useCallback(
     (key: string): string | null => {
-      return getAll().get(key);
+      return searchParams.get(key);
     },
-    [getAll],
+    [searchParams],
   );
 
   const set = useCallback(
     (key: string, value?: string | number) => {
-      const params = getAll();
-      if (params.get(key) === `${value}`) return;
+      if (searchParams.get(key) === `${value}`) return;
 
-      params.set(key, `${value}`);
-      history.pushState(null, '', `${pathname}?${params.toString()}`);
+      const newParams = new URLSearchParams(searchParams);
+      newParams.set(key, String(value));
+
+      setSearchParams(newParams, { replace: true });
     },
-    [getAll, pathname],
+    [searchParams, setSearchParams],
   );
 
   const remove = useCallback(
     (key: string) => {
-      if (!pathname) return;
+      if (!searchParams.has(key)) return;
 
-      const params = getAll();
-      if (!params.has(key)) return;
+      const newParams = new URLSearchParams(searchParams);
+      newParams.delete(key);
 
-      params.delete(key);
-      const query = params.toString();
-      const url = query ? `${pathname}?${query}` : pathname;
-      history.pushState(null, '', url);
+      // 如果还有其他参数保留，否则清空
+      setSearchParams(newParams.size > 0 ? newParams : {}, { replace: true });
     },
-    [getAll, pathname],
+    [searchParams, setSearchParams],
   );
 
   const getQueryString = useCallback(() => {
-    const query = getAll().toString();
+    const query = searchParams.toString();
     return query ? `?${query}` : '';
-  }, [getAll]);
+  }, [searchParams]);
 
   return useMemo(
     () => ({
       get,
-      getAll,
       set,
       remove,
       getQueryString,
     }),
-    [get, getAll, set, remove, getQueryString],
+    [get, set, remove, getQueryString],
   );
 }
 

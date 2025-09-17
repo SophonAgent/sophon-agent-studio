@@ -1,14 +1,17 @@
 import type { JSONSchema7 } from 'json-schema';
 
-export enum McpToolProxyType {
-  HTTP = 'HTTP',
-  RPC = 'RPC',
-}
+export const McpToolProxyType = {
+  HTTP: 'HTTP',
+  RPC: 'RPC',
+} as const;
+export type McpToolProxyType = (typeof McpToolProxyType)[keyof typeof McpToolProxyType];
 
-export enum McpToolRequestMethodType {
-  GET = 'get',
-  POST = 'post',
-}
+export const McpToolRequestMethodType = {
+  GET: 'get',
+  POST: 'post',
+} as const;
+export type McpToolRequestMethodType =
+  (typeof McpToolRequestMethodType)[keyof typeof McpToolRequestMethodType];
 
 /** Tool 配置项 */
 export interface McpToolConfigItem {

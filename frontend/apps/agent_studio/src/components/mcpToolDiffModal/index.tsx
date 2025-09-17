@@ -1,11 +1,11 @@
 import type { FC } from 'react';
 import type { JSONSchema7 } from 'json-schema';
+import type { FunctionBase, FunctionDefinition } from '@/interface/functionCall';
+import type { McpToolConfigItem } from '@/interface/mcpTool';
 
 import { memo, useEffect, useState } from 'react';
 import Modal from '@/lib/modal';
-import { FunctionBase, FunctionDefinition } from '@/interface/functionCall';
 import useMcpTool from '@/hooks/useMcpTool';
-import { McpToolConfigItem } from '@/interface/mcpTool';
 import { cn } from '@/utils/tw';
 import AccentBorderHeader from '@/components/accentBorderHeader';
 import { Button, Form, Input } from 'antd';

@@ -1,6 +1,5 @@
 import type { JSONSchema7 } from 'json-schema';
-
-import { McpServerItem } from '@/interface/mcpServer';
+import type { McpServerItem } from '@/interface/mcpServer';
 
 export interface FunctionInfo {
   enableAll: boolean;

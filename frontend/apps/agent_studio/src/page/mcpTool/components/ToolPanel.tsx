@@ -1,14 +1,17 @@
 import type { FC } from 'react';
+import type { McpToolConfigItem } from '@/interface/mcpTool';
+import type { PageHeaderFilterItem } from '@/components/pageHeader';
+import type { TableActionItem } from '@/lib/table';
+import type { McpServerItem } from '@/interface/mcpServer';
 
 import { memo, useMemo, useState } from 'react';
-import { McpToolConfigItem, McpToolProxyType } from '@/interface/mcpTool';
+import { McpToolProxyType } from '@/interface/mcpTool';
 import { cn } from '@/utils/tw';
-import PageHeader, { PageHeaderFilterItem } from '@/components/pageHeader';
-import Table, { TableActionItem } from '@/lib/table';
+import PageHeader from '@/components/pageHeader';
+import Table from '@/lib/table';
 import { cloneDeep } from 'lodash-es';
 import { dataColumns } from '../constant';
 import McpToolEditDrawer from './McpToolEditDrawer';
-import { McpServerItem } from '@/interface/mcpServer';
 import useMcpTool from '@/hooks/useMcpTool';
 
 interface ToolPanelProps {

@@ -1,11 +1,11 @@
 import type { FC } from 'react';
+import type { ModelConfigItem, ModelConfigItemEditParams } from '@/interface/modelConfig';
 
 import { memo, useEffect } from 'react';
 import Drawer from '@/lib/drawer';
 import { Checkbox, Form, Input, InputNumber, Select, Switch } from 'antd';
 import { RequiredValidator } from '@/utils/validator';
 import AccentBorderHeader from '@/components/accentBorderHeader';
-import { ModelConfigItem, ModelConfigItemEditParams } from '@/interface/modelConfig';
 import { tranJsonToArray, tranJsonToObject } from '@/utils/json';
 import useModelManagement from '@/hooks/useModelManage';
 import { cn } from '@/utils/tw';

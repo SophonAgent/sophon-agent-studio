@@ -1,10 +1,10 @@
 import type { FC } from 'react';
+import type { FormListProps } from 'antd/es/form';
 
 import { Fragment, memo } from 'react';
 import { Button, Form, Input } from 'antd';
 import { MinusCircledIcon, PlusCircledIcon } from '@radix-ui/react-icons';
 import { cn } from '@/utils/tw';
-import { FormListProps } from 'antd/es/form';
 
 const { List: FormList, Item: FormItem } = Form;
 

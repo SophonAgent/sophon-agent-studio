@@ -1,7 +1,8 @@
 import type { FC } from 'react';
+import type { TableProps as AntdTableProps } from 'antd';
 
 import { memo } from 'react';
-import { Table as AntdTable, TableProps as AntdTableProps, Button, Dropdown } from 'antd';
+import { Table as AntdTable, Button, Dropdown } from 'antd';
 import { cn } from '@/utils/tw';
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 import useFeedback from '@/context/feedbackContext';

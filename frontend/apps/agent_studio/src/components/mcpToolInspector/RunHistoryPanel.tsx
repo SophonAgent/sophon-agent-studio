@@ -1,7 +1,7 @@
 import type { FC } from 'react';
+import type { McpToolRunHistoryItem } from '@/interface/mcpTool';
 
 import { memo } from 'react';
-import { McpToolRunHistoryItem } from '@/interface/mcpTool';
 import { Collapse } from 'antd';
 import { cn } from '@/utils/tw';
 import JsonView from '@/components/jsonView';

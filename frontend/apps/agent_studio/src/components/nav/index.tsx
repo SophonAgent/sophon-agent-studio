@@ -1,5 +1,3 @@
-'use client';
-
 import type { FC } from 'react';
 
 import Logo from '@/icons/logo';
@@ -17,13 +15,13 @@ import NavMenuItem from './NavMenuItem';
 import useConversationModel from '@/store/chat/conversationModel';
 import ConversationMenuItem from './ConversationMenuItem';
 import Tooltip from '@/lib/tooltip';
-import { usePathname, useRouter } from 'next/navigation';
 import { NAV_LIST, NAV_PATH_MAP } from '@/constant/nav';
 import useGlobalModel from '@/store/globalModel';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Nav: FC = () => {
-  const router = useRouter();
-  const pathname = usePathname();
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const { __setShowConversationListModal } = useGlobalModel();
   const { conversationList, isConversationLoading, initConversation, clearConversation } =
@@ -106,7 +104,7 @@ const Nav: FC = () => {
             tip={isExpanded ? '' : '新对话'}
             onChange={() => {
               clearConversation();
-              router.push(NAV_PATH_MAP.CHAT);
+              navigate(NAV_PATH_MAP.CHAT);
               initConversation();
             }}
           />
@@ -126,7 +124,7 @@ const Nav: FC = () => {
               icon={item.icon}
               tip={isExpanded ? '' : item.label}
               checked={pathname?.match(/^(\/[^/]+)/)?.[0] === item.path}
-              onChange={() => router.push(item.path)}
+              onChange={() => navigate(item.path)}
             />
           ))}
         </div>

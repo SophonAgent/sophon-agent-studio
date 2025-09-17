@@ -1,4 +1,6 @@
-import { MessageItem, MsgGroupKeyType, RoleEnum, ToolCallItem } from '@/interface/chat';
+import type { MessageItem, MsgGroupKeyType, ToolCallItem } from '@/interface/chat';
+
+import { RoleEnum } from '@/interface/chat';
 import { getUuid } from '@/utils/uuid';
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';

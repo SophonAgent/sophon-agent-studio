@@ -1,7 +1,8 @@
 import type { FC } from 'react';
+import type { ModalProps as AntdModalProps } from 'antd';
 
 import { memo } from 'react';
-import { Modal as AntdModal, ModalProps as AntdModalProps } from 'antd';
+import { Modal as AntdModal } from 'antd';
 
 interface ModalProps extends Omit<AntdModalProps, 'centered' | 'width'> {
   size?: 'large';

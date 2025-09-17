@@ -1,7 +1,8 @@
 import type { FC } from 'react';
+import type { MessageItem, ToolCallItem } from '@/interface/chat';
 
 import { memo, useMemo, useState } from 'react';
-import { MessageItem, RoleEnum, ToolCallItem } from '@/interface/chat';
+import { RoleEnum } from '@/interface/chat';
 import { cn } from '@/utils/tw';
 import Tooltip from '@/lib/tooltip';
 import { Button, Input, Typography } from 'antd';

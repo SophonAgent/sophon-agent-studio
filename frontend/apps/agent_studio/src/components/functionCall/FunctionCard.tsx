@@ -1,8 +1,8 @@
 import type { FC } from 'react';
+import type { FunctionDefinition } from '@/interface/functionCall';
 
 import { memo } from 'react';
 import { Button, Switch, Tag } from 'antd';
-import { FunctionDefinition } from '@/interface/functionCall';
 import { cn } from '@/utils/tw';
 import { InfoCircledIcon, MinusCircledIcon } from '@radix-ui/react-icons';
 import Paragraph3Line from '../paragraph3Line';

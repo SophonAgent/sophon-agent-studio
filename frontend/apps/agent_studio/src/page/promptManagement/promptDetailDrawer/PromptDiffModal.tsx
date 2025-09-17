@@ -1,7 +1,7 @@
 import type { FC, ReactNode } from 'react';
+import type { PromptDetailItem } from '@/interface/prompt';
 
 import { memo } from 'react';
-import { PromptDetailItem } from '@/interface/prompt';
 import Modal from '@/lib/modal';
 import { cn } from '@/utils/tw';
 import MonacoDiffEditor from '@/lib/monacoDiffEditor';

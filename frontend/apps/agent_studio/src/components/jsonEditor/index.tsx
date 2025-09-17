@@ -1,8 +1,8 @@
 import type { FC } from 'react';
+import type { EditorProps } from '@monaco-editor/react';
 
 import { memo } from 'react';
 import MonacoEditor from '@/lib/monacoEditor';
-import { EditorProps } from '@monaco-editor/react';
 import { cn } from '@/utils/tw';
 import CopyButton from '@/components/copyButton';
 import { Button, Input } from 'antd';

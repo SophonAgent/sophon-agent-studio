@@ -1,8 +1,10 @@
+import type { MessageItem } from '@/interface/chat';
+
 import { useState } from 'react';
 import { PromptFrameworkEnum } from '@/interface/prompt';
 import prompt from '@/services/prompt';
 import useFeedback from '@/context/feedbackContext';
-import { MessageItem, RoleEnum } from '@/interface/chat';
+import { RoleEnum } from '@/interface/chat';
 import { createChatCompletion } from '@/services/chat';
 
 function useEnhancePrompt() {

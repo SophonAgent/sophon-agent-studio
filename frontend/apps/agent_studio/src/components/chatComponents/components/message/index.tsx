@@ -1,7 +1,8 @@
 import type { FC } from 'react';
+import type { MessageItem } from '@/interface/chat';
 
 import { memo, useMemo, useState } from 'react';
-import { MessageItem, RoleEnum } from '@/interface/chat';
+import { RoleEnum } from '@/interface/chat';
 import { cn } from '@/utils/tw';
 import { Collapse, Input } from 'antd';
 import { TriangleDownIcon, TriangleRightIcon } from '@radix-ui/react-icons';

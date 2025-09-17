@@ -1,7 +1,7 @@
 import type { FC } from 'react';
+import type { FunctionDefinition } from '@/interface/functionCall';
 
 import { memo, useMemo, useState } from 'react';
-import { FunctionDefinition } from '@/interface/functionCall';
 import useFunctionCallModel from '@/store/chat/functionCallModel';
 import { cn } from '@/utils/tw';
 import { PlusIcon } from '@radix-ui/react-icons';
