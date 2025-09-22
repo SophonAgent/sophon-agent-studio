@@ -188,13 +188,13 @@ const ReactMarkdown: FC<ReactMarkdownProps> = ({ content }) => {
     if (typeof content !== 'string') return '';
 
     // 处理连续反斜杠的情况（如 \\% → \\%）
-    let newText = content.replace(
+    const newText = content.replace(
       /(^|[^\\])(\\+)([\\`*_{}\[\]()#+\-.!|%])/g,
       (_, prefix, slashes, char) => prefix + slashes + (slashes.length % 2 ? `\\` : '') + char,
     );
 
     // 处理单换行符也可以渲染table（单换行符后面是|的情况）
-    newText = newText.replace(/(?<!\||\n)\n(?=\|)/g, '\n\n');
+    // newText = newText.replace(/(?<!\||\n)\n(?=\|)/g, '\n\n');
     return newText;
   }, [content]);
 
