@@ -18,6 +18,7 @@ import useMessageGroupModel from '@/store/chat/messageGroupModel';
 import useSystemPromptModel from '@/store/chat/systemPromptModel';
 import ChatModelConfigForm from './ChatModelConfigForm';
 import { INIT_CHAT_MODEL_CONFIG } from '@/constant/chat';
+import { MODEL_FAMILY_MAP } from '@/constant/model';
 
 type ModelGroupConfig = {
   group: string;
@@ -88,7 +89,7 @@ const PopoverModelButton: FC<PopoverModelButtonProps> = ({ msgGroupKey, isReadon
   const tranModelListToGroupList = (list: ModelConfigItem[]): ModelGroupConfig[] => {
     return list.reduce((acc: ModelGroupConfig[], curr) => {
       const { config } = curr;
-      const { provider = '自定义' } = tranJsonToObject(config);
+      const { provider = 'other' } = tranJsonToObject(config);
       const existingGroup = acc.find(group => group.group === provider);
       if (existingGroup) {
         existingGroup.models.push(curr);
@@ -208,7 +209,7 @@ const PopoverModelButton: FC<PopoverModelButtonProps> = ({ msgGroupKey, isReadon
                 ghost
                 items={filteredModelGroupList.map(group => ({
                   key: group.group,
-                  label: group.group,
+                  label: group.group ? MODEL_FAMILY_MAP[group.group] : '',
                   children: group.models.map(item => (
                     <ModelOptionItem
                       key={item.modelName}

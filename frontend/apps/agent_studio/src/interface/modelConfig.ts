@@ -12,7 +12,6 @@ export interface ModelConfigItem {
   createUser?: string;
   modalities?: string[]; // 模型支持的模态，如 ["text", "image"]
   maxCompletionTokenLimit?: number; // 模型最大输出 token 长度
-  modelAppTag?: string; // 模型应用标签 --json string[]
   defaultParams?: string; // 默认参数 --json {}
   supportStream?: 0 | 1; // 是否支持流式 1-支持 0-不支持
   supportSystem?: 0 | 1; // 是否支持系统消息 1-支持 0-不支持
