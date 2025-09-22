@@ -2,6 +2,7 @@ import type { TableProps } from '@/lib/table';
 
 import Paragraph3Line from '@/components/paragraph3Line';
 import { tranJsonToObject } from '@/utils/json';
+import { MODEL_FAMILY_MAP } from '@/constant/model';
 
 export const dataColumns: TableProps['dataColumns'] = [
   {
@@ -26,7 +27,8 @@ export const dataColumns: TableProps['dataColumns'] = [
     width: 180,
     render: value => {
       const { provider } = tranJsonToObject(value);
-      return <Paragraph3Line value={provider} rows={1} />;
+      const family = provider ? MODEL_FAMILY_MAP[provider] : '';
+      return <Paragraph3Line value={family} rows={1} />;
     },
   },
   {
