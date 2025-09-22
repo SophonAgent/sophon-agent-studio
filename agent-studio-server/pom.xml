@@ -12,8 +12,8 @@
     <artifactId>agent-studio-server</artifactId>
     <packaging>jar</packaging>
     <properties>
-        <npm.version>9.5.1</npm.version>
-        <node.version>v18.16.0</node.version>
+        <npm.version>9.15.9</npm.version>
+        <node.version>v20.19.5</node.version>
     </properties>
 
     <dependencies>
@@ -107,17 +107,20 @@
             <plugin>
                 <groupId>com.github.eirslett</groupId>
                 <artifactId>frontend-maven-plugin</artifactId>
-                <version>1.11.0</version>
+                <version>1.12.1</version>
+                <configuration>
+                    <nodeDownloadRoot>https://npmmirror.com/mirrors/node/</nodeDownloadRoot>
+                    <workingDirectory>../frontend/apps/agent_studio</workingDirectory>
+                </configuration>
                 <executions>
                     <execution>
                         <id>install node and npm</id>
                         <goals>
-                            <goal>install-node-and-npm</goal>
+                            <goal>install-node-and-pnpm</goal>
                         </goals>
                         <configuration>
                             <nodeVersion>${node.version}</nodeVersion>
-                            <npmVersion>${npm.version}</npmVersion>
-                            <workingDirectory>../frontend</workingDirectory>
+                            <pnpmVersion>${npm.version}</pnpmVersion>
                             <!-- <nodeDownloadRoot>https://npmmirror.com/mirrors/node/</nodeDownloadRoot> -->
                         </configuration>
                     </execution>
@@ -125,23 +128,21 @@
                     <execution>
                         <id>npm install</id>
                         <goals>
-                            <goal>npm</goal>
+                            <goal>pnpm</goal>
                         </goals>
                         <configuration>
                             <arguments>install</arguments>
-                            <workingDirectory>../frontend</workingDirectory>
                         </configuration>
                     </execution>
 
                     <execution>
                         <id>npm build</id>
                         <goals>
-                            <goal>npm</goal>
+                            <goal>pnpm</goal>
                         </goals>
                         <phase>generate-resources</phase>
                         <configuration>
                             <arguments>run build</arguments>
-                            <workingDirectory>ui</workingDirectory>
                         </configuration>
                     </execution>
                 </executions>
@@ -158,10 +159,10 @@
                         </goals>
                         <phase>process-resources</phase>
                         <configuration>
-                            <outputDirectory>${project.build.outputDirectory}/static</outputDirectory>
+                            <outputDirectory>${project.build.outputDirectory}/static/paas</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>ui/build</directory>
+                                    <directory>../frontend/apps/agent_studio/dist</directory>
                                     <filtering>false</filtering>
                                 </resource>
                             </resources>
