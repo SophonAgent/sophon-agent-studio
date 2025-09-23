@@ -6,9 +6,10 @@ import Drawer from '@/lib/drawer';
 import { Checkbox, Form, Input, InputNumber, Select, Switch } from 'antd';
 import { RequiredValidator } from '@/utils/validator';
 import AccentBorderHeader from '@/components/accentBorderHeader';
-import { tranJsonToArray, tranJsonToObject } from '@/utils/json';
+import { tranJsonToObject } from '@/utils/json';
 import useModelManagement from '@/hooks/useModelManage';
 import { cn } from '@/utils/tw';
+import { MODEL_FAMILY_LIST } from '@/constant/model';
 
 const { Item: FormItem } = Form;
 const { TextArea } = Input;
@@ -40,7 +41,7 @@ const ModelEditDrawer: FC<ModelEditDrawerProps> = ({ initialValues, onCancel, on
 
   const handleSubmit = async () => {
     const { config, defaultParams, ...values } = await form.validateFields();
-    const { provider = '自定义' } = config || {};
+    const { provider = 'other' } = config || {};
     const params: ModelConfigItemEditParams = {
       ...values,
       config: JSON.stringify({ ...config, provider }),
@@ -72,14 +73,6 @@ const ModelEditDrawer: FC<ModelEditDrawerProps> = ({ initialValues, onCancel, on
         </FormItem>
         <FormItem label="模型描述" name="description">
           <TextArea autoSize={{ minRows: 3, maxRows: 3 }} />
-        </FormItem>
-        <FormItem
-          label="使用场景标签"
-          name="modelAppTag"
-          normalize={v => JSON.stringify(v)}
-          getValueProps={v => ({ value: tranJsonToArray(v) })}
-        >
-          <Select mode="tags" allowClear showSearch />
         </FormItem>
         <FormItem
           label="支持流式输出"
@@ -138,7 +131,7 @@ const ModelEditDrawer: FC<ModelEditDrawerProps> = ({ initialValues, onCancel, on
           <Input />
         </FormItem>
         <FormItem label="模型家族" name={['config', 'provider']}>
-          <Input />
+          <Select options={MODEL_FAMILY_LIST} />
         </FormItem>
 
         {/* -----运行时默认参数----- */}
