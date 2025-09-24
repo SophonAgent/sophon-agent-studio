@@ -6,6 +6,7 @@ import { Radio } from 'antd';
 import { PROMPT_FRAMEWORK_LIST } from '@/constant/prompt';
 import { PromptFrameworkEnum } from '@/interface/prompt';
 import useFeedback from '@/context/feedbackContext';
+import { useTranslation } from 'react-i18next';
 
 const { Group: RadioGroup } = Radio;
 
@@ -16,6 +17,8 @@ interface FrameworkRadioProps {
 }
 
 const FrameworkRadio: FC<FrameworkRadioProps> = ({ value, onChange, promptContent }) => {
+  const { t } = useTranslation();
+
   const { modalApi } = useFeedback();
 
   const handleFrameworkChange = (e: RadioChangeEvent) => {
@@ -24,16 +27,16 @@ const FrameworkRadio: FC<FrameworkRadioProps> = ({ value, onChange, promptConten
       onChange?.(v);
     } else {
       modalApi.confirm({
-        title: '切换模版框架',
+        title: t('MODAL_10'),
         centered: true,
-        content: '切换框架将清空当前 prompt 内容，是否切换？',
+        content: t('MODAL_11'),
         okButtonProps: { danger: true },
         onOk: () => onChange?.(v),
       });
     }
   };
 
-  return <RadioGroup options={PROMPT_FRAMEWORK_LIST} value={value} onChange={handleFrameworkChange} />;
+  return <RadioGroup options={PROMPT_FRAMEWORK_LIST(t)} value={value} onChange={handleFrameworkChange} />;
 };
 
 export default memo(FrameworkRadio);

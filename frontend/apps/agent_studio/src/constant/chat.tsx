@@ -14,7 +14,6 @@ export const INIT_DISPLAY_CONFIG: ChatDisplayConfig = {
 export const INIT_GROUPS: MessageGroup[] = [
   {
     msgGroupKey: 'basic',
-    name: '对比1',
     displayConfig: INIT_DISPLAY_CONFIG,
   },
 ];

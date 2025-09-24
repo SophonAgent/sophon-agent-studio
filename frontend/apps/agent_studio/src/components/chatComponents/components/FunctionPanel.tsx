@@ -9,22 +9,21 @@ import FunctionInput from './FunctionInput';
 import AccentBorderHeader from '@/components/accentBorderHeader';
 import { TriangleDownIcon, TriangleRightIcon } from '@radix-ui/react-icons';
 import useFeedback from '@/context/feedbackContext';
+import { useTranslation } from 'react-i18next';
 
 interface FunctionPanelProps {
   msgGroupKey: string;
   isReadonly?: boolean;
+  groupName?: string;
 }
 
-const FunctionPanel: FC<FunctionPanelProps> = ({ msgGroupKey, isReadonly }) => {
+const FunctionPanel: FC<FunctionPanelProps> = ({ msgGroupKey, isReadonly, groupName }) => {
+  const { t } = useTranslation();
+
   const { enableFunctionCallMap, __updateEnableFunctionCall } = useFunctionCallModel();
-  const { messageGroups, isSyncMap, isCompareMode, syncAllMessageGroups } = useMessageGroupModel();
+  const { isSyncMap, isCompareMode, syncAllMessageGroups } = useMessageGroupModel();
 
   const { modalApi } = useFeedback();
-
-  const groupName = useMemo(
-    () => messageGroups.find(i => i.msgGroupKey === msgGroupKey)?.name,
-    [messageGroups, msgGroupKey],
-  );
 
   const enableFunctionCall = useMemo(
     () => enableFunctionCallMap[msgGroupKey],
@@ -45,7 +44,7 @@ const FunctionPanel: FC<FunctionPanelProps> = ({ msgGroupKey, isReadonly }) => {
                 const checked = e.target.checked;
                 if (checked) {
                   modalApi.confirm({
-                    title: `确认将 「${groupName}」 的 Functions 同步给其他对比组吗？`,
+                    title: t('MODAL_4', { groupName }),
                     centered: true,
                     onOk: () => syncAllMessageGroups(msgGroupKey, 'function', checked),
                   });
@@ -55,7 +54,7 @@ const FunctionPanel: FC<FunctionPanelProps> = ({ msgGroupKey, isReadonly }) => {
               }}
               onClick={e => e.stopPropagation()}
             >
-              同步
+              {t('CHAT_5')}
             </Checkbox>
           ) : null}
           <Switch

@@ -19,6 +19,7 @@ import useFeedback from '@/context/feedbackContext';
 import useChat from '@/hooks/useChat';
 import useGlobalModel from '@/store/globalModel';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 interface ConversationListModalProps {
   onCancel: () => void;
@@ -26,9 +27,11 @@ interface ConversationListModalProps {
 
 const ConversationListModal: FC<ConversationListModalProps> = ({ onCancel }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const { userId } = useGlobalModel();
-  const { getConversationList } = useConversationModel();
+  const { currentConversation, getConversationList, cleanupAllConversationBackgroundTasks } =
+    useConversationModel();
   const { onConversationChange } = useChat();
 
   const { modalApi } = useFeedback();
@@ -96,7 +99,7 @@ const ConversationListModal: FC<ConversationListModalProps> = ({ onCancel }) => 
 
   const dataColumns: TableProps['dataColumns'] = [
     {
-      title: '对话名称',
+      title: t('CHAT_32'),
       dataIndex: 'name',
       key: 'name',
       render: (value, record: SimpleConversationItem) => {
@@ -126,6 +129,12 @@ const ConversationListModal: FC<ConversationListModalProps> = ({ onCancel }) => 
               value={value}
               rows={1}
               onClick={() => {
+                if (currentConversation.sessionId === record.sessionId) {
+                  onCancel();
+                  return;
+                }
+                // 切换会话时，先取消上一个会话的后台任务
+                cleanupAllConversationBackgroundTasks();
                 navigate(`${NAV_PATH_MAP.CHAT}?sid=${record.sessionId}`);
                 getConversationBySessionId(record.sessionId).then(res => {
                   if (res) {
@@ -135,7 +144,7 @@ const ConversationListModal: FC<ConversationListModalProps> = ({ onCancel }) => 
                 onCancel();
               }}
             />
-            <Tooltip title="重命名">
+            <Tooltip title={t('BUTTON_2')}>
               <Button
                 type="link"
                 icon={<Pencil1Icon className={cn('h-[13px] w-[13px]')} />}
@@ -152,14 +161,14 @@ const ConversationListModal: FC<ConversationListModalProps> = ({ onCancel }) => 
       },
     },
     {
-      title: '会话 ID',
+      title: 'Session ID',
       dataIndex: 'sessionId',
       key: 'sessionId',
       width: 120,
       render: value => <Paragraph3Line value={value} rows={1} copyable />,
     },
     {
-      title: '最近一次对话时间',
+      title: t('CHAT_33'),
       dataIndex: 'modifyTime',
       key: 'modifyTime',
       width: 180,
@@ -169,12 +178,12 @@ const ConversationListModal: FC<ConversationListModalProps> = ({ onCancel }) => 
   const actionList: TableActionItem[] = [
     {
       key: 'share',
-      label: '分享',
+      label: t('BUTTON_1'),
       onClick: (record: SimpleConversationItem) => shareConversation(record),
     },
     {
       key: 'delete',
-      label: '删除',
+      label: t('BUTTON_3'),
       danger: true,
       onClick: async (record: SimpleConversationItem) => {
         await deleteConversation(record);
@@ -190,9 +199,9 @@ const ConversationListModal: FC<ConversationListModalProps> = ({ onCancel }) => 
         danger
         onClick={() => {
           modalApi.confirm({
-            title: '确认清空吗？',
+            title: t('MODAL_6'),
             centered: true,
-            content: '清空后不可恢复，请谨慎操作',
+            content: t('MODAL_7'),
             okButtonProps: { danger: true },
             onOk: async () => {
               await clearAllConversation();
@@ -202,22 +211,22 @@ const ConversationListModal: FC<ConversationListModalProps> = ({ onCancel }) => 
           });
         }}
       >
-        清空
+        {t('BUTTON_12')}
       </Button>
     </div>
   );
 
   return (
-    <Modal open title="历史对话记录" onCancel={onCancel} size="large" footer={footer}>
+    <Modal open title={t('NAV_6')} onCancel={onCancel} size="large" footer={footer}>
       <div className={cn('mb-4 flex items-center gap-3')}>
         <Input
           allowClear
-          placeholder="关键字搜索"
+          placeholder={t('PLACEHOLDER_5')}
           onChange={e => onDebounceSearch('keywords', e.target.value)}
         />
         <Input
           allowClear
-          placeholder="会话 ID 搜索"
+          placeholder={t('PLACEHOLDER_6')}
           onChange={e => onDebounceSearch('sessionId', e.target.value)}
         />
       </div>

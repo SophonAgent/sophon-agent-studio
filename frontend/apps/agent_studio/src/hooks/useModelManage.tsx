@@ -3,8 +3,11 @@ import type { ModelConfigItem, ModelConfigItemEditParams } from '@/interface/mod
 import useFeedback from '@/context/feedbackContext';
 import modelConfig from '@/services/modelConfig';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 function useModelManagement() {
+  const { t } = useTranslation();
+
   const { messageApi } = useFeedback();
 
   const [modelList, setModelList] = useState<ModelConfigItem[]>([]);
@@ -18,7 +21,8 @@ function useModelManagement() {
       const res = await modelConfig.getModelConfigList();
       setModelList(res?.data || []);
     } catch (err) {
-      messageApi.error(`获取模型列表失败：${err}`);
+      messageApi.error(t('MESSAGE_ERROR_18'));
+      console.error(t('MESSAGE_ERROR_18'), err);
     } finally {
       setIsModelListLoading(false);
     }
@@ -29,10 +33,11 @@ function useModelManagement() {
     try {
       const res = await modelConfig.createModelConfig(params);
       if (res?.data) {
-        messageApi.success('创建模型成功');
+        messageApi.success(t('MESSAGE_SUCCESS_8'));
       }
     } catch (err) {
-      messageApi.error(`创建模型失败：${err}`);
+      messageApi.error(t('MESSAGE_ERROR_19'));
+      console.error(t('MESSAGE_ERROR_19'), err);
     } finally {
       setIsModelSaveLoading(false);
     }
@@ -43,10 +48,11 @@ function useModelManagement() {
     try {
       const res = await modelConfig.updateModelConfig(id, params);
       if (res?.data) {
-        messageApi.success('更新模型成功');
+        messageApi.success(t('MESSAGE_SUCCESS_9'));
       }
     } catch (err) {
-      messageApi.error(`更新模型失败：${err}`);
+      messageApi.error(t('MESSAGE_ERROR_20'));
+      console.error(t('MESSAGE_ERROR_20'), err);
     } finally {
       setIsModelSaveLoading(false);
     }
@@ -56,10 +62,11 @@ function useModelManagement() {
     try {
       const res = await modelConfig.deleteModelConfig(id);
       if (res?.data) {
-        messageApi.success('删除模型成功');
+        messageApi.success(t('MESSAGE_SUCCESS_10'));
       }
     } catch (err) {
-      messageApi.error(`删除模型失败：${err}`);
+      messageApi.error(t('MESSAGE_ERROR_21'));
+      console.error(t('MESSAGE_ERROR_21'), err);
     }
   };
 

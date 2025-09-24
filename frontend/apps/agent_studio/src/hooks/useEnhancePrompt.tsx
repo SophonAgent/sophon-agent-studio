@@ -6,8 +6,11 @@ import prompt from '@/services/prompt';
 import useFeedback from '@/context/feedbackContext';
 import { RoleEnum } from '@/interface/chat';
 import { createChatCompletion } from '@/services/chat';
+import { useTranslation } from 'react-i18next';
 
 function useEnhancePrompt() {
+  const { t } = useTranslation();
+
   const { messageApi } = useFeedback();
 
   const [enhancedPrompt, setEnhancedPrompt] = useState<string>();
@@ -19,7 +22,7 @@ function useEnhancePrompt() {
     setEnhancedPrompt(undefined);
 
     if (!userPrompt) {
-      messageApi.error('请输入原始Prompt!');
+      messageApi.error(t('PROMPT_14'));
       return;
     }
 
@@ -44,7 +47,8 @@ function useEnhancePrompt() {
         setEnhancedPrompt(value?.content);
       }
     } catch (err) {
-      messageApi.error(`Prompt优化失败: ${err}`);
+      messageApi.error(t('MESSAGE_ERROR_6'));
+      console.error(t('MESSAGE_ERROR_6'), err);
     } finally {
       setIsRunning(false);
     }

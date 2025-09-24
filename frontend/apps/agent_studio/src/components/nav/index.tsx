@@ -18,16 +18,30 @@ import Tooltip from '@/lib/tooltip';
 import { NAV_LIST, NAV_PATH_MAP } from '@/constant/nav';
 import useGlobalModel from '@/store/globalModel';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import ChineseLngIcon from '@/icons/chineseLngIcon';
+import EnglishLngIcon from '@/icons/englishLngIcon';
+import useQueryRouter from '@/utils/router';
 
 const Nav: FC = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const { t, i18n } = useTranslation();
+  const queryRouter = useQueryRouter();
 
   const { __setShowConversationListModal } = useGlobalModel();
-  const { conversationList, isConversationLoading, initConversation, clearConversation } =
-    useConversationModel();
+  const {
+    conversationList,
+    isConversationListLoading,
+    __updateCurrentConversation,
+    initConversation,
+    clearConversation,
+    cleanupAllConversationBackgroundTasks,
+  } = useConversationModel();
 
   const [isExpanded, setIsExpanded] = useState<boolean>(true);
+
+  const isEnglishLng = i18n.language === 'en';
 
   const handleResize = () => {
     if (window.innerWidth <= 1280) {
@@ -66,7 +80,7 @@ const Nav: FC = () => {
           </div>
           {!isExpanded && (
             <div className={cn('hidden group-hover/logo:flex')}>
-              <Tooltip title="打开边栏" placement="right">
+              <Tooltip title={t('NAV_8')} placement="right">
                 <Button
                   type="text"
                   style={{ height: 36, width: 36, cursor: 'e-resize' }}
@@ -82,7 +96,7 @@ const Nav: FC = () => {
         </div>
 
         {isExpanded && (
-          <Tooltip title="关闭边栏">
+          <Tooltip title={t('NAV_9')}>
             <Button
               type="text"
               style={{ height: 36, width: 36, cursor: 'w-resize' }}
@@ -99,25 +113,27 @@ const Nav: FC = () => {
       <div className={cn('overflow-y-auto overflow-x-hidden px-[6px]')}>
         <div className={cn('pt-2')}>
           <NavMenuItem
-            label={isExpanded ? '新对话' : ''}
+            label={isExpanded ? t('NAV_1') : ''}
             icon={<Pencil2Icon width={18} height={18} />}
-            tip={isExpanded ? '' : '新对话'}
+            tip={isExpanded ? '' : t('NAV_1')}
             onChange={() => {
+              // 新建对话时，先取消上一个会话的后台任务
+              cleanupAllConversationBackgroundTasks();
               clearConversation();
               navigate(NAV_PATH_MAP.CHAT);
               initConversation();
             }}
           />
           <NavMenuItem
-            label={isExpanded ? '搜索对话' : ''}
+            label={isExpanded ? t('NAV_2') : ''}
             icon={<MagnifyingGlassIcon width={20} height={20} />}
-            tip={isExpanded ? '' : '搜索对话'}
+            tip={isExpanded ? '' : t('NAV_2')}
             onChange={() => __setShowConversationListModal(true)}
           />
         </div>
 
         <div className={cn('pt-[20px]')}>
-          {NAV_LIST.map(item => (
+          {NAV_LIST(t).map(item => (
             <NavMenuItem
               key={item.path}
               label={isExpanded ? item.label : ''}
@@ -131,8 +147,8 @@ const Nav: FC = () => {
 
         {isExpanded && (
           <div className={cn('min-w-[247px] max-w-[247px] pb-2 pt-[20px]')}>
-            <h2 className={cn('px-[10px] py-2 text-sm text-foreground-tertiary')}>对话历史</h2>
-            <Skeleton loading={isConversationLoading} active>
+            <h2 className={cn('px-[10px] py-2 text-sm text-foreground-tertiary')}>{t('NAV_6')}</h2>
+            <Skeleton loading={isConversationListLoading} active>
               {conversationList.map(item => (
                 <ConversationMenuItem key={item.sessionId} data={item} />
               ))}
@@ -141,16 +157,35 @@ const Nav: FC = () => {
         )}
       </div>
 
-      {isExpanded && conversationList.length ? (
-        <div className={cn('sticky bottom-0 px-[6px] pb-2')}>
-          <div className={cn('mx-[10px] mb-2 h-[1px] border-t border-solid border-light')} />
-          <NavMenuItem
-            label="查看全部"
-            icon={<DotsHorizontalIcon />}
-            onChange={() => __setShowConversationListModal(true)}
+      <div className={cn('sticky bottom-0 flex flex-1 flex-col justify-between px-[6px] pb-2')}>
+        {isExpanded && conversationList.length ? (
+          <div>
+            <div className={cn('mx-[10px] mb-2 h-[1px] border-t border-solid border-light')} />
+            <NavMenuItem
+              label={t('NAV_7')}
+              icon={<DotsHorizontalIcon />}
+              onChange={() => __setShowConversationListModal(true)}
+            />
+          </div>
+        ) : (
+          <div />
+        )}
+
+        <Tooltip title={isEnglishLng ? 'English / 中文' : '中文 / English'} placement="right">
+          <Button
+            type="text"
+            style={{ height: 36, width: 39 }}
+            icon={isEnglishLng ? <EnglishLngIcon className="mt-1" /> : <ChineseLngIcon className="mt-1" />}
+            onClick={e => {
+              e.stopPropagation();
+              i18n.changeLanguage(isEnglishLng ? 'zh' : 'en');
+              if (!queryRouter.get('sid')) {
+                __updateCurrentConversation({ name: t('CHAT_10') });
+              }
+            }}
           />
-        </div>
-      ) : null}
+        </Tooltip>
+      </div>
     </div>
   );
 };

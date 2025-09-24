@@ -7,13 +7,16 @@ import { Button } from 'antd';
 import { CheckCircledIcon, CopyIcon } from '@radix-ui/react-icons';
 import Tooltip from '@/lib/tooltip';
 import { cn } from '@/utils/tw';
+import { useTranslation } from 'react-i18next';
 
 interface CopyButtonProps extends Omit<ButtonProps, 'icon' | 'onClick'> {
   value?: string;
 }
 
 const CopyButton: FC<CopyButtonProps> = ({ value = '', type = 'text', ...props }) => {
-  const copyTips: string[] = ['复制', '已复制'];
+  const { t } = useTranslation();
+
+  const copyTips: string[] = [t('BUTTON_13'), t('BUTTON_14')];
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const copyTimer = useRef<NodeJS.Timeout | null>(null);
 

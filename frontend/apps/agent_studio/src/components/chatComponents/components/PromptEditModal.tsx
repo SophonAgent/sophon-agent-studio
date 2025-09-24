@@ -9,6 +9,7 @@ import { Form, Input, Radio } from 'antd';
 import { RequiredValidator } from '@/utils/validator';
 import { ResourceClassify } from '@/interface/base';
 import useFeedback from '@/context/feedbackContext';
+import { useTranslation } from 'react-i18next';
 
 const { Item: FormItem } = Form;
 const { Group: RadioGroup } = Radio;
@@ -27,6 +28,8 @@ const PromptEditModal: FC<PromptEditModalProps> = ({
   onCancel,
   onSuccess,
 }) => {
+  const { t } = useTranslation();
+
   const [form] = Form.useForm();
 
   const { messageApi } = useFeedback();
@@ -62,7 +65,7 @@ const PromptEditModal: FC<PromptEditModalProps> = ({
         initialValues?.name === baseConfig?.name &&
         initialValues?.promptContent === originalPromptContent
       ) {
-        messageApi.warning('没有任何修改，保存无效');
+        messageApi.warning(t('MESSAGE_1'));
         return;
       }
       await updatePromptConfig(params);
@@ -76,7 +79,7 @@ const PromptEditModal: FC<PromptEditModalProps> = ({
   return (
     <Modal
       open
-      title="保存 Prompt"
+      title={t('PROMPT_1')}
       size="large"
       onCancel={onCancel}
       onOk={handleSubmit}
@@ -86,11 +89,11 @@ const PromptEditModal: FC<PromptEditModalProps> = ({
         <FormItem name={['baseConfig', 'classify']} initialValue={ResourceClassify.CUSTOMIZED} hidden>
           <Input />
         </FormItem>
-        <FormItem label="保存方式" name="mode" required rules={RequiredValidator}>
+        <FormItem label={t('PROMPT_2')} name="mode" required rules={RequiredValidator(t)}>
           <RadioGroup
             options={[
-              ...(initialValues?.uid ? [{ label: '更新当前 Prompt', value: 'update' }] : []),
-              { label: '另存为新 Prompt', value: 'create' },
+              ...(initialValues?.uid ? [{ label: t('PROMPT_3'), value: 'update' }] : []),
+              { label: t('PROMPT_4'), value: 'create' },
             ]}
             onChange={e => {
               form.setFieldValue(
@@ -100,17 +103,17 @@ const PromptEditModal: FC<PromptEditModalProps> = ({
             }}
           />
         </FormItem>
-        <FormItem label="Prompt 名称" name={['baseConfig', 'name']} required rules={RequiredValidator}>
+        <FormItem label={t('PROMPT_5')} name={['baseConfig', 'name']} required rules={RequiredValidator(t)}>
           <Input />
         </FormItem>
         <FormItem noStyle shouldUpdate={(prev, curr) => prev.mode !== curr.mode}>
           {({ getFieldValue }) => {
             return getFieldValue('mode') === 'update' ? (
-              <FormItem label="更新说明" name="comment">
+              <FormItem label={t('PROMPT_6')} name="comment">
                 <TextArea autoSize={{ minRows: 3, maxRows: 3 }} />
               </FormItem>
             ) : (
-              <FormItem label="Prompt 描述" name={['baseConfig', 'description']}>
+              <FormItem label={t('PROMPT_7')} name={['baseConfig', 'description']}>
                 <TextArea autoSize={{ minRows: 3, maxRows: 3 }} />
               </FormItem>
             );
@@ -118,15 +121,8 @@ const PromptEditModal: FC<PromptEditModalProps> = ({
         </FormItem>
         <FormItem noStyle shouldUpdate={(prev, curr) => prev.mode !== curr.mode}>
           {({ getFieldValue }) => (
-            <FormItem
-              label="Prompt ID"
-              name={['baseConfig', 'uid']}
-              tooltip="Prompt唯一标识，通过此标识引用Prompt；不填写则由系统默认生成"
-            >
-              <Input
-                placeholder="自定义 Prompt ID, 不填写则由系统默认生成"
-                disabled={getFieldValue('mode') === 'update'}
-              />
+            <FormItem label="Prompt ID" name={['baseConfig', 'uid']} tooltip={t('PROMPT_8')}>
+              <Input placeholder={t('PLACEHOLDER_4')} disabled={getFieldValue('mode') === 'update'} />
             </FormItem>
           )}
         </FormItem>

@@ -10,6 +10,7 @@ import Paragraph3Line from '@/components/paragraph3Line';
 import Secret from '@/components/secret';
 import CurrentVersionPanel from './CurrentVersionPanel';
 import HistoryVersionPanel from './HistoryVersionPanel';
+import { useTranslation } from 'react-i18next';
 
 interface PromptDetailDrawerProps {
   promptConfig?: PromptConfigItem;
@@ -38,11 +39,13 @@ const PromptDetailDrawer: FC<PromptDetailDrawerProps> = ({
     },
   };
 
+  const { t } = useTranslation();
+
   const [activeKey, setActiveKey] = useState<'current' | 'history'>(tab);
 
   const descriptionItemList = [
     {
-      label: '描述',
+      label: t('TAG_6'),
       value: (
         <Paragraph3Line value={promptConfig?.baseConfig?.description} rows={1} style={{ fontSize: 12 }} />
       ),
@@ -52,7 +55,7 @@ const PromptDetailDrawer: FC<PromptDetailDrawerProps> = ({
       value: <Secret value={promptConfig?.baseConfig?.uid} copyable />,
     },
     {
-      label: '创建时间',
+      label: t('TAG_7'),
       value: promptConfig?.baseConfig?.createTime,
     },
   ];
@@ -60,13 +63,13 @@ const PromptDetailDrawer: FC<PromptDetailDrawerProps> = ({
   const tabItems: TabsProps['items'] = [
     {
       key: 'current',
-      label: `当前版本 V${promptConfig?.detail?.version}`,
+      label: `${t('TAG_17')} V${promptConfig?.detail?.version}`,
       children: <CurrentVersionPanel promptDetail={promptConfig?.detail} onEdit={onEdit} />,
       style: { height: '100%', padding: '0 24px', overflow: 'auto' },
     },
     {
       key: 'history',
-      label: '历史版本',
+      label: t('PROMPT_27'),
       children: <HistoryVersionPanel promptDetail={promptConfig?.detail} onRefresh={onRefresh} />,
       style: { height: '100%', padding: '0 24px', overflow: 'auto' },
     },
@@ -75,10 +78,10 @@ const PromptDetailDrawer: FC<PromptDetailDrawerProps> = ({
   const footer = (
     <div className={cn('flex items-center justify-end gap-2 p-2')}>
       <Button danger onClick={onDelete}>
-        删除
+        {t('BUTTON_3')}
       </Button>
       <Button type="primary" onClick={onDebug}>
-        对话调试
+        {t('BUTTON_29')}
       </Button>
     </div>
   );
@@ -86,7 +89,7 @@ const PromptDetailDrawer: FC<PromptDetailDrawerProps> = ({
   return (
     <Drawer
       open
-      title="Prompt 详情"
+      title={t('PROMPT_28')}
       autoFocus={false}
       size="large"
       onCancel={onCancel}

@@ -9,9 +9,10 @@ import { cn } from '@/utils/tw';
 import { Pencil1Icon } from '@radix-ui/react-icons';
 import { Button, Tag } from 'antd';
 import DividingLine from '@/lib/dividingLine';
+import { useTranslation } from 'react-i18next';
 
 const DescriptionItem: FC<{ label: string; value: ReactNode }> = ({ label, value }) => (
-  <div className={cn('flex h-6 items-center')}>
+  <div className={cn('flex h-6 items-center gap-1')}>
     <div className={cn('flex-shrink-0 text-[12px] text-foreground-secondary')}>{label}</div>
     {value}
   </div>
@@ -24,21 +25,23 @@ interface HeaderDescriptionProps {
 }
 
 const HeaderDescription: FC<HeaderDescriptionProps> = ({ className, mcpServer, onEditMcpServer }) => {
+  const { t } = useTranslation();
+
   const secondDescriptionList = [
     {
-      label: '来源：',
+      label: `${t('MCP_7')}:`,
       value: mcpServer?.implementType ? (
-        <Tag color="blue">{McpImplementTypeTextMap[mcpServer.implementType]}</Tag>
+        <Tag color="blue">{McpImplementTypeTextMap(t)[mcpServer.implementType]}</Tag>
       ) : (
         ''
       ),
     },
     {
-      label: '分类：',
+      label: `${t('MCP_6')}:`,
       value: mcpServer?.category ? <Tag color="green">{mcpServer?.category}</Tag> : '',
     },
     {
-      label: '创建时间：',
+      label: `${t('TAG_7')}:`,
       value: mcpServer?.createTime,
     },
   ].filter(f => Boolean(f.value));
@@ -47,7 +50,7 @@ const HeaderDescription: FC<HeaderDescriptionProps> = ({ className, mcpServer, o
     <div className={cn('flex flex-col gap-3 text-[13px]', className)}>
       <div className={cn('flex h-6 items-center gap-3')}>
         <div className={cn('font-bold')}>{mcpServer?.displayName}</div>
-        <Tooltip title="编辑">
+        <Tooltip title={t('BUTTON_5')}>
           <Button type="text" size="small" icon={<Pencil1Icon />} onClick={onEditMcpServer} />
         </Tooltip>
         <DividingLine layout="vertical" />
@@ -64,7 +67,7 @@ const HeaderDescription: FC<HeaderDescriptionProps> = ({ className, mcpServer, o
       </div>
 
       <DescriptionItem
-        label="描述："
+        label={`${t('TAG_6')}:`}
         value={<Paragraph3Line value={mcpServer?.description} rows={1} style={{ fontSize: 12 }} />}
       />
     </div>

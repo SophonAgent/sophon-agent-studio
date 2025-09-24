@@ -106,19 +106,9 @@ function useMessageGroupModel() {
     // 对比组 tool 栏
     const currentDisplayConfig = messageGroups.find(i => i.msgGroupKey === msgGroupKey)?.displayConfig;
     const newDisplayConfig = currentDisplayConfig || INIT_DISPLAY_CONFIG;
-    // 对比组 name
-    const maxNum = messageGroups.reduce((max, g) => {
-      const match = g.name.match(/^对比(\d+)$/);
-      if (match && match[1]) {
-        return Math.max(max, parseInt(match[1], 10));
-      }
-      return max;
-    }, 0);
-    const newName = `对比${maxNum + 1}`;
     /** 添加组 */
     __addMessageGroup({
       msgGroupKey: newMsgGroupKey,
-      name: newName,
       displayConfig: newDisplayConfig,
     });
     /** 添加 System Prompt */

@@ -11,8 +11,11 @@ import useFeedback from '@/context/feedbackContext';
 import { ResourceClassify } from '@/interface/base';
 import prompt from '@/services/prompt';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 function usePromptManage() {
+  const { t } = useTranslation();
+
   const { messageApi } = useFeedback();
 
   const [promptList, setPromptList] = useState<PromptItem[]>([]);
@@ -31,7 +34,8 @@ function usePromptManage() {
       const res = await prompt.getPromptList();
       setPromptList(res?.data || []);
     } catch (err) {
-      messageApi.error(`获取prompt列表失败：${err}`);
+      messageApi.error(t('MESSAGE_ERROR_22'));
+      console.error(t('MESSAGE_ERROR_22'), err);
     } finally {
       setIsPromptListLoading(false);
     }
@@ -45,7 +49,8 @@ function usePromptManage() {
       const res = await prompt.getPromptDetail(uid);
       return res?.data?.[0];
     } catch (err) {
-      messageApi.error(`获取prompt详情失败：${err}`);
+      messageApi.error(t('MESSAGE_ERROR_23'));
+      console.error(t('MESSAGE_ERROR_23'), err);
       return undefined;
     } finally {
       setIsPromptDetailLoading(false);
@@ -73,7 +78,8 @@ function usePromptManage() {
       setPromptHistoryList(res?.data?.historyVOS || []);
       return res?.data;
     } catch (err) {
-      messageApi.error(`获取Prompt历史版本失败：${err}`);
+      messageApi.error(t('MESSAGE_ERROR_24'));
+      console.error(t('MESSAGE_ERROR_24'), err);
       return undefined;
     } finally {
       setIsPromptHistoryLoading(false);
@@ -86,10 +92,11 @@ function usePromptManage() {
     try {
       const res = await prompt.rollbackPromptVersion(uid, version);
       if (res?.data) {
-        messageApi.success('还原Prompt成功');
+        messageApi.success(t('MESSAGE_SUCCESS_11'));
       }
     } catch (err) {
-      messageApi.error(`还原Prompt失败：${err}`);
+      messageApi.error(t('MESSAGE_ERROR_25'));
+      console.error(t('MESSAGE_ERROR_25'), err);
     }
   };
 
@@ -98,10 +105,11 @@ function usePromptManage() {
     try {
       const res = await prompt.createPromptConfig(params);
       if (res?.data) {
-        messageApi.success('创建Prompt成功');
+        messageApi.success(t('MESSAGE_SUCCESS_12'));
       }
     } catch (err) {
-      messageApi.error(`创建Prompt失败：${err}`);
+      messageApi.error(t('MESSAGE_ERROR_26'));
+      console.error(t('MESSAGE_ERROR_26'), err);
     } finally {
       setIsPromptConfigSaveLoading(false);
     }
@@ -112,10 +120,11 @@ function usePromptManage() {
     try {
       const res = await prompt.updatePromptConfig(params);
       if (res?.data) {
-        messageApi.success('更新Prompt成功');
+        messageApi.success(t('MESSAGE_SUCCESS_13'));
       }
     } catch (err) {
-      messageApi.error(`更新Prompt失败：${err}`);
+      messageApi.error(t('MESSAGE_ERROR_27'));
+      console.error(t('MESSAGE_ERROR_27'), err);
     } finally {
       setIsPromptConfigSaveLoading(false);
     }
@@ -127,10 +136,11 @@ function usePromptManage() {
     try {
       const res = await prompt.deletePrompt(uid);
       if (res?.data) {
-        messageApi.success('删除Prompt成功');
+        messageApi.success(t('MESSAGE_SUCCESS_14'));
       }
     } catch (err) {
-      messageApi.error(`删除Prompt失败：${err}`);
+      messageApi.error(t('MESSAGE_ERROR_28'));
+      console.error(t('MESSAGE_ERROR_28'), err);
     }
   };
 

@@ -7,6 +7,7 @@ import { set as _set, get as _get, isEmpty } from 'lodash-es';
 import prompt from '@/services/prompt';
 import { messageGroupModel } from './messageGroupModel';
 import useFeedback from '@/context/feedbackContext';
+import { useTranslation } from 'react-i18next';
 
 interface SystemPromptModelState {
   /** state */
@@ -98,6 +99,8 @@ export const systemPromptModel = create<SystemPromptModelState>()(
 );
 
 function useSystemPromptModel() {
+  const { t } = useTranslation();
+
   const {
     promptList,
     isPromptListLoading,
@@ -123,7 +126,8 @@ function useSystemPromptModel() {
       __setPromptList(data);
       return data;
     } catch (err) {
-      messageApi.error(`获取prompt列表失败：${err}`);
+      messageApi.error(t('MESSAGE_ERROR_22'));
+      console.error(t('MESSAGE_ERROR_22'), err);
       return [];
     } finally {
       __setIsPromptListLoading(false);
@@ -155,7 +159,8 @@ function useSystemPromptModel() {
             };
           }
         } catch (err) {
-          messageApi.error(`获取prompt详情失败：${err}`);
+          messageApi.error(t('MESSAGE_ERROR_23'));
+          console.error(t('MESSAGE_ERROR_23'), err);
         }
       }
     } else {

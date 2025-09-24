@@ -4,9 +4,9 @@ import Paragraph3Line from '@/components/paragraph3Line';
 import { tranJsonToObject } from '@/utils/json';
 import { MODEL_FAMILY_MAP } from '@/constant/model';
 
-export const dataColumns: TableProps['dataColumns'] = [
+export const dataColumns = (t: any): TableProps['dataColumns'] => [
   {
-    title: '模型展示名',
+    title: t('TAG_18'),
     dataIndex: 'name',
     key: 'name',
     width: 180,
@@ -14,14 +14,14 @@ export const dataColumns: TableProps['dataColumns'] = [
     render: value => <Paragraph3Line value={value} rows={1} />,
   },
   {
-    title: '模型名称',
+    title: t('TAG_19'),
     dataIndex: 'modelName',
     key: 'modelName',
     width: 180,
     render: value => <Paragraph3Line value={value} rows={1} />,
   },
   {
-    title: '模型家族',
+    title: t('TAG_20'),
     dataIndex: 'config',
     key: 'config',
     width: 180,
@@ -32,7 +32,7 @@ export const dataColumns: TableProps['dataColumns'] = [
     },
   },
   {
-    title: '描述',
+    title: t('TAG_6'),
     dataIndex: 'description',
     key: 'description',
     width: 180,
@@ -43,16 +43,21 @@ export const dataColumns: TableProps['dataColumns'] = [
     dataIndex: 'maxCompletionTokenLimit',
     key: 'maxCompletionTokenLimit',
     width: 180,
-    render: value => (value ? <div>输出：{value}</div> : null),
+    render: value =>
+      value ? (
+        <div>
+          {t('TAG_21')}: {value}
+        </div>
+      ) : null,
   },
   {
-    title: '创建时间',
+    title: t('TAG_7'),
     dataIndex: 'createTime',
     key: 'createTime',
     width: 180,
   },
   {
-    title: '更新时间',
+    title: t('TAG_8'),
     dataIndex: 'modifyTime',
     key: 'modifyTime',
     width: 180,

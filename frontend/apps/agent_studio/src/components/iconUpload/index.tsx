@@ -6,6 +6,7 @@ import { PlusIcon } from '@radix-ui/react-icons';
 import { Button, Image, Upload } from 'antd';
 import useFeedback from '@/context/feedbackContext';
 import { fileToBase64 } from '@/utils/file';
+import { useTranslation } from 'react-i18next';
 
 interface IconUploadProps {
   value?: string;
@@ -13,12 +14,14 @@ interface IconUploadProps {
 }
 
 const IconUpload: FC<IconUploadProps> = ({ value, onChange }) => {
+  const { t } = useTranslation();
+
   const { messageApi } = useFeedback();
 
   const beforeUpload = (file: File) => {
     const fileSize = file.size / 1024;
     if (fileSize > 2048) {
-      messageApi.error('图片大小不能超过2M！');
+      messageApi.error(t('MESSAGE_2'));
       return false;
     }
     return true;

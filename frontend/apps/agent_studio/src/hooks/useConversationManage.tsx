@@ -14,12 +14,19 @@ import useQueryRouter from '@/utils/router';
 import { useState } from 'react';
 import copyToClipboard from 'copy-to-clipboard';
 import useGlobalModel from '@/store/globalModel';
+import { useTranslation } from 'react-i18next';
 
 function useConversationManage() {
+  const { t } = useTranslation();
   const queryRouter = useQueryRouter();
 
   const { userId } = useGlobalModel();
-  const { currentConversation, __updateCurrentConversation, initConversation } = useConversationModel();
+  const {
+    currentConversation,
+    __updateCurrentConversation,
+    initConversation,
+    cleanupAllConversationBackgroundTasks,
+  } = useConversationModel();
 
   const { messageApi, notificationApi } = useFeedback();
 
@@ -36,7 +43,8 @@ function useConversationManage() {
       const res = await chat.getConversationBySessionId(sessionId, userId);
       return res?.data;
     } catch (err) {
-      messageApi.error(`获取会话失败：${err}`);
+      messageApi.error(t('MESSAGE_ERROR_1'));
+      console.error(t('MESSAGE_ERROR_1'), err);
       return undefined;
     } finally {
       setIsChatPageLoading(false);
@@ -52,7 +60,8 @@ function useConversationManage() {
       setConversationHistoryList(res?.data?.datas || []);
       return res?.data;
     } catch (err) {
-      messageApi.error(`获取对话列表失败：${err}`);
+      messageApi.error(t('MESSAGE_ERROR_2'));
+      console.error(t('MESSAGE_ERROR_2'), err);
       return undefined;
     } finally {
       setIsConversationHistoryListLoading(false);
@@ -66,12 +75,14 @@ function useConversationManage() {
       const res = await chat.deleteConversation(item.sessionId, userId);
       if (res?.data) {
         if (currentConversation.sessionId === item.sessionId) {
+          cleanupAllConversationBackgroundTasks();
           queryRouter.remove('sid');
           initConversation();
         }
       }
     } catch (err) {
-      messageApi.error(`删除失败：${err}`);
+      messageApi.error(t('MESSAGE_ERROR_3'));
+      console.error(t('MESSAGE_ERROR_3'), err);
     }
   };
 
@@ -81,11 +92,13 @@ function useConversationManage() {
     try {
       const res = await chat.clearAllConversation(userId);
       if (res && queryRouter.get('sid')) {
+        cleanupAllConversationBackgroundTasks();
         queryRouter.remove('sid');
         initConversation();
       }
     } catch (err) {
-      messageApi.error(`清空历史对话失败：${err}`);
+      messageApi.error(t('MESSAGE_ERROR_4'));
+      console.error(t('MESSAGE_ERROR_4'), err);
     }
   };
 
@@ -97,7 +110,8 @@ function useConversationManage() {
       await chat.updateConversation({ id, sessionId, isShared, name, userId });
       return true;
     } catch (err) {
-      messageApi.error(`更新对话失败：${err}`);
+      messageApi.error(t('MESSAGE_ERROR_5'));
+      console.error(t('MESSAGE_ERROR_5'), err);
       return false;
     }
   };
@@ -110,13 +124,16 @@ function useConversationManage() {
       if (!res) return;
     }
 
-    const url = `${location.host}/paas${NAV_PATH_MAP.CHAT_SHARE}?sid=${sessionId}`;
+    const url = `${location.host}/paas#${NAV_PATH_MAP.CHAT_SHARE}?sid=${sessionId}`;
     copyToClipboard(url, { format: 'text/plain' });
     notificationApi.success({
-      message: '链接复制成功，可分享',
+      message: t('MESSAGE_8'),
       description: url,
     });
-    __updateCurrentConversation({ isShared: 1 });
+
+    if (queryRouter.get('sid') === sessionId) {
+      __updateCurrentConversation({ isShared: 1 });
+    }
   };
 
   return {

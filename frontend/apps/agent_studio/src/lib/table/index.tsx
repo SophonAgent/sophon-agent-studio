@@ -6,6 +6,7 @@ import { Table as AntdTable, Button, Dropdown } from 'antd';
 import { cn } from '@/utils/tw';
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 import useFeedback from '@/context/feedbackContext';
+import { useTranslation } from 'react-i18next';
 
 export interface TableActionItem {
   key: string;
@@ -32,6 +33,8 @@ const Table: FC<TableProps> = ({
   ...props
 }) => {
   const btnStyle = { fontSize: 12, padding: 0, height: 22, fontWeight: 500 };
+  const { t } = useTranslation();
+
   const showActionColumn = actionList.length > 0;
 
   const { modalApi } = useFeedback();
@@ -39,7 +42,7 @@ const Table: FC<TableProps> = ({
   const handleActionClick = (action: TableActionItem, record: any) => {
     if (action.onConfirm) {
       modalApi.confirm({
-        title: `确认${action.label}吗？`,
+        title: t('MODAL_9', { label: action.label }),
         centered: true,
         okButtonProps: { danger: true },
         onOk: () => action.onConfirm?.(record),
@@ -96,7 +99,7 @@ const Table: FC<TableProps> = ({
 
   const actionColumns: AntdTableProps['columns'] = [
     {
-      title: '操作',
+      title: t('TAG_4'),
       dataIndex: '__action',
       key: '__action',
       fixed: 'right',

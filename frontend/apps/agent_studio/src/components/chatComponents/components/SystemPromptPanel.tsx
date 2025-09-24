@@ -17,15 +17,19 @@ import AccentBorderHeader from '@/components/accentBorderHeader';
 import usePromptManage from '@/hooks/usePromptManage';
 import PromptEditModal from './PromptEditModal';
 import useFeedback from '@/context/feedbackContext';
+import { useTranslation } from 'react-i18next';
 
 const { TextArea } = Input;
 
 interface SystemPromptPanelProps {
   msgGroupKey: string;
   isReadonly?: boolean;
+  groupName?: string;
 }
 
-const SystemPromptPanel: FC<SystemPromptPanelProps> = ({ msgGroupKey, isReadonly }) => {
+const SystemPromptPanel: FC<SystemPromptPanelProps> = ({ msgGroupKey, isReadonly, groupName }) => {
+  const { t } = useTranslation();
+
   const {
     isPromptListLoading,
     promptList,
@@ -38,7 +42,7 @@ const SystemPromptPanel: FC<SystemPromptPanelProps> = ({ msgGroupKey, isReadonly
     getPromptByVariableReplace,
     updatePromptVariable,
   } = useSystemPromptModel();
-  const { messageGroups, isSyncMap, isCompareMode, syncAllMessageGroups } = useMessageGroupModel();
+  const { isSyncMap, isCompareMode, syncAllMessageGroups } = useMessageGroupModel();
 
   const { modalApi } = useFeedback();
   const { getPromptHistoryList, promptHistoryList, isPromptHistoryLoading } = usePromptManage();
@@ -49,11 +53,6 @@ const SystemPromptPanel: FC<SystemPromptPanelProps> = ({ msgGroupKey, isReadonly
   const [showPromptByVariableReplace, setShowPromptByVariableReplace] = useState<boolean>(false);
   const [promptFramework, setPromptFramework] = useState<PromptFrameworkEnum>();
   const [showPromptEditModal, setShowPromptEditModal] = useState<boolean>(false);
-
-  const groupName = useMemo(
-    () => messageGroups.find(i => i.msgGroupKey === msgGroupKey)?.name,
-    [messageGroups, msgGroupKey],
-  );
 
   const selectedPrompt = useMemo(() => selectedPromptMap[msgGroupKey], [selectedPromptMap, msgGroupKey]);
   const showVariable = useMemo(() => showVariableMap[msgGroupKey], [showVariableMap, msgGroupKey]);
@@ -110,7 +109,7 @@ const SystemPromptPanel: FC<SystemPromptPanelProps> = ({ msgGroupKey, isReadonly
               const checked = e.target.checked;
               if (checked) {
                 modalApi.confirm({
-                  title: `确认将 「${groupName}」 的 System Prompt 同步给其他对比组吗？`,
+                  title: t('MODAL_5', { groupName }),
                   centered: true,
                   onOk: () => syncAllMessageGroups(msgGroupKey, 'system', checked),
                 });
@@ -120,7 +119,7 @@ const SystemPromptPanel: FC<SystemPromptPanelProps> = ({ msgGroupKey, isReadonly
             }}
             onClick={e => e.stopPropagation()}
           >
-            同步
+            {t('CHAT_5')}
           </Checkbox>
         ) : null}
         <Switch
@@ -161,7 +160,7 @@ const SystemPromptPanel: FC<SystemPromptPanelProps> = ({ msgGroupKey, isReadonly
             genBtns()
           )}
           {isReadonly ? null : (
-            <Tooltip title="保存 Prompt">
+            <Tooltip title={t('PROMPT_1')}>
               <Button
                 type="primary"
                 size="small"
@@ -211,7 +210,7 @@ const SystemPromptPanel: FC<SystemPromptPanelProps> = ({ msgGroupKey, isReadonly
             const comment = i.promptDetails?.[0]?.comment;
             return {
               label: (
-                <Tooltip title={comment ? <div>更新说明：{comment}</div> : ''}>
+                <Tooltip title={comment ? <div>t('PROMPT_6): {comment}</div> : ''}>
                   <div style={{ fontSize: 13 }}>V{i.version}</div>
                 </Tooltip>
               ),

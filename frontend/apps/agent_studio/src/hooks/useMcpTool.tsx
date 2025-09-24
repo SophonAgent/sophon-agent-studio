@@ -9,8 +9,11 @@ import type {
 import useFeedback from '@/context/feedbackContext';
 import mcpTool from '@/services/mcpTool';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 function useMcpTool() {
+  const { t } = useTranslation();
+
   const { messageApi } = useFeedback();
 
   const [mcpToolConfigList, setMcpToolConfigList] = useState<McpToolConfigItem[]>([]);
@@ -25,15 +28,27 @@ function useMcpTool() {
 
   const getMcpToolConfigList = async (
     serverQualifiedName: McpServerItem['qualifiedName'],
+    e?: {
+      silent?: boolean;
+      abortController?: AbortController;
+    },
   ): Promise<McpToolConfigItem[]> => {
+    const { silent, abortController } = e || {};
     if (!serverQualifiedName) return [];
+
     setIsMcpToolConfigListLoading(true);
     try {
-      const res = await mcpTool.getMcpToolConfigListByServerQualifiedName(serverQualifiedName);
+      const res = await mcpTool.getMcpToolConfigListByServerQualifiedName(
+        serverQualifiedName,
+        abortController,
+      );
       setMcpToolConfigList(res?.data || []);
       return res?.data || [];
     } catch (err) {
-      messageApi.error(`获取MCP工具列表失败：${err}`);
+      if (err !== 'canceled' && !silent) {
+        messageApi.error(t('MESSAGE_ERROR_12'));
+      }
+      console.error(t('MESSAGE_ERROR_12'), err);
       return [];
     } finally {
       setIsMcpToolConfigListLoading(false);
@@ -45,10 +60,11 @@ function useMcpTool() {
     try {
       const res = await mcpTool.createMcpToolConfig(params);
       if (res?.data) {
-        messageApi.success('创建MCP工具成功');
+        messageApi.success(t('MESSAGE_SUCCESS_4'));
       }
     } catch (err) {
-      messageApi.error(`创建MCP工具失败：${err}`);
+      messageApi.error(t('MESSAGE_ERROR_13'));
+      console.error(t('MESSAGE_ERROR_13'), err);
     } finally {
       setIsMcpToolConfigSaveLoading(false);
     }
@@ -59,10 +75,11 @@ function useMcpTool() {
     try {
       const res = await mcpTool.updateMcpToolConfig(id, params);
       if (res?.data) {
-        messageApi.success('更新MCP工具成功');
+        messageApi.success(t('MESSAGE_SUCCESS_5'));
       }
     } catch (err) {
-      messageApi.error(`更新MCP工具失败：${err}`);
+      messageApi.error(t('MESSAGE_ERROR_14'));
+      console.error(t('MESSAGE_ERROR_14'), err);
     } finally {
       setIsMcpToolConfigSaveLoading(false);
     }
@@ -72,21 +89,35 @@ function useMcpTool() {
     try {
       const res = await mcpTool.deleteMcpToolConfig(id);
       if (res?.data) {
-        messageApi.success('删除MCP工具成功');
+        messageApi.success(t('MESSAGE_SUCCESS_6'));
       }
     } catch (err) {
-      messageApi.error(`删除MCP工具失败：${err}`);
+      messageApi.error(t('MESSAGE_ERROR_15'));
+      console.error(t('MESSAGE_ERROR_15'), err);
     }
   };
 
-  const getMcpToolList = async (endpointUrl?: string) => {
-    if (!endpointUrl) return;
+  const getMcpToolList = async (
+    endpointUrl?: string,
+    e?: {
+      silent?: boolean;
+      abortController?: AbortController;
+    },
+  ): Promise<McpToolInfo[]> => {
+    const { silent, abortController } = e || {};
+    if (!endpointUrl) return [];
+
     setIsMcpToolListLoading(true);
     try {
-      const res = await mcpTool.getMcpToolListByUrl(endpointUrl);
+      const res = await mcpTool.getMcpToolListByUrl(endpointUrl, abortController);
       setMcpToolList(res?.data || []);
+      return res?.data || [];
     } catch (err) {
-      console.error('获取可执行工具列表失败：', err);
+      if (err !== 'canceled' && !silent) {
+        messageApi.error(t('MESSAGE_ERROR_16'));
+      }
+      console.error(t('MESSAGE_ERROR_16'), err);
+      return [];
     } finally {
       setIsMcpToolListLoading(false);
     }
@@ -97,11 +128,12 @@ function useMcpTool() {
     try {
       const res = await mcpTool.callMcpTool(params);
       if (res?.data) {
-        messageApi.success('执行MCP工具成功');
+        messageApi.success(t('MESSAGE_SUCCESS_7'));
       }
       return res;
     } catch (err) {
-      messageApi.error(`执行MCP工具失败：${err}`);
+      messageApi.error(t('MESSAGE_ERROR_17'));
+      console.error(t('MESSAGE_ERROR_17'), err);
       return undefined;
     } finally {
       setIsRunLoading(false);

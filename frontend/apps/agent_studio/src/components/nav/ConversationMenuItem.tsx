@@ -15,6 +15,7 @@ import useFeedback from '@/context/feedbackContext';
 import useConversationManage from '@/hooks/useConversationManage';
 import useChat from '@/hooks/useChat';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 interface ConversationMenuItemProps {
   data: SimpleConversationItem;
@@ -24,8 +25,14 @@ interface ConversationMenuItemProps {
 const ConversationMenuItem: FC<ConversationMenuItemProps> = ({ data, className }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const { t } = useTranslation();
 
-  const { currentConversation, __updateCurrentConversation, getConversationList } = useConversationModel();
+  const {
+    currentConversation,
+    __updateCurrentConversation,
+    getConversationList,
+    cleanupAllConversationBackgroundTasks,
+  } = useConversationModel();
   const { onConversationChange } = useChat();
 
   const { modalApi } = useFeedback();
@@ -42,26 +49,26 @@ const ConversationMenuItem: FC<ConversationMenuItemProps> = ({ data, className }
   const actionList: DropdownMenuItem[] = [
     {
       key: 'share',
-      label: '分享',
+      label: t('BUTTON_1'),
       icon: <Share1Icon width={16} height={16} />,
       onClick: () => shareConversation(data),
     },
     {
       key: 'rename',
-      label: '重命名',
+      label: t('BUTTON_2'),
       icon: <Pencil1Icon width={16} height={16} />,
       onClick: () => setIsInEditing(true),
     },
     {
       key: 'delete',
-      label: '删除',
+      label: t('BUTTON_3'),
       icon: <DeleteIcon className={cn('h-[18px] w-[18px]')} />,
       danger: true,
       onClick: () => {
         modalApi.confirm({
-          title: '确认删除吗？',
+          title: t('MODAL_1'),
           centered: true,
-          content: '删除后不可恢复，请谨慎操作',
+          content: t('MODAL_2'),
           okButtonProps: { danger: true },
           onOk: async () => {
             await deleteConversation(data);
@@ -73,6 +80,11 @@ const ConversationMenuItem: FC<ConversationMenuItemProps> = ({ data, className }
   ];
 
   const onChange = () => {
+    if (currentConversation.sessionId === data.sessionId) {
+      return;
+    }
+    // 切换会话时，先取消上一个会话的后台任务
+    cleanupAllConversationBackgroundTasks();
     navigate(`${NAV_PATH_MAP.CHAT}?sid=${data.sessionId}`);
     getConversationBySessionId(data.sessionId).then(res => {
       if (res) {

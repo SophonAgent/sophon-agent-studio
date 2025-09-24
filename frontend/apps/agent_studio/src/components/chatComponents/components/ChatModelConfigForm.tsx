@@ -6,6 +6,7 @@ import SliderInput from '@/components/sliderInput';
 import { CHAT_MODEL_CONFIG_TOOLTIP_CONTENT } from '@/constant/chat';
 import useModelConfigModel from '@/store/chat/modelConfigModel';
 import ModelToolChoice from '@/components/modelToolChoice';
+import { useTranslation } from 'react-i18next';
 
 const { Item: FormItem } = Form;
 
@@ -15,6 +16,8 @@ interface ChatModelConfigFormProps {
 }
 
 const ChatModelConfigForm: FC<ChatModelConfigFormProps> = ({ msgGroupKey, isReadonly }) => {
+  const { t } = useTranslation();
+
   const [form] = Form.useForm();
 
   const { chatModelConfigMap, modelList, __updateChatModelConfig } = useModelConfigModel();
@@ -101,7 +104,7 @@ const ChatModelConfigForm: FC<ChatModelConfigFormProps> = ({ msgGroupKey, isRead
         tooltip={CHAT_MODEL_CONFIG_TOOLTIP_CONTENT.stop}
         style={{ marginBottom: 8 }}
       >
-        <Select mode="tags" placeholder="请输入，按回车添加" />
+        <Select mode="tags" placeholder={t('PLACEHOLDER_2')} />
       </FormItem>
       <FormItem
         label="seed"

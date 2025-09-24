@@ -10,6 +10,7 @@ import { dataColumns } from './constant';
 import useQueryRouter from '@/utils/router';
 import PromptDetailModal from './PromptDetailModal';
 import PromptDiffModal from './PromptDiffModal';
+import { useTranslation } from 'react-i18next';
 
 interface HistoryVersionPanelProps {
   promptDetail?: PromptDetailItem;
@@ -17,6 +18,7 @@ interface HistoryVersionPanelProps {
 }
 
 const HistoryVersionPanel: FC<HistoryVersionPanelProps> = ({ promptDetail, onRefresh }) => {
+  const { t } = useTranslation();
   const queryRouter = useQueryRouter();
 
   const { promptHistoryList, isPromptHistoryLoading, getPromptHistoryList, rollbackPromptVersion } =
@@ -71,7 +73,7 @@ const HistoryVersionPanel: FC<HistoryVersionPanelProps> = ({ promptDetail, onRef
   const actionList: TableActionItem[] = [
     {
       key: 'view',
-      label: '查看',
+      label: t('BUTTON_26'),
       onClick: (record: PromptHistoryItem) => {
         setCurrentPromptDetail(record.promptDetails[0]);
         setShowVersionModal('view');
@@ -80,7 +82,7 @@ const HistoryVersionPanel: FC<HistoryVersionPanelProps> = ({ promptDetail, onRef
     },
     {
       key: 'rollback',
-      label: '还原版本',
+      label: t('BUTTON_27'),
       onConfirm: async (record: PromptHistoryItem) => {
         await rollbackPromptVersion(uid, record.version);
         const { current, pageSize } = pagination;
@@ -92,7 +94,7 @@ const HistoryVersionPanel: FC<HistoryVersionPanelProps> = ({ promptDetail, onRef
     },
     {
       key: 'diff',
-      label: '对比当前版本',
+      label: t('BUTTON_28'),
       onClick: (record: PromptHistoryItem) => {
         setCurrentPromptDetail(record.promptDetails[0]);
         setShowVersionModal('diff');
@@ -125,11 +127,11 @@ const HistoryVersionPanel: FC<HistoryVersionPanelProps> = ({ promptDetail, onRef
         rowKey="version"
         tableLayout="fixed"
         dataSource={promptHistoryList}
-        dataColumns={dataColumns}
+        dataColumns={dataColumns(t)}
         actionList={actionList}
         actionWidth={90}
         loading={isPromptHistoryLoading}
-        scroll={{ x: dataColumns ? dataColumns.length * 180 : undefined }}
+        scroll={{ x: (dataColumns(t) as any[]).length * 180 }}
         pagination={pagination}
         onChange={({ current, pageSize }) => {
           getHistoryList(current, pageSize);

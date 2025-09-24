@@ -12,8 +12,14 @@ export default {
   /**
    * 根据 MCP 唯一标识获取 指定 MCP 服务器下的 Tool 列表
    */
-  async getMcpToolConfigListByServerQualifiedName(serverQualifiedName: string) {
-    return await request.get<McpToolConfigItem[]>(`/mcp-tools/getMcpServerToolDetail/${serverQualifiedName}`);
+  async getMcpToolConfigListByServerQualifiedName(
+    serverQualifiedName: string,
+    abortController?: AbortController,
+  ) {
+    return await request.get<McpToolConfigItem[]>(
+      `/mcp-tools/getMcpServerToolDetail/${serverQualifiedName}`,
+      { signal: abortController?.signal },
+    );
   },
   /**
    * 根据 ID 获取 MCP Tool
@@ -43,12 +49,13 @@ export default {
   /**
    * 根据 MCP 服务器端点 URL 获取所有可用 Tool 列表
    */
-  async getMcpToolListByUrl(endpointUrl: string) {
+  async getMcpToolListByUrl(endpointUrl: string, abortController?: AbortController) {
     return await request.post<McpToolInfo[]>(
       `/toolList?endpointUrl=${encodeURIComponent(endpointUrl)}`,
       undefined,
       {
         baseURL: MCP_TOOL_BASE_URL,
+        signal: abortController?.signal,
       },
     );
   },
