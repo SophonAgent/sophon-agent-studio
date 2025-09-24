@@ -17,6 +17,7 @@ import useQueryRouter from '@/utils/router';
 import McpToolInspector from '@/components/mcpToolInspector';
 import { McpImplementType } from '@/interface/mcpServer';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const McpToolTabKey = {
   DETAIL: 'detail',
@@ -27,6 +28,7 @@ type McpToolTabKey = (typeof McpToolTabKey)[keyof typeof McpToolTabKey];
 
 const McpTool: FC = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const queryRouter = useQueryRouter();
 
   const { currentMcpServer, isCurrentMcpServerLoading, getMcpServerById } = useMcpServer();
@@ -84,13 +86,13 @@ const McpTool: FC = () => {
       label: 'MCP Server',
       onClick: () => navigate(NAV_PATH_MAP.MCP),
     },
-    { label: currentMcpServer?.displayName || '详情' },
+    { label: currentMcpServer?.displayName || t('BUTTON_25') },
   ];
 
   const tabItems: TabsProps['items'] = [
     {
       key: McpToolTabKey.DETAIL,
-      label: '基础信息',
+      label: t('TAG_9'),
       children: <DetailPanel mcpServer={currentMcpServer} />,
       style: { height: '100%' },
     },

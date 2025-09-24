@@ -3,7 +3,7 @@ import * as XLSX from 'xlsx';
 export function exportToExcel(data: any, columns: any, fileName: string) {
   // 创建工作簿
   const headers = columns.map((col: any) => col?.title?.props?.children?.[0] || col?.title);
-  headers.unshift('序号');
+  headers.unshift('ID');
   const wb = XLSX.utils.book_new();
 
   // 将数据转换为二维数组（不包含表头）

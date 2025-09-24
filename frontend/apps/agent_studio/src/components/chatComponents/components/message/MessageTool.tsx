@@ -21,6 +21,7 @@ import {
 import Tooltip from '@/lib/tooltip';
 import CopyButton from '@/components/copyButton';
 import useChat from '@/hooks/useChat';
+import { useTranslation } from 'react-i18next';
 
 interface MessageToolProps {
   msgGroupKey: string;
@@ -31,6 +32,8 @@ interface MessageToolProps {
 
 const MessageTool: FC<MessageToolProps> = ({ msgGroupKey, messageItem, onEdit, isReadonly }) => {
   const btnStyle = { height: 22, width: 22, color: 'var(--text-secondary)' };
+
+  const { t } = useTranslation();
 
   const { isRunningMap, __updateMessage, __removeMessage } = useMessageModel();
   const { handleBeforeSendQueryMessage } = useChat();
@@ -90,8 +93,8 @@ const MessageTool: FC<MessageToolProps> = ({ msgGroupKey, messageItem, onEdit, i
   };
 
   const roleTooltipMap: Partial<Record<RoleEnum, string>> = {
-    [RoleEnum.USER]: '切换为 Assistant',
-    [RoleEnum.ASSISTANT]: '切换为 User',
+    [RoleEnum.USER]: t('CHAT_2'),
+    [RoleEnum.ASSISTANT]: t('CHAT_3'),
   };
 
   const tokenTooltipContent = (
@@ -108,7 +111,7 @@ const MessageTool: FC<MessageToolProps> = ({ msgGroupKey, messageItem, onEdit, i
       <div className={cn('flex items-center gap-1')}>
         {/* 重新生成 */}
         {canRefresh ? (
-          <Tooltip title="重新生成">
+          <Tooltip title={t('BUTTON_4')}>
             <Button
               icon={<ReloadIcon className={cn('h-[13px] w-[13px]')} />}
               type="link"
@@ -123,7 +126,7 @@ const MessageTool: FC<MessageToolProps> = ({ msgGroupKey, messageItem, onEdit, i
 
         {/* 编辑 */}
         {canEdit ? (
-          <Tooltip title="编辑">
+          <Tooltip title={t('BUTTON_5')}>
             <Button
               icon={<Pencil1Icon className={cn('h-[13px] w-[13px]')} />}
               type="link"
@@ -135,7 +138,7 @@ const MessageTool: FC<MessageToolProps> = ({ msgGroupKey, messageItem, onEdit, i
 
         {/* 删除 */}
         {canRemove ? (
-          <Tooltip title="删除">
+          <Tooltip title={t('BUTTON_3')}>
             <Button
               icon={<MinusCircledIcon className={cn('h-[13px] w-[13px]')} />}
               type="link"

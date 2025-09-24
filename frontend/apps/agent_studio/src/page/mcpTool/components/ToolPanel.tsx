@@ -13,6 +13,7 @@ import { cloneDeep } from 'lodash-es';
 import { dataColumns } from '../constant';
 import McpToolEditDrawer from './McpToolEditDrawer';
 import useMcpTool from '@/hooks/useMcpTool';
+import { useTranslation } from 'react-i18next';
 
 interface ToolPanelProps {
   mcpServer?: McpServerItem;
@@ -22,6 +23,8 @@ interface ToolPanelProps {
 }
 
 const ToolPanel: FC<ToolPanelProps> = ({ mcpServer, toolList, isLoading, onRefresh }) => {
+  const { t } = useTranslation();
+
   const { deleteMcpToolConfig } = useMcpTool();
 
   const [filterRecord, setFilterRecord] = useState<{
@@ -56,21 +59,21 @@ const ToolPanel: FC<ToolPanelProps> = ({ mcpServer, toolList, isLoading, onRefre
     {
       key: 'displayName',
       type: 'input',
-      placeholder: '工具展示名',
+      placeholder: t('TAG_5'),
       value: filterRecord.displayName,
       onChange: e => setFilterRecord(prev => ({ ...prev, displayName: e.target.value })),
     },
     {
       key: 'qualifiedName',
       type: 'input',
-      placeholder: '工具唯一标识名',
+      placeholder: t('TAG_23'),
       value: filterRecord.qualifiedName,
       onChange: e => setFilterRecord(prev => ({ ...prev, qualifiedName: e.target.value })),
     },
     {
       key: 'proxyType',
       type: 'select',
-      placeholder: '类型',
+      placeholder: t('TAG_11'),
       options: Object.entries(McpToolProxyType).map(([key, value]) => ({
         label: key,
         value,
@@ -83,7 +86,7 @@ const ToolPanel: FC<ToolPanelProps> = ({ mcpServer, toolList, isLoading, onRefre
   const actionList: TableActionItem[] = [
     {
       key: 'edit',
-      label: '编辑',
+      label: t('BUTTON_5'),
       onClick: (record: McpToolConfigItem) => {
         setCurrentMcpToolConfig(record);
         setShowMcpToolEditDrawer(true);
@@ -91,7 +94,7 @@ const ToolPanel: FC<ToolPanelProps> = ({ mcpServer, toolList, isLoading, onRefre
     },
     {
       key: 'copy',
-      label: '复制',
+      label: t('BUTTON_13'),
       onClick: (record: McpToolConfigItem) => {
         const { displayName, qualifiedName } = record;
         setCurrentMcpToolConfig({
@@ -105,7 +108,7 @@ const ToolPanel: FC<ToolPanelProps> = ({ mcpServer, toolList, isLoading, onRefre
     },
     {
       key: 'delete',
-      label: '删除',
+      label: t('BUTTON_3'),
       danger: true,
       onConfirm: async (record: McpToolConfigItem) => {
         await deleteMcpToolConfig(record.id);
@@ -119,7 +122,7 @@ const ToolPanel: FC<ToolPanelProps> = ({ mcpServer, toolList, isLoading, onRefre
       <PageHeader
         className={cn('mb-4 px-0')}
         filterList={headerFilterList}
-        actionLabel="新建工具"
+        actionLabel={t('MCP_TOOL_5')}
         onActionClick={() => {
           setCurrentMcpToolConfig({ serverQualifiedName: mcpServer?.qualifiedName });
           setShowMcpToolEditDrawer(true);
@@ -131,11 +134,11 @@ const ToolPanel: FC<ToolPanelProps> = ({ mcpServer, toolList, isLoading, onRefre
           rowKey="id"
           tableLayout="fixed"
           dataSource={filteredMcpServerList}
-          dataColumns={dataColumns}
+          dataColumns={dataColumns(t)}
           actionList={actionList}
-          actionWidth={120}
+          actionWidth={150}
           loading={isLoading}
-          scroll={{ x: dataColumns ? dataColumns.length * 180 : undefined }}
+          scroll={{ x: (dataColumns(t) as any[]).length * 180 }}
           pagination={{ hideOnSinglePage: true, showSizeChanger: true }}
         />
       </div>

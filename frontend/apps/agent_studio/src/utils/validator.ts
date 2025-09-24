@@ -1,59 +1,59 @@
 import { handleJsonParse, isJSON, isValidJSONata, validateJsonSchema } from './json';
 
-export const RequiredValidator = [
+export const RequiredValidator = (t: any) => [
   {
     validator: (_: any, value: any) => {
       if (value === undefined || value === null) {
-        return Promise.reject('必填');
+        return Promise.reject(t('MESSAGE_12'));
       } else if (typeof value === 'string' && !value?.trim()) {
-        return Promise.reject('必填');
+        return Promise.reject(t('MESSAGE_12'));
       }
       return Promise.resolve();
     },
   },
 ];
 
-export const JsonValidator = [
+export const JsonValidator = (t: any) => [
   {
     validator: (_: any, value: any) => {
       if (value && !isJSON(value)) {
-        return Promise.reject('请填写符合 JSON 格式内容');
+        return Promise.reject(t('MESSAGE_13'));
       }
       return Promise.resolve();
     },
   },
 ];
 
-export const LowerCasePathValidator = [
+export const LowerCasePathValidator = (t: any) => [
   {
     validator: (_: any, value: any) => {
       if (!/^[a-z][a-z0-9_/-]*$/.test(value)) {
-        return Promise.reject('只能包含小写字母、数字、"_"、"-"、和"/"，并且只能以小写字母开头');
+        return Promise.reject(t('MESSAGE_14'));
       }
       return Promise.resolve();
     },
   },
 ];
 
-export const AlphanumericWithDashesValidator = [
+export const AlphanumericWithDashesValidator = (t: any) => [
   {
     validator: (_: any, value: any) => {
       if (!/^[a-zA-Z0-9_-]*$/.test(value)) {
-        return Promise.reject('输入只能包含英文、数字、下划线_、中划线-');
+        return Promise.reject(t('MESSAGE_15'));
       }
       return Promise.resolve();
     },
   },
 ];
 
-export const JsonSchemaValidator = [
+export const JsonSchemaValidator = (t: any) => [
   {
     validator: (_: any, value: any) => {
       if (value && !isJSON(value)) {
-        return Promise.reject('请填写符合 JSON 格式内容');
+        return Promise.reject(t('MESSAGE_13'));
       }
       const schema = handleJsonParse(value);
-      const info = validateJsonSchema(schema);
+      const info = validateJsonSchema(schema, t);
       if (info) {
         return Promise.reject(info);
       }
@@ -62,14 +62,14 @@ export const JsonSchemaValidator = [
   },
 ];
 
-export const JSONataValidator = [
+export const JSONataValidator = (t: any) => [
   {
     validator: (_: any, value: any) => {
       if (!value) {
         return Promise.resolve();
       }
       if (!isValidJSONata(value)) {
-        return Promise.reject('请填写符合 JSONata 格式内容');
+        return Promise.reject(t('MESSAGE_16'));
       }
       return Promise.resolve();
     },

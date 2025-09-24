@@ -19,6 +19,7 @@ import useSystemPromptModel from '@/store/chat/systemPromptModel';
 import ChatModelConfigForm from './ChatModelConfigForm';
 import { INIT_CHAT_MODEL_CONFIG } from '@/constant/chat';
 import { MODEL_FAMILY_MAP } from '@/constant/model';
+import { useTranslation } from 'react-i18next';
 
 type ModelGroupConfig = {
   group: string;
@@ -33,6 +34,8 @@ interface ModelOptionItemProps {
 }
 
 const ModelOptionItem: FC<ModelOptionItemProps> = ({ checked, model, onModelChange, isReadonly }) => {
+  const { t } = useTranslation();
+
   return (
     <div
       className={cn(
@@ -44,7 +47,7 @@ const ModelOptionItem: FC<ModelOptionItemProps> = ({ checked, model, onModelChan
     >
       <Paragraph3Line value={model.name} style={{ color: 'var(--text-primary)' }} />
       <Paragraph3Line
-        value={model.description || '暂无说明'}
+        value={model.description || t('CHAT_7')}
         style={{ fontSize: 12, color: 'var(--text-tertiary)' }}
       />
     </div>
@@ -73,12 +76,16 @@ const PopoverModelButton: FC<PopoverModelButtonProps> = ({ msgGroupKey, isReadon
     },
   };
 
+  const { t, i18n } = useTranslation();
+
   const { chatModelConfigMap, modelList, __updateChatModelConfig } = useModelConfigModel();
   const { isCompareMode, is2Groups, is3Groups, __updateMessageGroupDisplayConfig } = useMessageGroupModel();
   const { __setSelectedPromptMapByKey, __setShowVariableMapByKey } = useSystemPromptModel();
 
   const [activeKey, setActiveKey] = useState<string[]>([]);
   const [filterRecord, setFilterRecord] = useState<{ name?: string; isSupportImg?: boolean }>({});
+
+  const isEnglishLng = i18n.language === 'en';
 
   const modelConfig = useMemo(() => chatModelConfigMap[msgGroupKey], [chatModelConfigMap, msgGroupKey]);
   const model = useMemo(
@@ -172,12 +179,12 @@ const PopoverModelButton: FC<PopoverModelButtonProps> = ({ msgGroupKey, isReadon
           )}
         >
           <div className={cn('h-6 font-medium text-foreground-primary')}>
-            {isReadonly ? '模型' : '模型选择'}
+            {isReadonly ? t('MODEL_1') : t('MODEL_2')}
           </div>
           {isReadonly ? null : (
             <div className={cn('flex items-center gap-2')}>
               <Input
-                placeholder="输入模型名称筛选"
+                placeholder={t('PLACEHOLDER_3')}
                 value={filterRecord.name}
                 suffix={<MagnifyingGlassIcon />}
                 onChange={e => setFilterRecord(prev => ({ ...prev, name: e.target.value }))}
@@ -187,7 +194,7 @@ const PopoverModelButton: FC<PopoverModelButtonProps> = ({ msgGroupKey, isReadon
                 onChange={e => setFilterRecord(prev => ({ ...prev, isSupportImg: e.target.checked }))}
                 style={{ fontSize: 13, flexShrink: 0 }}
               >
-                支持图片
+                {t('CHAT_8')}
               </Checkbox>
             </div>
           )}
@@ -227,10 +234,10 @@ const PopoverModelButton: FC<PopoverModelButtonProps> = ({ msgGroupKey, isReadon
 
         <div className={cn('flex h-full flex-col gap-2 overflow-hidden pl-3')}>
           <div className={cn('flex h-6 items-center justify-between')}>
-            <div className={cn('font-medium text-foreground-primary')}>参数配置</div>
+            <div className={cn('font-medium text-foreground-primary')}>{t('CHAT_9')}</div>
             {isReadonly ? null : (
               <Button type="link" size="small" style={{ fontSize: 13 }} onClick={onResetModelConfig}>
-                恢复默认
+                {t('BUTTON_6')}
               </Button>
             )}
           </div>
@@ -261,7 +268,9 @@ const PopoverModelButton: FC<PopoverModelButtonProps> = ({ msgGroupKey, isReadon
         >
           <div
             className={cn('flex items-center gap-1 text-[13px] font-medium text-foreground-primary', {
-              'max-w-[140px]': is2Groups,
+              'max-w-[140px]': !isEnglishLng && is2Groups,
+              'max-w-[130px]': isEnglishLng && !isCompareMode,
+              'max-w-[125px]': isEnglishLng && is2Groups,
               'max-w-[100px]': is3Groups,
             })}
           >

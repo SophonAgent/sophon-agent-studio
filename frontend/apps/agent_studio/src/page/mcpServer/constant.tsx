@@ -4,9 +4,9 @@ import Paragraph3Line from '@/components/paragraph3Line';
 import { McpImplementTypeTextMap } from '@/constant/mcpServer';
 import { McpImplementType } from '@/interface/mcpServer';
 
-export const dataColumns: TableProps['dataColumns'] = [
+export const dataColumns = (t: any): TableProps['dataColumns'] => [
   {
-    title: 'MCP Server 展示名',
+    title: t('TAG_5'),
     dataIndex: 'displayName',
     key: 'displayName',
     width: 180,
@@ -14,7 +14,7 @@ export const dataColumns: TableProps['dataColumns'] = [
     render: value => <Paragraph3Line value={value} rows={1} />,
   },
   {
-    title: '描述',
+    title: t('TAG_6'),
     dataIndex: 'description',
     key: 'description',
     width: 180,
@@ -24,31 +24,31 @@ export const dataColumns: TableProps['dataColumns'] = [
     title: 'Endpoint Url',
     dataIndex: 'endpointUrl',
     key: 'endpointUrl',
-    width: 320,
+    width: 250,
     render: value => <Paragraph3Line value={value} rows={1} copyable />,
   },
   {
-    title: '分类',
+    title: t('MCP_6'),
     dataIndex: 'category',
     key: 'category',
     width: 110,
     render: value => <Paragraph3Line value={value} rows={1} />,
   },
   {
-    title: '来源',
+    title: t('TAG_22'),
     dataIndex: 'implementType',
     key: 'implementType',
-    width: 110,
-    render: (value?: McpImplementType) => (value ? McpImplementTypeTextMap[value] : ''),
+    width: 180,
+    render: (value?: McpImplementType) => (value ? McpImplementTypeTextMap(t)[value] : ''),
   },
   {
-    title: '创建时间',
+    title: t('TAG_7'),
     dataIndex: 'createTime',
     key: 'createTime',
     width: 180,
   },
   {
-    title: '更新时间',
+    title: t('TAG_8'),
     dataIndex: 'modifyTime',
     key: 'modifyTime',
     width: 180,

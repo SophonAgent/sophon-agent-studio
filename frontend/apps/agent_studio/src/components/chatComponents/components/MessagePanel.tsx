@@ -7,6 +7,7 @@ import { cn } from '@/utils/tw';
 import Message from './message';
 import { Button } from 'antd';
 import { ArrowDownIcon } from '@radix-ui/react-icons';
+import { useTranslation } from 'react-i18next';
 
 interface MessagePanelProps {
   className?: string;
@@ -15,6 +16,8 @@ interface MessagePanelProps {
 }
 
 const MessagePanel: FC<MessagePanelProps> = ({ className, msgGroupKey, isReadonly }) => {
+  const { t } = useTranslation();
+
   const { messageListMap, isRunningMap } = useMessageModel();
 
   const boxRef = useRef<HTMLDivElement>(null);
@@ -74,7 +77,7 @@ const MessagePanel: FC<MessagePanelProps> = ({ className, msgGroupKey, isReadonl
           {isRunning ? (
             <div className={cn('flex items-center gap-2 px-[15px] text-[13px] text-foreground-tertiary')}>
               <Spin size="small" />
-              <span>结果生成中...</span>
+              <span>{t('CHAT_6')}</span>
             </div>
           ) : null}
         </div>

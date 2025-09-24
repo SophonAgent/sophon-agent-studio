@@ -12,6 +12,7 @@ import { MagicWandIcon } from '@radix-ui/react-icons';
 import CopyButton from '@/components/copyButton';
 import MonacoDiffEditor from '@/lib/monacoDiffEditor';
 import './index.css';
+import { useTranslation } from 'react-i18next';
 
 const { TextArea } = Input;
 
@@ -32,6 +33,8 @@ const PromptEditor: FC<PromptEditorProps> = ({
   initOptimize,
   isReadonly,
 }) => {
+  const { t } = useTranslation();
+
   const { onEnhance, enhancedPrompt, setEnhancedPrompt, isRunning, onStopRequest } = useEnhancePrompt();
 
   const editorRef = useRef<editor.IStandaloneCodeEditor>(null);
@@ -125,8 +128,8 @@ const PromptEditor: FC<PromptEditorProps> = ({
       return (
         <div className={cn('flex h-full flex-col')}>
           <div className={cn('flex justify-between px-3 pb-2 font-medium italic text-foreground-tertiary')}>
-            <span>初始 prompt</span>
-            <span>优化后的 prompt</span>
+            <span>{t('PROMPT_10')}</span>
+            <span>{t('PROMPT_11')}</span>
           </div>
           <div className={cn('grid flex-1 grid-cols-2 gap-2 px-2')}>
             <TextArea
@@ -149,7 +152,7 @@ const PromptEditor: FC<PromptEditorProps> = ({
     if (isRunning) {
       return (
         <Button type="primary" danger onClick={onStopRequest} size="small">
-          停止响应
+          {t('CHAT_34')}
         </Button>
       );
     }
@@ -164,10 +167,10 @@ const PromptEditor: FC<PromptEditorProps> = ({
           }}
           size="small"
         >
-          替换
+          {t('BUTTON_17')}
         </Button>
         <Button onClick={onEnhancePrompt} size="small">
-          重试
+          {t('BUTTON_18')}
         </Button>
         <Button
           onClick={() => {
@@ -176,7 +179,7 @@ const PromptEditor: FC<PromptEditorProps> = ({
           }}
           size="small"
         >
-          取消
+          {t('BUTTON_19')}
         </Button>
       </div>
     );
@@ -190,14 +193,10 @@ const PromptEditor: FC<PromptEditorProps> = ({
           'flex items-start justify-between gap-8 overflow-hidden rounded-t-md bg-background-tertiary px-3 py-1 text-foreground-primary',
         )}
       >
-        <div className={cn('leading-6 text-foreground-secondary')}>
-          {isReadonly
-            ? null
-            : '在编辑器中输入中括号{}，{}内的文字将会被识别成变量占位符（占位符只能包含字母，中文，数字，下划线）'}
-        </div>
+        <div className={cn('leading-6 text-foreground-secondary')}>{isReadonly ? null : t('PROMPT_12')}</div>
         <div className={cn('flex flex-shrink-0 items-center gap-3')}>
           {isReadonly ? null : (
-            <Tooltip title="自动优化 prompt">
+            <Tooltip title={t('PROMPT_13')}>
               <Button
                 size="small"
                 icon={<MagicWandIcon color="#2c57e7" className={cn('h-3 w-3')} />}
@@ -208,7 +207,7 @@ const PromptEditor: FC<PromptEditorProps> = ({
                 }}
                 disabled={isRunning}
               >
-                优化
+                {t('BUTTON_20')}
               </Button>
             </Tooltip>
           )}
@@ -246,7 +245,7 @@ const PromptEditor: FC<PromptEditorProps> = ({
       {/* footer */}
       {showEnhancedPrompt ? (
         <div className={cn('flex items-end justify-end gap-3 px-2 pb-2')}>
-          <div className={cn('text-[12px] text-foreground-tertiary')}>优化内容仅供参考，不代表平台立场</div>
+          <div className={cn('text-[12px] text-foreground-tertiary')}>{t('CHAT_35')}</div>
           {genBtns()}
         </div>
       ) : null}

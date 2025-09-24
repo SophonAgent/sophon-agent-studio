@@ -15,7 +15,7 @@ export interface FunctionDefinition extends FunctionBase {
   id: string;
   enabled: boolean;
   qualifiedName: string;
-  displayName?: string; // 展示名称
+  displayName?: string; // 展示名称 仅 Mcp Server 为接口代理时生效，即 mcpServer.implementType === McpImplementType.PROXY
   functionType: 'custom' | 'mcp_tool';
 
   /**

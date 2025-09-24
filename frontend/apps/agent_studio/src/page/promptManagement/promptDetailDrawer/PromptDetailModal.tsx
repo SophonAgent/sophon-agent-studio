@@ -6,6 +6,7 @@ import PromptEditor from '@/components/promptEditor';
 import PromptVariables from '@/components/promptVariables';
 import Modal from '@/lib/modal';
 import { cn } from '@/utils/tw';
+import { useTranslation } from 'react-i18next';
 
 interface PromptDetailModalProps {
   promptDetail?: PromptDetailItem;
@@ -13,12 +14,14 @@ interface PromptDetailModalProps {
 }
 
 const PromptDetailModal: FC<PromptDetailModalProps> = ({ promptDetail, onCancel }) => {
+  const { t } = useTranslation();
+
   return (
-    <Modal open title="Prompt 内容" onCancel={onCancel} size="large" footer={null}>
+    <Modal open title={t('PROMPT_23')} onCancel={onCancel} size="large" footer={null}>
       <PromptEditor isReadonly value={promptDetail?.promptContent} />
 
       <div className={cn('mt-4 flex gap-2')}>
-        <div className={cn('flex-shrink-0 text-[12px] text-foreground-secondary')}>已识别到变量占位符:</div>
+        <div className={cn('flex-shrink-0 text-[12px] text-foreground-secondary')}>{t('PROMPT_26')}:</div>
         <PromptVariables value={promptDetail?.contentPlaceholders} />
       </div>
     </Modal>

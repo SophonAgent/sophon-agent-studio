@@ -15,9 +15,11 @@ import { cloneDeep } from 'lodash-es';
 import McpServerEditModal from '@/components/mcpServerEditModal';
 import { NAV_PATH_MAP } from '@/constant/nav';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const McpServer: FC = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const { mcpServerList, isMcpServerListLoading, getMcpServerList, deleteMcpServer } = useMcpServer();
 
@@ -57,22 +59,22 @@ const McpServer: FC = () => {
     {
       key: 'displayName',
       type: 'input',
-      placeholder: 'MCP Server 展示名',
+      placeholder: t('TAG_5'),
       value: filterRecord.displayName,
       onChange: e => setFilterRecord(prev => ({ ...prev, displayName: e.target.value })),
     },
     {
       key: 'category',
       type: 'input',
-      placeholder: '分类',
+      placeholder: t('MCP_6'),
       value: filterRecord.category,
       onChange: e => setFilterRecord(prev => ({ ...prev, category: e.target.value })),
     },
     {
       key: 'implementType',
       type: 'select',
-      placeholder: '来源',
-      options: Object.entries(McpImplementTypeTextMap).map(([key, value]) => ({
+      placeholder: t('TAG_22'),
+      options: Object.entries(McpImplementTypeTextMap(t)).map(([key, value]) => ({
         label: value,
         value: key,
       })),
@@ -84,7 +86,7 @@ const McpServer: FC = () => {
   const actionList: TableActionItem[] = [
     {
       key: 'detail',
-      label: '详情',
+      label: t('BUTTON_25'),
       onClick: (record: McpServerItem) => {
         const url = `${NAV_PATH_MAP.MCP_TOOL}?id=${record.id}`;
         navigate(url);
@@ -92,7 +94,7 @@ const McpServer: FC = () => {
     },
     {
       key: 'edit',
-      label: '编辑',
+      label: t('BUTTON_5'),
       onClick: (record: McpServerItem) => {
         setCurrentMcpServer(record);
         setShowMcpServerEditModal(true);
@@ -100,7 +102,7 @@ const McpServer: FC = () => {
     },
     {
       key: 'delete',
-      label: '删除',
+      label: t('BUTTON_3'),
       danger: true,
       onConfirm: async (record: McpServerItem) => {
         await deleteMcpServer(record.id);
@@ -115,7 +117,7 @@ const McpServer: FC = () => {
         className={cn('mb-4')}
         title={[{ label: 'MCP Server' }]}
         filterList={headerFilterList}
-        actionLabel="接入 MCP Server"
+        actionLabel={t('MCP_3')}
         onActionClick={() => setShowMcpServerEditModal(true)}
       />
 
@@ -124,11 +126,11 @@ const McpServer: FC = () => {
           rowKey="id"
           tableLayout="fixed"
           dataSource={filteredMcpServerList}
-          dataColumns={dataColumns}
+          dataColumns={dataColumns(t)}
           actionList={actionList}
-          actionWidth={120}
+          actionWidth={150}
           loading={isMcpServerListLoading}
-          scroll={{ x: dataColumns ? dataColumns.length * 180 : undefined }}
+          scroll={{ x: (dataColumns(t) as any[]).length * 180 }}
           pagination={{ hideOnSinglePage: true, showSizeChanger: true }}
         />
       </div>

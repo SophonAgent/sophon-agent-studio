@@ -14,6 +14,7 @@ import useFeedback from '@/context/feedbackContext';
 import DividingLine from '@/lib/dividingLine';
 import ReactMarkdown from '@/components/reactMarkdown';
 import CopyButton from '@/components/copyButton';
+import { useTranslation } from 'react-i18next';
 
 const { Item: FormItem } = Form;
 const { TextArea } = Input;
@@ -28,6 +29,8 @@ interface McpToolCallTestProps {
 const McpToolCallTest: FC<McpToolCallTestProps> = ({ mcpServer, tool, callbackToolRun }) => {
   const { inputSchema } = tool || {};
 
+  const { t } = useTranslation();
+
   const [form] = Form.useForm();
 
   const { messageApi } = useFeedback();
@@ -40,11 +43,11 @@ const McpToolCallTest: FC<McpToolCallTestProps> = ({ mcpServer, tool, callbackTo
     const values = await form.validateFields();
 
     if (!mcpServer?.endpointUrl) {
-      messageApi.error('缺失 endpointUrl');
+      messageApi.error(t('MESSAGE_3'));
       return;
     }
     if (!tool?.name) {
-      messageApi.error('该工具缺失 name');
+      messageApi.error(t('MESSAGE_4'));
       return;
     }
     const params: McpToolCallParams = {
@@ -74,11 +77,11 @@ const McpToolCallTest: FC<McpToolCallTestProps> = ({ mcpServer, tool, callbackTo
   const genFormItem = (p: { label: string; name: string; config: any }) => {
     const { label, name, config } = p;
 
-    let inner = <TextArea placeholder={`请输入${config?.description || ''}`} />;
+    let inner = <TextArea placeholder={`${t('PLACEHOLDER_7')}${config?.description || ''}`} />;
     if (config.type === 'number' || config.type === 'integer') {
       inner = (
         <InputNumber
-          placeholder={`请输入${config?.description || ''}`}
+          placeholder={`${t('PLACEHOLDER_7')}${config?.description || ''}`}
           max={config?.maximum === undefined ? Infinity : config?.maximum}
           min={config?.minimum === undefined ? -Infinity : config?.minimum}
         />
@@ -105,12 +108,12 @@ const McpToolCallTest: FC<McpToolCallTestProps> = ({ mcpServer, tool, callbackTo
               if (value !== undefined) {
                 return Promise.resolve();
               }
-              return Promise.reject(`${label}为必填项`);
+              return Promise.reject(`${label}${t('MESSAGE_5')}`);
             },
           },
         ];
       } else {
-        rules = [{ required: isRequired, message: `${label}为必填项` }];
+        rules = [{ required: isRequired, message: `${label}${t('MESSAGE_5')}` }];
       }
     }
 
@@ -137,7 +140,7 @@ const McpToolCallTest: FC<McpToolCallTestProps> = ({ mcpServer, tool, callbackTo
   const tabItems: TabsProps['items'] = [
     {
       key: 'text',
-      label: '文本',
+      label: t('TAG_2'),
       children: (
         <pre
           className={cn(
@@ -162,7 +165,7 @@ const McpToolCallTest: FC<McpToolCallTestProps> = ({ mcpServer, tool, callbackTo
       label: 'JSON',
       children: (
         <JsonView
-          value={isJSON(callResult) ? callResult : `["非JSON格式输出"]`}
+          value={isJSON(callResult) ? callResult : `["${t('MCP_TOOL_2')}"]`}
           className={cn('max-h-[300px] overflow-auto text-[12px]')}
         />
       ),
@@ -186,9 +189,11 @@ const McpToolCallTest: FC<McpToolCallTestProps> = ({ mcpServer, tool, callbackTo
       {callResult ? (
         <div>
           <DividingLine className={cn('mb-3 mt-4 bg-[--border-light]')} />
-          <div className={cn('text-[16px] font-medium')}>运行结果</div>
+          <div className={cn('text-[16px] font-medium')}>{t('MCP_TOOL_3')}</div>
           {isCallError ? (
-            <div>执行出错：{callResult}</div>
+            <div>
+              {t('MCP_TOOL_4')}: {callResult}
+            </div>
           ) : (
             <Tabs
               items={tabItems}

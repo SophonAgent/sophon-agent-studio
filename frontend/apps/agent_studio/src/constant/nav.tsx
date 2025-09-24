@@ -20,19 +20,19 @@ interface NavItem {
   path: string;
 }
 
-export const NAV_LIST: NavItem[] = [
+export const NAV_LIST = (t: any): NavItem[] => [
   {
-    label: '模型',
+    label: t('NAV_3'),
     icon: <ModelIcon className={cn('h-[18px] w-[18px]')} />,
     path: NAV_PATH_MAP.MODEL,
   },
   {
-    label: 'MCP',
+    label: t('NAV_4'),
     icon: <McpIcon className={cn('h-[18px] w-[18px]')} />,
     path: NAV_PATH_MAP.MCP,
   },
   {
-    label: 'Prompt',
+    label: t('NAV_5'),
     icon: <CodeIcon className={cn('h-[18px] w-[18px]')} />,
     path: NAV_PATH_MAP.PROMPT,
   },

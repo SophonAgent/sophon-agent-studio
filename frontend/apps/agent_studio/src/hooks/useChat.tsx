@@ -22,6 +22,7 @@ import { tranJsonToObject } from '@/utils/json';
 import useQueryRouter from '@/utils/router';
 import { getUuid } from '@/utils/uuid';
 import { cloneDeep, isEqual } from 'lodash-es';
+import { McpImplementType } from '@/interface/mcpServer';
 
 function useChat() {
   const queryRouter = useQueryRouter();
@@ -33,6 +34,7 @@ function useChat() {
     getConversationList,
     stopAllRequest,
     saveConversation,
+    registerConversationCleanup,
   } = useConversationModel();
   const { __setMessageGroups, __addMessageGroup, __updateMessageGroupDisplayConfig, __setIsSyncMap } =
     useMessageGroupModel();
@@ -60,7 +62,7 @@ function useChat() {
     updateMessageToolCall,
   } = useMessageModel();
 
-  const { getMcpToolConfigList } = useMcpTool();
+  const { getMcpToolConfigList, getMcpToolList } = useMcpTool();
 
   const sendMessage = async (msgGroupKey: string, requestParams: ChatCompletionRequestParams) => {
     const { messages, modelConfig, stream, tools } = requestParams;
@@ -303,27 +305,71 @@ function useChat() {
 
   const getLatestFunctionCallList = async (
     functionCallList: FunctionDefinition[],
+    abortController: AbortController,
   ): Promise<FunctionDefinition[]> => {
     const newFunctionCallList: FunctionDefinition[] = [];
     for (const functionCall of functionCallList) {
+      if (abortController.signal.aborted) {
+        break;
+      }
+
       if (functionCall.functionType === 'custom') {
         newFunctionCallList.push(functionCall);
         continue;
       }
-      const res = await getMcpToolConfigList(functionCall.mcpServer?.qualifiedName);
-      const f = res.find(item => item.qualifiedName === functionCall.qualifiedName);
-      if (!f) {
-        continue;
+
+      if (functionCall.mcpServer?.implementType === McpImplementType.PROXY) {
+        const res = await getMcpToolConfigList(functionCall.mcpServer?.qualifiedName, {
+          silent: true,
+          abortController,
+        });
+        const f = res.find(item => item.qualifiedName === functionCall.qualifiedName);
+        if (!f) {
+          continue;
+        }
+        const isMcpToolModified =
+          !isEqual(f.description, functionCall.mcpToolBase?.description) ||
+          !isEqual(tranJsonToObject(f.inputSchema), functionCall.mcpToolBase?.parameters);
+        newFunctionCallList.push({ ...functionCall, isMcpToolModified });
+      } else if (functionCall.mcpServer?.implementType === McpImplementType.EXTERNAL) {
+        const res = await getMcpToolList(functionCall.mcpServer?.endpointUrl, {
+          silent: true,
+          abortController,
+        });
+        const f = res.find(item => item.name === functionCall.qualifiedName);
+        if (!f) {
+          continue;
+        }
+        const isMcpToolModified =
+          !isEqual(f.description, functionCall.mcpToolBase?.description) ||
+          !isEqual(f.inputSchema, functionCall.mcpToolBase?.parameters);
+        newFunctionCallList.push({ ...functionCall, isMcpToolModified });
       }
-      const isMcpToolModified =
-        !isEqual(f.description, functionCall.mcpToolBase?.description) ||
-        !isEqual(tranJsonToObject(f.inputSchema), functionCall.mcpToolBase?.parameters);
-      newFunctionCallList.push({ ...functionCall, isMcpToolModified });
     }
+
     return newFunctionCallList;
   };
 
-  const onConversationChange = async (item: ConversationItem) => {
+  const getLatestFunctionCallListInBackground = (list: FunctionDefinition[], msgGroupKey: string) => {
+    const innerAbortController = new AbortController();
+
+    // 如果会话切换了，取消上一个会话的后台任务
+    const unregister = registerConversationCleanup(() => {
+      innerAbortController.abort();
+    });
+
+    // 启动后台任务
+    void (async () => {
+      const newList = await getLatestFunctionCallList(list, innerAbortController);
+      // 只有未被中止才更新
+      if (!innerAbortController.signal.aborted) {
+        __setFunctionCallMapByKey({ [msgGroupKey]: newList });
+      }
+      unregister();
+    })();
+  };
+
+  const onConversationChange = (item: ConversationItem) => {
     // 切换对话时，取消所有请求
     stopAllRequest();
 
@@ -353,9 +399,7 @@ function useChat() {
      */
     const msgGroupKey = 'basic';
     // 设置组
-    __setMessageGroups(
-      displayConfigs[0] ? [{ msgGroupKey, name: '对比1', displayConfig: displayConfigs[0] }] : INIT_GROUPS,
-    );
+    __setMessageGroups(displayConfigs[0] ? [{ msgGroupKey, displayConfig: displayConfigs[0] }] : INIT_GROUPS);
     // 设置 System Prompt
     __setSelectedPromptMap({
       [msgGroupKey]: {
@@ -373,8 +417,9 @@ function useChat() {
     // 设置 Functions 开关
     __setEnableFunctionCallMap({ [msgGroupKey]: functionCalls[0]?.enableAll || false });
     // 设置 Functions
-    const newFunctionCallList = await getLatestFunctionCallList(functionCalls[0]?.functions || []);
-    __setFunctionCallMap({ [msgGroupKey]: newFunctionCallList });
+    __setFunctionCallMap({ [msgGroupKey]: functionCalls[0]?.functions || [] });
+    // -- 启动后台任务获取最新的 Function Call 列表
+    getLatestFunctionCallListInBackground(functionCalls[0]?.functions || [], msgGroupKey);
     // 设置模型参数
     const {
       id: model_config_id,
@@ -404,14 +449,13 @@ function useChat() {
     if (!compareGroups.length) {
       return;
     }
-    compareGroups.forEach(async (item, index) => {
+    compareGroups.forEach((item, index) => {
       // 设置组
       const group = cloneDeep(INIT_GROUPS[0]);
       if (displayConfigs[index + 1]) {
         group.displayConfig = displayConfigs[index + 1];
       }
       group.msgGroupKey = getUuid(5);
-      group.name = `对比${index + 2}`;
       __addMessageGroup(group);
       // 设置 System Prompt
       __setSelectedPromptMapByKey({
@@ -428,10 +472,13 @@ function useChat() {
         [group.msgGroupKey]: Boolean(Object.values(item.promptDynamicValues || {}).filter(Boolean).length),
       });
       // 设置 Functions 开关
-      __setEnableFunctionCallMapByKey({ [group.msgGroupKey]: functionCalls[index + 1]?.enableAll || false });
+      __setEnableFunctionCallMapByKey({
+        [group.msgGroupKey]: functionCalls[index + 1]?.enableAll || false,
+      });
       // 设置 Functions
-      const newFunctionCallList = await getLatestFunctionCallList(functionCalls[index + 1]?.functions || []);
-      __setFunctionCallMapByKey({ [group.msgGroupKey]: newFunctionCallList });
+      __setFunctionCallMapByKey({ [group.msgGroupKey]: functionCalls[index + 1]?.functions || [] });
+      // -- 启动后台任务获取最新的 Function Call 列表
+      getLatestFunctionCallListInBackground(functionCalls[index + 1]?.functions || [], group.msgGroupKey);
       // 设置模型参数
       if (supportStream === 0) {
         // 非流式模型，关闭流式
@@ -446,7 +493,11 @@ function useChat() {
     __setIsSyncMap({ system: false, function: false });
   };
 
-  return { handleBeforeSendQueryMessage, handleBeforeSendToolMessage, onConversationChange };
+  return {
+    handleBeforeSendQueryMessage,
+    handleBeforeSendToolMessage,
+    onConversationChange,
+  };
 }
 
 export default useChat;

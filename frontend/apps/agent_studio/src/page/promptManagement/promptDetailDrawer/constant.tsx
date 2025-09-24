@@ -6,12 +6,12 @@ import { PromptFrameworkEnum } from '@/interface/prompt';
 import { cn } from '@/utils/tw';
 import { Tag } from 'antd';
 
-export const dataColumns: TableProps['dataColumns'] = [
+export const dataColumns = (t: any): TableProps['dataColumns'] => [
   {
     title: 'Version',
     dataIndex: 'version',
     key: 'version',
-    width: 130,
+    width: 170,
     fixed: 'left',
     render: (value, record) => {
       const version = `V${value}`;
@@ -19,7 +19,7 @@ export const dataColumns: TableProps['dataColumns'] = [
         return (
           <div>
             <span className={cn('mr-2')}>{version}</span>
-            <Tag color="green">当前版本</Tag>
+            <Tag color="green">{t('TAG_17')}</Tag>
           </div>
         );
       } else {
@@ -31,26 +31,26 @@ export const dataColumns: TableProps['dataColumns'] = [
     title: 'Prompt',
     dataIndex: 'promptContent',
     key: 'promptContent',
-    width: 250,
+    width: 220,
     render: (value, record) => (
       <Paragraph3Line value={record.promptDetails[0]?.promptContent} rows={3} copyable />
     ),
   },
   {
-    title: '模版框架',
+    title: t('PROMPT_22'),
     dataIndex: 'framework',
     key: 'framework',
-    width: 100,
+    width: 110,
     render: (value, record) =>
       record.promptDetails[0]?.framework
-        ? PROMPT_FRAMEWORK_MAP[record.promptDetails[0]?.framework as PromptFrameworkEnum]?.label
+        ? PROMPT_FRAMEWORK_MAP(t)[record.promptDetails[0]?.framework as PromptFrameworkEnum]?.label
         : null,
   },
   {
     title: 'Variables',
     dataIndex: 'contentPlaceholders',
     key: 'contentPlaceholders',
-    width: 240,
+    width: 220,
     render: (value, record) => {
       const contentPlaceholders = record.promptDetails[0]?.contentPlaceholders;
       if (!contentPlaceholders?.length) return null;
@@ -67,7 +67,7 @@ export const dataColumns: TableProps['dataColumns'] = [
     },
   },
   {
-    title: '创建时间',
+    title: t('TAG_7'),
     dataIndex: 'createTime',
     key: 'createTime',
     width: 180,

@@ -13,8 +13,10 @@ import Paragraph3Line from '@/components/paragraph3Line';
 import PromptEditDrawer from './PromptEditDrawer';
 import PromptDetailDrawer from './promptDetailDrawer';
 import useQueryRouter from '@/utils/router';
+import { useTranslation } from 'react-i18next';
 
 const PromptManagement: FC = () => {
+  const { t } = useTranslation();
   const queryRouter = useQueryRouter();
 
   const {
@@ -79,7 +81,7 @@ const PromptManagement: FC = () => {
     {
       key: 'name',
       type: 'input',
-      placeholder: 'Prompt 名称',
+      placeholder: t('TAG_25'),
       value: filterRecord.name,
       onChange: e => setFilterRecord(prev => ({ ...prev, name: e.target.value })),
     },
@@ -94,7 +96,7 @@ const PromptManagement: FC = () => {
 
   const dataColumns: TableProps['dataColumns'] = [
     {
-      title: 'Prompt 名称',
+      title: t('TAG_25'),
       dataIndex: 'name',
       key: 'name',
       width: 180,
@@ -122,14 +124,14 @@ const PromptManagement: FC = () => {
       render: value => <Paragraph3Line value={value} rows={1} copyable />,
     },
     {
-      title: '描述',
+      title: t('TAG_6'),
       dataIndex: 'description',
       key: 'description',
       width: 180,
       render: value => <Paragraph3Line value={value} rows={1} />,
     },
     {
-      title: '创建时间',
+      title: t('TAG_7'),
       dataIndex: 'createTime',
       key: 'createTime',
       width: 180,
@@ -139,7 +141,7 @@ const PromptManagement: FC = () => {
   const actionList: TableActionItem[] = [
     {
       key: 'edit',
-      label: '编辑',
+      label: t('BUTTON_5'),
       onClick: async (record: PromptItem) => {
         const detail = await getPromptDetail(record.uid);
         if (detail) {
@@ -150,12 +152,12 @@ const PromptManagement: FC = () => {
     },
     {
       key: 'debug',
-      label: '调试',
+      label: t('BUTTON_29'),
       onClick: (record: PromptItem) => openChatDebug(record.uid),
     },
     {
       key: 'copy',
-      label: '复制',
+      label: t('BUTTON_13'),
       onClick: async (record: PromptItem) => {
         const detail = await getPromptDetail(record.uid);
         if (detail) {
@@ -168,7 +170,7 @@ const PromptManagement: FC = () => {
     },
     {
       key: 'history',
-      label: '版本记录',
+      label: t('BUTTON_30'),
       onClick: async (record: PromptItem) => {
         const detail = await getPromptDetail(record.uid);
         if (detail) {
@@ -181,7 +183,7 @@ const PromptManagement: FC = () => {
     },
     {
       key: 'delete',
-      label: '删除',
+      label: t('BUTTON_3'),
       danger: true,
       onConfirm: async (record: PromptItem) => {
         await deletePromptConfig(record.uid);
@@ -239,9 +241,9 @@ const PromptManagement: FC = () => {
     <div className={cn('flex h-full flex-col pb-4')}>
       <PageHeader
         className={cn('mb-4')}
-        title={[{ label: 'Prompt 管理' }]}
+        title={[{ label: t('PROMPT_31') }]}
         filterList={headerFilterList}
-        actionLabel="新增 Prompt"
+        actionLabel={t('PROMPT_32')}
         onActionClick={() => setShowPromptDrawer('edit')}
       />
 
@@ -254,7 +256,7 @@ const PromptManagement: FC = () => {
           actionList={actionList}
           actionWidth={120}
           loading={isPromptListLoading}
-          scroll={{ x: dataColumns ? dataColumns.length * 180 : undefined }}
+          scroll={{ x: dataColumns.length * 180 }}
           pagination={{ hideOnSinglePage: true, showSizeChanger: true }}
         />
       </div>

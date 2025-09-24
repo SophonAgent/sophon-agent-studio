@@ -8,6 +8,7 @@ import { InfoCircledIcon, MinusCircledIcon } from '@radix-ui/react-icons';
 import Paragraph3Line from '../paragraph3Line';
 import Tooltip from '@/lib/tooltip';
 import useFeedback from '@/context/feedbackContext';
+import { useTranslation } from 'react-i18next';
 
 interface FunctionCardProps {
   isReadonly?: boolean;
@@ -26,6 +27,8 @@ const FunctionCard: FC<FunctionCardProps> = ({
   onDelete,
   onDiff,
 }) => {
+  const { t } = useTranslation();
+
   const { modalApi } = useFeedback();
 
   const isMcpTool = Boolean(functionDefinition.functionType === 'mcp_tool');
@@ -46,7 +49,7 @@ const FunctionCard: FC<FunctionCardProps> = ({
           <InfoCircledIcon className={cn('flex-shrink-0 cursor-help')} />
         </Tooltip>
         {isMcpToolModified && !isReadonly && (
-          <Tooltip title="点击查看对比并更新">
+          <Tooltip title={t('MCP_TOOL_1')}>
             <Tag
               className="cursor-pointer"
               color="green"
@@ -55,12 +58,12 @@ const FunctionCard: FC<FunctionCardProps> = ({
                 onDiff();
               }}
             >
-              可更新
+              {t('TAG_1')}
             </Tag>
           </Tooltip>
         )}
         {isMcpTool && (
-          <Tooltip title={`所属MCP: ${functionDefinition.mcpServer?.displayName}`}>
+          <Tooltip title={`${t('MCP_1')}: ${functionDefinition.mcpServer?.displayName}`}>
             <Tag bordered={false} color="blue" style={{ margin: 0 }}>
               MCP
             </Tag>
@@ -88,9 +91,9 @@ const FunctionCard: FC<FunctionCardProps> = ({
           onClick={e => {
             e.stopPropagation();
             modalApi.confirm({
-              title: '确认删除吗？',
+              title: t('MODAL_1'),
               centered: true,
-              content: '删除后不可恢复，请谨慎操作',
+              content: t('MODAL_2'),
               okButtonProps: { danger: true },
               onOk: () => onDelete(functionDefinition.id),
             });

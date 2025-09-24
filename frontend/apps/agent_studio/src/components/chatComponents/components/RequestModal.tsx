@@ -19,6 +19,7 @@ import { Form } from 'antd';
 import { JsonValidator } from '@/utils/validator';
 import { INIT_CHAT_MODEL_CONFIG, INIT_DISPLAY_CONFIG } from '@/constant/chat';
 import { cloneDeep } from 'lodash-es';
+import { useTranslation } from 'react-i18next';
 
 const { Item: FormItem } = Form;
 
@@ -30,6 +31,8 @@ interface RequestModalProps {
 }
 
 const RequestModal: FC<RequestModalProps> = ({ title, msgGroupKey, showCurrentRequest, onCancel }) => {
+  const { t } = useTranslation();
+
   const [form] = Form.useForm();
 
   const { __setCurrentConversation, stopAllRequest } = useConversationModel();
@@ -99,7 +102,7 @@ const RequestModal: FC<RequestModalProps> = ({ title, msgGroupKey, showCurrentRe
     }
 
     stopAllRequest();
-    __setCurrentConversation({ name: '新对话', sessionId: getUuid(8) });
+    __setCurrentConversation({ name: t('CHAT_10'), sessionId: getUuid(8) });
 
     const parsed = tranJsonToObject(request);
     const { stream, messages = [], tools = [], ...modelConfig } = parsed;
@@ -108,7 +111,7 @@ const RequestModal: FC<RequestModalProps> = ({ title, msgGroupKey, showCurrentRe
     // 设置组
     const displayConfig = cloneDeep(INIT_DISPLAY_CONFIG);
     displayConfig.stream = stream;
-    __setMessageGroups([{ msgGroupKey, name: '对比1', displayConfig }]);
+    __setMessageGroups([{ msgGroupKey, displayConfig }]);
     // 设置 System Prompt
     const promptContent = messages[0]?.role === RoleEnum.SYSTEM ? messages[0]?.content : '';
     __setSelectedPromptMap({ [msgGroupKey]: { promptContent } });
@@ -157,7 +160,7 @@ const RequestModal: FC<RequestModalProps> = ({ title, msgGroupKey, showCurrentRe
       footer={showCurrentRequest ? null : undefined}
     >
       <Form form={form}>
-        <FormItem name="request" rules={JsonValidator}>
+        <FormItem name="request" rules={JsonValidator(t)}>
           <JsonEditor
             className={cn('h-[600px]')}
             isReadonly={showCurrentRequest}

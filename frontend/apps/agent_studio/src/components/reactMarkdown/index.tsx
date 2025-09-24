@@ -19,6 +19,7 @@ import { exportToExcel } from '@/utils/downloadExcel';
 import CodeBlock from '../codeBlock';
 import { visit } from 'unist-util-visit';
 import { CUSTOM_ATTRIBUTES, CUSTOM_TAG_NAMES } from '@/components/reactMarkdown/constant';
+import { useTranslation } from 'react-i18next';
 
 function link({ href, children }: any) {
   let c = children;
@@ -103,6 +104,8 @@ interface ReactMarkdownProps {
 }
 
 const ReactMarkdown: FC<ReactMarkdownProps> = ({ content }) => {
+  const { t } = useTranslation();
+
   const components = {
     em: ({ children }: any) => <b>{children}</b>,
     strong: ({ children }: any) => <b>{children}</b>,
@@ -162,7 +165,7 @@ const ReactMarkdown: FC<ReactMarkdownProps> = ({ content }) => {
               style={{ position: 'absolute', bottom: 12, left: 0 }}
               type="link"
               icon={<DownloadIcon />}
-              onClick={() => exportToExcel(dataSource, columns, '表格数据')}
+              onClick={() => exportToExcel(dataSource, columns, t('TAG_3'))}
             />
           </div>
         );

@@ -5,6 +5,7 @@ import { Fragment, memo } from 'react';
 import { Button, Form, Input } from 'antd';
 import { MinusCircledIcon, PlusCircledIcon } from '@radix-ui/react-icons';
 import { cn } from '@/utils/tw';
+import { useTranslation } from 'react-i18next';
 
 const { List: FormList, Item: FormItem } = Form;
 
@@ -14,6 +15,8 @@ interface RequestHeaderFormListProps {
 }
 
 const RequestHeaderFormList: FC<RequestHeaderFormListProps> = ({ name, initialValue }) => {
+  const { t } = useTranslation();
+
   return (
     <FormList name={name} initialValue={initialValue}>
       {(fields, { add, remove }) => (
@@ -36,7 +39,7 @@ const RequestHeaderFormList: FC<RequestHeaderFormListProps> = ({ name, initialVa
             icon={<PlusCircledIcon />}
             onClick={() => add({ key: '', value: '' })}
           >
-            添加 Header
+            {t('BUTTON_23')} Header
           </Button>
         </Fragment>
       )}

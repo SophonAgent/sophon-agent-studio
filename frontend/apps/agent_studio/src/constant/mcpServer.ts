@@ -1,7 +1,7 @@
 import { McpImplementType } from '@/interface/mcpServer';
 
-export const McpImplementTypeTextMap = {
-  [McpImplementType.INNER]: '平台原生',
-  [McpImplementType.PROXY]: '接口代理',
-  [McpImplementType.EXTERNAL]: '外部注册',
-};
+export const McpImplementTypeTextMap = (t: any) => ({
+  [McpImplementType.INNER]: t('MCP_10'),
+  [McpImplementType.PROXY]: t('MCP_11'),
+  [McpImplementType.EXTERNAL]: t('MCP_12'),
+});

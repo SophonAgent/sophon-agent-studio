@@ -13,6 +13,7 @@ import MonacoDiffEditor from '@/lib/monacoDiffEditor';
 import { JsonSchemaValidator, RequiredValidator } from '@/utils/validator';
 import JsonEditor from '@/components/jsonEditor';
 import { tranJsonToObject } from '@/utils/json';
+import { useTranslation } from 'react-i18next';
 
 const { Item: FormItem } = Form;
 const { TextArea } = Input;
@@ -24,6 +25,8 @@ interface McpToolDiffModalProps {
 }
 
 const McpToolDiffModal: FC<McpToolDiffModalProps> = ({ functionDefinition, onCancel, onSuccess }) => {
+  const { t } = useTranslation();
+
   const [form] = Form.useForm();
 
   const { getMcpToolConfigList } = useMcpTool();
@@ -80,12 +83,12 @@ const McpToolDiffModal: FC<McpToolDiffModalProps> = ({ functionDefinition, onCan
   return (
     <Modal open title="MCP Tool Function Diff" size="large" onCancel={onCancel} onOk={handleSubmit}>
       <div className={cn('mb-6 grid grid-cols-3 gap-6')}>
-        <AccentBorderHeader title="原始Function" className={cn('leading-[24px]')} />
-        <AccentBorderHeader title="最新Function" className={cn('leading-[24px]')} />
+        <AccentBorderHeader title={t('FUNCTION_1')} className={cn('leading-[24px]')} />
+        <AccentBorderHeader title={t('FUNCTION_2')} className={cn('leading-[24px]')} />
         <div className={cn('flex justify-between')}>
-          <AccentBorderHeader title="当前Function" className={cn('leading-[24px]')} />
+          <AccentBorderHeader title={t('FUNCTION_3')} className={cn('leading-[24px]')} />
           <Button type="link" size="small" onClick={onUpdateChange}>
-            一键更新
+            {t('BUTTON_16')}
           </Button>
         </div>
       </div>
@@ -103,7 +106,7 @@ const McpToolDiffModal: FC<McpToolDiffModalProps> = ({ functionDefinition, onCan
                 isReadonly
               />
             </div>
-            <FormItem name="qualifiedName" required rules={RequiredValidator} noStyle>
+            <FormItem name="qualifiedName" required rules={RequiredValidator(t)} noStyle>
               <Input disabled className={cn('col-span-1')} />
             </FormItem>
           </div>
@@ -123,7 +126,7 @@ const McpToolDiffModal: FC<McpToolDiffModalProps> = ({ functionDefinition, onCan
                 isReadonly
               />
             </div>
-            <FormItem name="description" required rules={RequiredValidator} noStyle>
+            <FormItem name="description" required rules={RequiredValidator(t)} noStyle>
               <TextArea autoSize={{ minRows: 3, maxRows: 3 }} />
             </FormItem>
           </div>
@@ -143,7 +146,7 @@ const McpToolDiffModal: FC<McpToolDiffModalProps> = ({ functionDefinition, onCan
                 isReadonly
               />
             </div>
-            <FormItem name="parameters" required rules={JsonSchemaValidator} noStyle>
+            <FormItem name="parameters" required rules={JsonSchemaValidator(t)} noStyle>
               <JsonEditor />
             </FormItem>
           </div>

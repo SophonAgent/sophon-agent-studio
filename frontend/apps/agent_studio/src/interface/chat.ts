@@ -101,7 +101,6 @@ export interface ChatModelConfig {
  */
 export interface MessageGroup {
   msgGroupKey: string;
-  name: string;
   displayConfig: ChatDisplayConfig;
 }
 

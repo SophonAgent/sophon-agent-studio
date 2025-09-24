@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import type { FunctionBase, FunctionDefinition } from '@/interface/functionCall';
 import type { McpServerItem } from '@/interface/mcpServer';
-import type { McpToolConfigItem } from '@/interface/mcpTool';
+import type { JSONSchema7 } from 'json-schema';
 
 import { memo, useEffect, useMemo, useState } from 'react';
 import Modal from '@/lib/modal';
@@ -16,6 +16,8 @@ import { tranJsonToObject } from '@/utils/json';
 import McpToolCard from './McpToolCard';
 import useFeedback from '@/context/feedbackContext';
 import { uniqBy } from 'lodash-es';
+import { useTranslation } from 'react-i18next';
+import { McpImplementType } from '@/interface/mcpServer';
 
 interface McpToolModalProps {
   initialValues?: FunctionDefinition[];
@@ -24,13 +26,17 @@ interface McpToolModalProps {
 }
 
 const McpToolModal: FC<McpToolModalProps> = ({ initialValues = [], onCancel, onOk }) => {
+  const { t } = useTranslation();
+
   const { mcpServerList, isMcpServerListLoading, getMcpServerList } = useMcpServer();
-  const { isMcpToolConfigListLoading, getMcpToolConfigList } = useMcpTool();
+  const { isMcpToolConfigListLoading, isMcpToolListLoading, getMcpToolConfigList, getMcpToolList } =
+    useMcpTool();
 
   const { messageApi } = useFeedback();
 
   const [mcpServerKeyword, setMcpServerKeyword] = useState<string>();
   const [selectedMcpIds, setSelectedMcpIds] = useState<number[]>([]);
+  const [mcpServerLoadingMap, setMcpServerLoadingMap] = useState<Record<number, boolean>>({});
 
   const [toolKeyword, setToolKeyword] = useState<string>();
   const [selectedTools, setSelectedTools] = useState<FunctionDefinition[]>([]);
@@ -69,24 +75,33 @@ const McpToolModal: FC<McpToolModalProps> = ({ initialValues = [], onCancel, onO
   const handleSubmit = () => {
     const isDuplicate = selectedTools.length !== uniqBy(selectedTools, 'qualifiedName').length;
     if (isDuplicate) {
-      messageApi.error('当前选择的Tools的唯一标识有重复，请先移除');
+      messageApi.error(t('MESSAGE_6'));
       return;
     }
     onOk(selectedTools);
   };
 
-  const tranMcpTool = (item: McpToolConfigItem, mcpServer: McpServerItem): FunctionDefinition => {
+  const tranMcpTool = (
+    tool: {
+      qualifiedName?: string;
+      description?: string;
+      parameters: JSONSchema7;
+      displayName?: string;
+    },
+    mcpServer: McpServerItem,
+  ): FunctionDefinition => {
+    const { qualifiedName = '', description, parameters, displayName } = tool;
     const mcpToolBase: FunctionBase = {
-      description: item.description,
-      parameters: tranJsonToObject(item.inputSchema),
+      description,
+      parameters,
     };
     return {
       id: getUuid(),
       enabled: true,
-      qualifiedName: item.qualifiedName || '',
-      description: item.description,
-      parameters: tranJsonToObject(item.inputSchema),
-      displayName: item.displayName,
+      qualifiedName,
+      description,
+      parameters,
+      displayName,
       functionType: 'mcp_tool',
       mcpServer,
       mcpToolBase,
@@ -96,18 +111,40 @@ const McpToolModal: FC<McpToolModalProps> = ({ initialValues = [], onCancel, onO
   const onEnableMcpServer = async (checked: boolean, mcpServer: McpServerItem) => {
     if (isMcpToolConfigListLoading) return;
 
+    setMcpServerLoadingMap(prev => ({ ...prev, [mcpServer.id]: true }));
     if (checked) {
-      const res = await getMcpToolConfigList(mcpServer.qualifiedName);
-      if (res.length) {
-        setSelectedMcpIds(prev => [...prev, mcpServer.id]);
-        setSelectedTools(prev => [...prev, ...res.map(item => tranMcpTool(item, mcpServer))]);
-      } else {
-        messageApi.warning('该MCP服务下没有可用的工具');
+      if (mcpServer.implementType === McpImplementType.PROXY) {
+        const res = await getMcpToolConfigList(mcpServer.qualifiedName);
+        if (res.length) {
+          setSelectedMcpIds(prev => [...prev, mcpServer.id]);
+          setSelectedTools(prev => [
+            ...prev,
+            ...res.map(item =>
+              tranMcpTool({ ...item, parameters: tranJsonToObject(item.inputSchema) }, mcpServer),
+            ),
+          ]);
+        } else {
+          messageApi.warning(t('MESSAGE_7'));
+        }
+      } else if (mcpServer.implementType === McpImplementType.EXTERNAL) {
+        const res = await getMcpToolList(mcpServer.endpointUrl);
+        if (res.length) {
+          setSelectedMcpIds(prev => [...prev, mcpServer.id]);
+          setSelectedTools(prev => [
+            ...prev,
+            ...res.map(({ name, inputSchema, description }) =>
+              tranMcpTool({ qualifiedName: name, parameters: inputSchema, description }, mcpServer),
+            ),
+          ]);
+        } else {
+          messageApi.warning(t('MESSAGE_7'));
+        }
       }
     } else {
       setSelectedMcpIds(prev => prev.filter(i => i !== mcpServer.id));
       setSelectedTools(prev => prev.filter(i => i.mcpServer?.id !== mcpServer.id));
     }
+    setMcpServerLoadingMap(prev => ({ ...prev, [mcpServer.id]: false }));
   };
 
   const onRemoveTool = (id: string) => {
@@ -124,7 +161,7 @@ const McpToolModal: FC<McpToolModalProps> = ({ initialValues = [], onCancel, onO
             <div className={cn('flex items-center gap-2')}>
               <span className={cn('text-[14px] font-medium')}>MCP</span>
               <Input
-                placeholder="输入MCP名称筛选"
+                placeholder={t('PLACEHOLDER_8')}
                 allowClear
                 value={mcpServerKeyword}
                 onChange={e => setMcpServerKeyword(e.target.value)}
@@ -141,6 +178,7 @@ const McpToolModal: FC<McpToolModalProps> = ({ initialValues = [], onCancel, onO
                     mcpServer={item}
                     checked={checked}
                     onChange={onEnableMcpServer}
+                    isLoading={mcpServerLoadingMap[item.id]}
                   />
                 );
               })}
@@ -153,7 +191,7 @@ const McpToolModal: FC<McpToolModalProps> = ({ initialValues = [], onCancel, onO
             <div className={cn('flex items-center gap-2')}>
               <span className={cn('text-[14px] font-medium')}>Tools</span>
               <Input
-                placeholder="输入Tool名称筛选"
+                placeholder={t('PLACEHOLDER_9')}
                 allowClear
                 value={toolKeyword}
                 onChange={e => setToolKeyword(e.target.value)}
@@ -162,7 +200,7 @@ const McpToolModal: FC<McpToolModalProps> = ({ initialValues = [], onCancel, onO
             </div>
 
             <div className={cn('mt-2 flex flex-1 flex-col gap-2 overflow-y-auto px-1')}>
-              <Skeleton loading={isMcpToolConfigListLoading} active>
+              <Skeleton loading={isMcpToolConfigListLoading || isMcpToolListLoading} active>
                 {filteredSelectedTools.map(item => (
                   <McpToolCard key={item.id} tool={item} onRemove={onRemoveTool} />
                 ))}

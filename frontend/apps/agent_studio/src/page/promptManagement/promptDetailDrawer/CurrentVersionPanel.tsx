@@ -6,6 +6,7 @@ import { cn } from '@/utils/tw';
 import { Button } from 'antd';
 import PromptEditor from '@/components/promptEditor';
 import PromptVariables from '@/components/promptVariables';
+import { useTranslation } from 'react-i18next';
 
 interface CurrentVersionPanelProps {
   promptDetail?: PromptDetailItem;
@@ -13,16 +14,18 @@ interface CurrentVersionPanelProps {
 }
 
 const CurrentVersionPanel: FC<CurrentVersionPanelProps> = ({ promptDetail, onEdit }) => {
+  const { t } = useTranslation();
+
   return (
     <div className={cn('flex h-full flex-col gap-4')}>
       <div className={cn('flex items-center justify-between gap-2')}>
-        <div className={cn('flex-shrink-0 text-[12px] text-foreground-secondary')}>Prompt 内容:</div>
+        <div className={cn('flex-shrink-0 text-[12px] text-foreground-secondary')}>{t('PROMPT_23')}:</div>
         <div className={cn('flex items-center gap-3')}>
           <Button size="small" onClick={() => onEdit?.(true)}>
-            优化 Prompt
+            {t('PROMPT_24')}
           </Button>
           <Button size="small" onClick={() => onEdit?.(false)}>
-            编辑 Prompt
+            {t('PROMPT_25')}
           </Button>
         </div>
       </div>
@@ -34,7 +37,7 @@ const CurrentVersionPanel: FC<CurrentVersionPanelProps> = ({ promptDetail, onEdi
       />
 
       <div className={cn('flex gap-2')}>
-        <div className={cn('flex-shrink-0 text-[12px] text-foreground-secondary')}>已识别到变量占位符:</div>
+        <div className={cn('flex-shrink-0 text-[12px] text-foreground-secondary')}>{t('PROMPT_26')}:</div>
         <PromptVariables value={promptDetail?.contentPlaceholders} />
       </div>
     </div>

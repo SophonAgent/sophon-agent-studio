@@ -9,9 +9,11 @@ import useFeedback from '@/context/feedbackContext';
 import mcpServer from '@/services/mcpServer';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 function useMcpServer() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const { messageApi } = useFeedback();
 
@@ -29,7 +31,8 @@ function useMcpServer() {
       const res = await mcpServer.getMcpServerList();
       setMcpServerList(res?.data || []);
     } catch (err) {
-      messageApi.error(`获取MCP服务器列表失败：${err}`);
+      messageApi.error(t('MESSAGE_ERROR_7'));
+      console.error(t('MESSAGE_ERROR_7'), err);
     } finally {
       setIsMcpServerListLoading(false);
     }
@@ -43,7 +46,8 @@ function useMcpServer() {
         setCurrentMcpServer(res.data);
       }
     } catch (err) {
-      messageApi.error(`获取MCP服务器详情失败：${err}`);
+      messageApi.error(t('MESSAGE_ERROR_8'));
+      console.error(t('MESSAGE_ERROR_8'), err);
       navigate(NAV_PATH_MAP.MCP);
     } finally {
       setIsCurrentMcpServerLoading(false);
@@ -55,10 +59,11 @@ function useMcpServer() {
     try {
       const res = await mcpServer.createMcpServer(params);
       if (res?.data) {
-        messageApi.success('创建MCP服务器成功');
+        messageApi.success(t('MESSAGE_SUCCESS_1'));
       }
     } catch (err) {
-      messageApi.error(`创建MCP服务器失败：${err}`);
+      messageApi.error(t('MESSAGE_ERROR_9'));
+      console.error(t('MESSAGE_ERROR_9'), err);
     } finally {
       setIsMcpServerSaveLoading(false);
     }
@@ -69,10 +74,11 @@ function useMcpServer() {
     try {
       const res = await mcpServer.updateMcpServer(params);
       if (res?.data) {
-        messageApi.success('更新MCP服务器成功');
+        messageApi.success(t('MESSAGE_SUCCESS_2'));
       }
     } catch (err) {
-      messageApi.error(`更新MCP服务器失败：${err}`);
+      messageApi.error(t('MESSAGE_ERROR_10'));
+      console.error(t('MESSAGE_ERROR_10'), err);
     } finally {
       setIsMcpServerSaveLoading(false);
     }
@@ -82,10 +88,11 @@ function useMcpServer() {
     try {
       const res = await mcpServer.deleteMcpServer(id);
       if (res?.data) {
-        messageApi.success('删除MCP服务器成功');
+        messageApi.success(t('MESSAGE_SUCCESS_3'));
       }
     } catch (err) {
-      messageApi.error(`删除MCP服务器失败：${err}`);
+      messageApi.error(t('MESSAGE_ERROR_11'));
+      console.error(t('MESSAGE_ERROR_11'), err);
     }
   };
 

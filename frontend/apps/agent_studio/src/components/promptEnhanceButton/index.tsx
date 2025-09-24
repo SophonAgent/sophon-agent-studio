@@ -10,6 +10,7 @@ import CopyButton from '../copyButton';
 import Spin from '@/lib/spin';
 import Tooltip from '@/lib/tooltip';
 import useFeedback from '@/context/feedbackContext';
+import { useTranslation } from 'react-i18next';
 
 interface PromptEnhanceButtonProps {
   disabled?: boolean;
@@ -24,6 +25,8 @@ const PromptEnhanceButton: FC<PromptEnhanceButtonProps> = ({
   framework = PromptFrameworkEnum.COMMON,
   onChange,
 }) => {
+  const { t } = useTranslation();
+
   const { messageApi, modalApi } = useFeedback();
   const { onEnhance, enhancedPrompt, isRunning, onStopRequest } = useEnhancePrompt();
 
@@ -35,7 +38,7 @@ const PromptEnhanceButton: FC<PromptEnhanceButtonProps> = ({
 
   const onOptimize = async () => {
     if (!userPrompt) {
-      messageApi.error('请输入原始Prompt!');
+      messageApi.error(t('PROMPT_14'));
       onClose();
       return;
     }
@@ -51,7 +54,7 @@ const PromptEnhanceButton: FC<PromptEnhanceButtonProps> = ({
       centered: true,
       zIndex: 1300,
       okButtonProps: { danger: true },
-      content: '确认舍弃 AI 生成的内容吗？',
+      content: t('MODAL_8'),
       onOk: () => {
         setShowConfirm(true);
         if (isRunning) {
@@ -69,11 +72,11 @@ const PromptEnhanceButton: FC<PromptEnhanceButtonProps> = ({
         <div>
           <div className={cn('flex items-center px-2 text-[13px] opacity-50')}>
             <Spin spinning size="small" />
-            <span className={cn('ml-2')}>结果生成中...</span>
+            <span className={cn('ml-2')}>{t('CHAT_6')}</span>
           </div>
           <div className={cn('mt-6 flex justify-end')}>
             <Button type="primary" danger onClick={onStopRequest}>
-              停止响应
+              {t('CHAT_34')}
             </Button>
           </div>
         </div>
@@ -89,12 +92,12 @@ const PromptEnhanceButton: FC<PromptEnhanceButtonProps> = ({
                 onChange?.(enhancedPrompt || '');
               }}
             >
-              替换
+              {t('BUTTON_17')}
             </Button>
-            <Button onClick={onClose}>取消</Button>
+            <Button onClick={onClose}>{t('BUTTON_19')}</Button>
           </div>
           <div className={cn('flex h-8 gap-2')}>
-            <Tooltip title="重新生成">
+            <Tooltip title={t('BUTTON_4')}>
               <Button type="text" icon={<ReloadIcon />} onClick={onOptimize} />
             </Tooltip>
             <CopyButton value={enhancedPrompt} />
@@ -106,7 +109,7 @@ const PromptEnhanceButton: FC<PromptEnhanceButtonProps> = ({
 
   return (
     <Fragment>
-      <Tooltip title="自动优化 prompt">
+      <Tooltip title={t('PROMPT_13')}>
         <Popover
           style={{ maxWidth: 620 }}
           placement="bottomLeft"
@@ -123,7 +126,7 @@ const PromptEnhanceButton: FC<PromptEnhanceButtonProps> = ({
               {renderButton()}
               {!enhancedPrompt ? null : (
                 <div className={cn('flex justify-center text-[12px] text-foreground-secondary')}>
-                  优化内容仅供参考，不代表平台立场
+                  {t('CHAT_35')}
                 </div>
               )}
             </div>
