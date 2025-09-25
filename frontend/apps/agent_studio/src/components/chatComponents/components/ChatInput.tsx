@@ -10,6 +10,7 @@ import useChat from '@/hooks/useChat';
 import Tooltip from '@/lib/tooltip';
 import useQueryRouter from '@/utils/router';
 import { useTranslation } from 'react-i18next';
+import { getSidFromHashUrl } from '@/utils/url';
 
 const { TextArea } = Input;
 
@@ -103,7 +104,7 @@ const ChatInput: FC = () => {
                   stopAllRequest();
                   await saveConversation();
                   // 更新 url sid
-                  const sid = new URLSearchParams(location.search).get('sid');
+                  const sid = getSidFromHashUrl();
                   if (!sid) {
                     queryRouter.set('sid', currentConversation.sessionId);
                     await getConversationList();

@@ -23,6 +23,7 @@ import useQueryRouter from '@/utils/router';
 import { getUuid } from '@/utils/uuid';
 import { cloneDeep, isEqual } from 'lodash-es';
 import { McpImplementType } from '@/interface/mcpServer';
+import { getSidFromHashUrl } from '@/utils/url';
 
 function useChat() {
   const queryRouter = useQueryRouter();
@@ -103,7 +104,7 @@ function useChat() {
     await saveConversation();
 
     // 更新 url sid
-    const sid = new URLSearchParams(location.search).get('sid');
+    const sid = getSidFromHashUrl();
     if (!sid) {
       queryRouter.set('sid', currentConversation.sessionId);
       await getConversationList();
@@ -135,7 +136,7 @@ function useChat() {
     // 是 Tool Message
     const isToolMessage = queryMessage[0].role === RoleEnum.TOOL;
     const { msgGroupKey, displayConfig } = group;
-    const { stream } = displayConfig;
+    const { stream, multiTurn } = displayConfig;
 
     __setAbortControllerMapByKey(msgGroupKey, new AbortController());
 
@@ -157,7 +158,9 @@ function useChat() {
         i.tool_calls?.find(j => j.id === queryMessage[0].tool_call_id),
       );
       msgList = messageList.slice(0, index + 1);
-      messages.push(...msgList);
+      if (multiTurn) {
+        messages.push(...msgList);
+      }
     }
     const queryMsgList: MessageItem[] = queryMessage.map(item => ({ ...item, id: getUuid(5) }));
     msgList.push(...queryMsgList);
