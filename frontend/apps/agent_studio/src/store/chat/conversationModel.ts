@@ -128,7 +128,7 @@ function useConversationModel() {
       __setConversationList(res?.data?.datas || []);
     } catch (err) {
       messageApi.error(t('MESSAGE_ERROR_2'));
-      console.error(t('MESSAGE_ERROR_2'), err);
+      console.error(t('MESSAGE_ERROR_2'), ': ', err);
     } finally {
       if (!silent) {
         __setIsConversationListLoading(false);

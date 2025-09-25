@@ -73,7 +73,7 @@ function useModelConfigModel() {
       __setModelList(res?.data || []);
     } catch (err) {
       messageApi.error(t('MESSAGE_ERROR_18'));
-      console.error(t('MESSAGE_ERROR_18'), err);
+      console.error(t('MESSAGE_ERROR_18'), ': ', err);
     }
   };
 

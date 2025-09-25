@@ -253,7 +253,7 @@ function useFunctionCallModel() {
       return { result: '', success: true };
     } catch (err) {
       messageApi.error(t('MESSAGE_ERROR_29'));
-      console.error(t('MESSAGE_ERROR_29'), err);
+      console.error(t('MESSAGE_ERROR_29'), ': ', err);
       return { result: '', success: false };
     }
   };

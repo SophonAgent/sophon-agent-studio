@@ -32,7 +32,7 @@ function useMcpServer() {
       setMcpServerList(res?.data || []);
     } catch (err) {
       messageApi.error(t('MESSAGE_ERROR_7'));
-      console.error(t('MESSAGE_ERROR_7'), err);
+      console.error(t('MESSAGE_ERROR_7'), ': ', err);
     } finally {
       setIsMcpServerListLoading(false);
     }
@@ -47,7 +47,7 @@ function useMcpServer() {
       }
     } catch (err) {
       messageApi.error(t('MESSAGE_ERROR_8'));
-      console.error(t('MESSAGE_ERROR_8'), err);
+      console.error(t('MESSAGE_ERROR_8'), ': ', err);
       navigate(NAV_PATH_MAP.MCP);
     } finally {
       setIsCurrentMcpServerLoading(false);
@@ -63,7 +63,7 @@ function useMcpServer() {
       }
     } catch (err) {
       messageApi.error(t('MESSAGE_ERROR_9'));
-      console.error(t('MESSAGE_ERROR_9'), err);
+      console.error(t('MESSAGE_ERROR_9'), ': ', err);
     } finally {
       setIsMcpServerSaveLoading(false);
     }
@@ -78,7 +78,7 @@ function useMcpServer() {
       }
     } catch (err) {
       messageApi.error(t('MESSAGE_ERROR_10'));
-      console.error(t('MESSAGE_ERROR_10'), err);
+      console.error(t('MESSAGE_ERROR_10'), ': ', err);
     } finally {
       setIsMcpServerSaveLoading(false);
     }
@@ -92,7 +92,7 @@ function useMcpServer() {
       }
     } catch (err) {
       messageApi.error(t('MESSAGE_ERROR_11'));
-      console.error(t('MESSAGE_ERROR_11'), err);
+      console.error(t('MESSAGE_ERROR_11'), ': ', err);
     }
   };
 

@@ -37,6 +37,9 @@ const McpToolModal: FC<McpToolModalProps> = ({ initialValues = [], onCancel, onO
   const [mcpServerKeyword, setMcpServerKeyword] = useState<string>();
   const [selectedMcpIds, setSelectedMcpIds] = useState<number[]>([]);
   const [mcpServerLoadingMap, setMcpServerLoadingMap] = useState<Record<number, boolean>>({});
+  const [mcpServerAbortControllerMap, setMcpServerAbortControllerMap] = useState<
+    Record<number, AbortController>
+  >({});
 
   const [toolKeyword, setToolKeyword] = useState<string>();
   const [selectedTools, setSelectedTools] = useState<FunctionDefinition[]>([]);
@@ -71,6 +74,12 @@ const McpToolModal: FC<McpToolModalProps> = ({ initialValues = [], onCancel, onO
       );
     }
   }, [initialValues]);
+
+  const handleCancel = () => {
+    const abortControllers = Object.values(mcpServerAbortControllerMap);
+    abortControllers.forEach(controller => controller.abort());
+    onCancel();
+  };
 
   const handleSubmit = () => {
     const isDuplicate = selectedTools.length !== uniqBy(selectedTools, 'qualifiedName').length;
@@ -111,10 +120,12 @@ const McpToolModal: FC<McpToolModalProps> = ({ initialValues = [], onCancel, onO
   const onEnableMcpServer = async (checked: boolean, mcpServer: McpServerItem) => {
     if (isMcpToolConfigListLoading) return;
 
+    const abortController = new AbortController();
+    setMcpServerAbortControllerMap(prev => ({ ...prev, [mcpServer.id]: abortController }));
     setMcpServerLoadingMap(prev => ({ ...prev, [mcpServer.id]: true }));
     if (checked) {
       if (mcpServer.implementType === McpImplementType.PROXY) {
-        const res = await getMcpToolConfigList(mcpServer.qualifiedName);
+        const res = await getMcpToolConfigList(mcpServer.qualifiedName, { abortController });
         if (res.length) {
           setSelectedMcpIds(prev => [...prev, mcpServer.id]);
           setSelectedTools(prev => [
@@ -124,10 +135,12 @@ const McpToolModal: FC<McpToolModalProps> = ({ initialValues = [], onCancel, onO
             ),
           ]);
         } else {
-          messageApi.warning(t('MESSAGE_7'));
+          if (!abortController.signal.aborted) {
+            messageApi.warning(t('MESSAGE_7'));
+          }
         }
       } else if (mcpServer.implementType === McpImplementType.EXTERNAL) {
-        const res = await getMcpToolList(mcpServer.endpointUrl);
+        const res = await getMcpToolList(mcpServer.endpointUrl, { abortController });
         if (res.length) {
           setSelectedMcpIds(prev => [...prev, mcpServer.id]);
           setSelectedTools(prev => [
@@ -137,7 +150,9 @@ const McpToolModal: FC<McpToolModalProps> = ({ initialValues = [], onCancel, onO
             ),
           ]);
         } else {
-          messageApi.warning(t('MESSAGE_7'));
+          if (!abortController.signal.aborted) {
+            messageApi.warning(t('MESSAGE_7'));
+          }
         }
       }
     } else {
@@ -154,7 +169,14 @@ const McpToolModal: FC<McpToolModalProps> = ({ initialValues = [], onCancel, onO
   };
 
   return (
-    <Modal open title="MCP Tool" size="large" onCancel={onCancel} onOk={handleSubmit}>
+    <Modal
+      open
+      title="MCP Tool"
+      size="large"
+      onCancel={handleCancel}
+      onOk={handleSubmit}
+      okButtonProps={{ disabled: isMcpToolConfigListLoading || isMcpToolListLoading }}
+    >
       <Skeleton loading={isMcpServerListLoading} active>
         <div className={cn('flex h-[560px] gap-2 text-foreground-primary')}>
           <div className={cn('flex h-full w-[250px] flex-col overflow-hidden')}>

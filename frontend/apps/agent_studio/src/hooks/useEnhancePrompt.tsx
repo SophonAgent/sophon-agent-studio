@@ -48,7 +48,7 @@ function useEnhancePrompt() {
       }
     } catch (err) {
       messageApi.error(t('MESSAGE_ERROR_6'));
-      console.error(t('MESSAGE_ERROR_6'), err);
+      console.error(t('MESSAGE_ERROR_6'), ': ', err);
     } finally {
       setIsRunning(false);
     }

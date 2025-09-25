@@ -35,7 +35,7 @@ function usePromptManage() {
       setPromptList(res?.data || []);
     } catch (err) {
       messageApi.error(t('MESSAGE_ERROR_22'));
-      console.error(t('MESSAGE_ERROR_22'), err);
+      console.error(t('MESSAGE_ERROR_22'), ': ', err);
     } finally {
       setIsPromptListLoading(false);
     }
@@ -50,7 +50,7 @@ function usePromptManage() {
       return res?.data?.[0];
     } catch (err) {
       messageApi.error(t('MESSAGE_ERROR_23'));
-      console.error(t('MESSAGE_ERROR_23'), err);
+      console.error(t('MESSAGE_ERROR_23'), ': ', err);
       return undefined;
     } finally {
       setIsPromptDetailLoading(false);
@@ -79,7 +79,7 @@ function usePromptManage() {
       return res?.data;
     } catch (err) {
       messageApi.error(t('MESSAGE_ERROR_24'));
-      console.error(t('MESSAGE_ERROR_24'), err);
+      console.error(t('MESSAGE_ERROR_24'), ': ', err);
       return undefined;
     } finally {
       setIsPromptHistoryLoading(false);
@@ -96,7 +96,7 @@ function usePromptManage() {
       }
     } catch (err) {
       messageApi.error(t('MESSAGE_ERROR_25'));
-      console.error(t('MESSAGE_ERROR_25'), err);
+      console.error(t('MESSAGE_ERROR_25'), ': ', err);
     }
   };
 
@@ -109,7 +109,7 @@ function usePromptManage() {
       }
     } catch (err) {
       messageApi.error(t('MESSAGE_ERROR_26'));
-      console.error(t('MESSAGE_ERROR_26'), err);
+      console.error(t('MESSAGE_ERROR_26'), ': ', err);
     } finally {
       setIsPromptConfigSaveLoading(false);
     }
@@ -124,7 +124,7 @@ function usePromptManage() {
       }
     } catch (err) {
       messageApi.error(t('MESSAGE_ERROR_27'));
-      console.error(t('MESSAGE_ERROR_27'), err);
+      console.error(t('MESSAGE_ERROR_27'), ': ', err);
     } finally {
       setIsPromptConfigSaveLoading(false);
     }
@@ -140,7 +140,7 @@ function usePromptManage() {
       }
     } catch (err) {
       messageApi.error(t('MESSAGE_ERROR_28'));
-      console.error(t('MESSAGE_ERROR_28'), err);
+      console.error(t('MESSAGE_ERROR_28'), ': ', err);
     }
   };
 

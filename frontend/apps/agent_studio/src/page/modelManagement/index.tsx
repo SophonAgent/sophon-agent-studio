@@ -13,6 +13,7 @@ import { cloneDeep } from 'lodash-es';
 import ModelEditDrawer from './ModelEditDrawer';
 import { tranJsonToObject } from '@/utils/json';
 import { useTranslation } from 'react-i18next';
+import { MODEL_FAMILY_LIST } from '@/constant/model';
 
 const ModelManagement: FC = () => {
   const { t } = useTranslation();
@@ -71,10 +72,11 @@ const ModelManagement: FC = () => {
     },
     {
       key: 'provider',
-      type: 'input',
+      type: 'select',
       placeholder: t('TAG_20'),
       value: filterRecord.provider,
-      onChange: e => setFilterRecord(prev => ({ ...prev, provider: e.target.value })),
+      onChange: v => setFilterRecord(prev => ({ ...prev, provider: v })),
+      options: MODEL_FAMILY_LIST,
     },
   ];
 
