@@ -22,7 +22,7 @@ function useModelManagement() {
       setModelList(res?.data || []);
     } catch (err) {
       messageApi.error(t('MESSAGE_ERROR_18'));
-      console.error(t('MESSAGE_ERROR_18'), err);
+      console.error(t('MESSAGE_ERROR_18'), ': ', err);
     } finally {
       setIsModelListLoading(false);
     }
@@ -37,7 +37,7 @@ function useModelManagement() {
       }
     } catch (err) {
       messageApi.error(t('MESSAGE_ERROR_19'));
-      console.error(t('MESSAGE_ERROR_19'), err);
+      console.error(t('MESSAGE_ERROR_19'), ': ', err);
     } finally {
       setIsModelSaveLoading(false);
     }
@@ -52,7 +52,7 @@ function useModelManagement() {
       }
     } catch (err) {
       messageApi.error(t('MESSAGE_ERROR_20'));
-      console.error(t('MESSAGE_ERROR_20'), err);
+      console.error(t('MESSAGE_ERROR_20'), ': ', err);
     } finally {
       setIsModelSaveLoading(false);
     }
@@ -66,7 +66,7 @@ function useModelManagement() {
       }
     } catch (err) {
       messageApi.error(t('MESSAGE_ERROR_21'));
-      console.error(t('MESSAGE_ERROR_21'), err);
+      console.error(t('MESSAGE_ERROR_21'), ': ', err);
     }
   };
 

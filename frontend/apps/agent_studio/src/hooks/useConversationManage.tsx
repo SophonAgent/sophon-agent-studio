@@ -44,7 +44,7 @@ function useConversationManage() {
       return res?.data;
     } catch (err) {
       messageApi.error(t('MESSAGE_ERROR_1'));
-      console.error(t('MESSAGE_ERROR_1'), err);
+      console.error(t('MESSAGE_ERROR_1'), ': ', err);
       return undefined;
     } finally {
       setIsChatPageLoading(false);
@@ -61,7 +61,7 @@ function useConversationManage() {
       return res?.data;
     } catch (err) {
       messageApi.error(t('MESSAGE_ERROR_2'));
-      console.error(t('MESSAGE_ERROR_2'), err);
+      console.error(t('MESSAGE_ERROR_2'), ': ', err);
       return undefined;
     } finally {
       setIsConversationHistoryListLoading(false);
@@ -82,7 +82,7 @@ function useConversationManage() {
       }
     } catch (err) {
       messageApi.error(t('MESSAGE_ERROR_3'));
-      console.error(t('MESSAGE_ERROR_3'), err);
+      console.error(t('MESSAGE_ERROR_3'), ': ', err);
     }
   };
 
@@ -98,7 +98,7 @@ function useConversationManage() {
       }
     } catch (err) {
       messageApi.error(t('MESSAGE_ERROR_4'));
-      console.error(t('MESSAGE_ERROR_4'), err);
+      console.error(t('MESSAGE_ERROR_4'), ': ', err);
     }
   };
 
@@ -111,7 +111,7 @@ function useConversationManage() {
       return true;
     } catch (err) {
       messageApi.error(t('MESSAGE_ERROR_5'));
-      console.error(t('MESSAGE_ERROR_5'), err);
+      console.error(t('MESSAGE_ERROR_5'), ': ', err);
       return false;
     }
   };

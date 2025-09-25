@@ -48,7 +48,7 @@ function useMcpTool() {
       if (err !== 'canceled' && !silent) {
         messageApi.error(t('MESSAGE_ERROR_12'));
       }
-      console.error(t('MESSAGE_ERROR_12'), err);
+      console.error(t('MESSAGE_ERROR_12'), ': ', err);
       return [];
     } finally {
       setIsMcpToolConfigListLoading(false);
@@ -64,7 +64,7 @@ function useMcpTool() {
       }
     } catch (err) {
       messageApi.error(t('MESSAGE_ERROR_13'));
-      console.error(t('MESSAGE_ERROR_13'), err);
+      console.error(t('MESSAGE_ERROR_13'), ': ', err);
     } finally {
       setIsMcpToolConfigSaveLoading(false);
     }
@@ -79,7 +79,7 @@ function useMcpTool() {
       }
     } catch (err) {
       messageApi.error(t('MESSAGE_ERROR_14'));
-      console.error(t('MESSAGE_ERROR_14'), err);
+      console.error(t('MESSAGE_ERROR_14'), ': ', err);
     } finally {
       setIsMcpToolConfigSaveLoading(false);
     }
@@ -93,7 +93,7 @@ function useMcpTool() {
       }
     } catch (err) {
       messageApi.error(t('MESSAGE_ERROR_15'));
-      console.error(t('MESSAGE_ERROR_15'), err);
+      console.error(t('MESSAGE_ERROR_15'), ': ', err);
     }
   };
 
@@ -116,7 +116,7 @@ function useMcpTool() {
       if (err !== 'canceled' && !silent) {
         messageApi.error(t('MESSAGE_ERROR_16'));
       }
-      console.error(t('MESSAGE_ERROR_16'), err);
+      console.error(t('MESSAGE_ERROR_16'), ': ', err);
       return [];
     } finally {
       setIsMcpToolListLoading(false);
@@ -133,7 +133,7 @@ function useMcpTool() {
       return res;
     } catch (err) {
       messageApi.error(t('MESSAGE_ERROR_17'));
-      console.error(t('MESSAGE_ERROR_17'), err);
+      console.error(t('MESSAGE_ERROR_17'), ': ', err);
       return undefined;
     } finally {
       setIsRunLoading(false);

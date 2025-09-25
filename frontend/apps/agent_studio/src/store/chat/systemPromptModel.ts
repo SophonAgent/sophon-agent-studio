@@ -127,7 +127,7 @@ function useSystemPromptModel() {
       return data;
     } catch (err) {
       messageApi.error(t('MESSAGE_ERROR_22'));
-      console.error(t('MESSAGE_ERROR_22'), err);
+      console.error(t('MESSAGE_ERROR_22'), ': ', err);
       return [];
     } finally {
       __setIsPromptListLoading(false);
@@ -160,7 +160,7 @@ function useSystemPromptModel() {
           }
         } catch (err) {
           messageApi.error(t('MESSAGE_ERROR_23'));
-          console.error(t('MESSAGE_ERROR_23'), err);
+          console.error(t('MESSAGE_ERROR_23'), ': ', err);
         }
       }
     } else {
