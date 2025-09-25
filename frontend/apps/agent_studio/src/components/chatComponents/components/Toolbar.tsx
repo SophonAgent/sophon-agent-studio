@@ -21,6 +21,7 @@ import CloseIcon from '@/icons/closeIcon';
 import useModelConfigModel from '@/store/chat/modelConfigModel';
 import useQueryRouter from '@/utils/router';
 import { useTranslation } from 'react-i18next';
+import { getSidFromHashUrl } from '@/utils/url';
 
 interface ToolbarPros {
   msgGroupKey: string;
@@ -296,7 +297,7 @@ const Toolbar: FC<ToolbarPros> = ({ msgGroupKey, isReadonly, groupName }) => {
                 stopRequestByKey(msgGroupKey);
                 await saveConversation();
                 // 更新 url sid
-                const sid = new URLSearchParams(location.search).get('sid');
+                const sid = getSidFromHashUrl();
                 if (!sid) {
                   queryRouter.set('sid', currentConversation.sessionId);
                   await getConversationList();

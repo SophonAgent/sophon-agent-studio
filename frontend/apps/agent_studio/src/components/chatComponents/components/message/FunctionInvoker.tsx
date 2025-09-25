@@ -42,20 +42,8 @@ const FunctionInvoker: FC<FunctionInvokerProps> = ({ msgGroupKey, messageItem, i
     [messageGroups, msgGroupKey],
   );
   const isMultiToolOutput = useMemo(() => displayConfig?.multiToolOutput, [displayConfig]);
-  const isMultiTurn = useMemo(() => displayConfig?.multiTurn, [displayConfig]);
 
   const functionCallList = useMemo(() => functionCallMap[msgGroupKey] || [], [functionCallMap, msgGroupKey]);
-
-  const btnTip = useMemo(() => {
-    if (isRunning) {
-      return '';
-    }
-    if (isMultiTurn) {
-      return 'Run to this message';
-    } else {
-      return 'Please switch to multi-round dialogue first';
-    }
-  }, [isMultiTurn, isRunning]);
 
   const isMcpTool = (item: ToolCallItem) =>
     functionCallList.map(item => item.qualifiedName).includes(item.function.name);
@@ -85,7 +73,7 @@ const FunctionInvoker: FC<FunctionInvokerProps> = ({ msgGroupKey, messageItem, i
   };
 
   const handleRun = () => {
-    if (!isMultiTurn || isRunning) return;
+    if (isRunning) return;
 
     const toolMessages: MessageItem[] = toolCallList.map(item => ({
       role: RoleEnum.TOOL,
@@ -223,11 +211,9 @@ const FunctionInvoker: FC<FunctionInvokerProps> = ({ msgGroupKey, messageItem, i
 
       {isReadonly ? null : (
         <div className={cn('flex justify-end')}>
-          <Tooltip title={btnTip}>
-            <Button size="small" type="primary" onClick={handleRun} disabled={!isMultiTurn || isRunning}>
-              Run ↵
-            </Button>
-          </Tooltip>
+          <Button size="small" type="primary" onClick={handleRun} disabled={isRunning}>
+            Run ↵
+          </Button>
         </div>
       )}
 
