@@ -15,6 +15,7 @@ import PromptVariables from '@/components/promptVariables';
 import FrameworkRadio from '@/page/promptManagement/FrameworkRadio';
 import { PROMPT_FRAMEWORK_MAP } from '@/constant/prompt';
 import { getPromptContentPlaceholders } from '@/utils/prompt';
+import { useTranslation } from 'react-i18next';
 
 const { Item: FormItem } = Form;
 const { TextArea } = Input;
@@ -34,6 +35,8 @@ const PromptEditDrawer: FC<PromptEditDrawerProps> = ({
   onSuccess,
   initOptimize,
 }) => {
+  const { t } = useTranslation();
+
   const [form] = Form.useForm();
 
   const { isPromptConfigSaveLoading, createPromptConfig, updatePromptConfig } = usePromptManage();
@@ -42,7 +45,7 @@ const PromptEditDrawer: FC<PromptEditDrawerProps> = ({
   const promptContentField = Form.useWatch(['detail', 'promptContent'], form);
 
   const frameworkDescription = useMemo(
-    () => (frameworkField ? PROMPT_FRAMEWORK_MAP[frameworkField as PromptFrameworkEnum]?.description : ''),
+    () => (frameworkField ? PROMPT_FRAMEWORK_MAP(t)[frameworkField as PromptFrameworkEnum]?.description : ''),
     [frameworkField],
   );
 
@@ -70,7 +73,7 @@ const PromptEditDrawer: FC<PromptEditDrawerProps> = ({
   return (
     <Drawer
       open
-      title={initialValues?.baseConfig?.uid ? '编辑 Prompt' : '新建 Prompt'}
+      title={initialValues?.baseConfig?.uid ? t('PROMPT_25') : t('PROMPT_32')}
       autoFocus={false}
       size="large"
       onCancel={onCancel}
@@ -78,37 +81,34 @@ const PromptEditDrawer: FC<PromptEditDrawerProps> = ({
       confirmLoading={isPromptConfigSaveLoading}
     >
       <Skeleton loading={isLoading} active>
-        <Form form={form} labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
+        <Form form={form} labelCol={{ span: 7 }} wrapperCol={{ span: 17 }}>
           {/* -----基本信息----- */}
-          <AccentBorderHeader title="基本信息" className={cn('mb-6 text-[16px]')} />
+          <AccentBorderHeader title={t('TAG_9')} className={cn('mb-6 text-[16px]')} />
           <FormItem name={['baseConfig', 'classify']} initialValue={ResourceClassify.CUSTOMIZED} hidden>
             <Input />
           </FormItem>
-          <FormItem label="Prompt 名称" name={['baseConfig', 'name']} required rules={RequiredValidator}>
+          <FormItem label={t('PROMPT_5')} name={['baseConfig', 'name']} required rules={RequiredValidator(t)}>
             <Input />
           </FormItem>
-          <FormItem label="Prompt 描述" name={['baseConfig', 'description']}>
+          <FormItem label={t('PROMPT_7')} name={['baseConfig', 'description']}>
             <TextArea autoSize={{ minRows: 3, maxRows: 3 }} />
           </FormItem>
           <FormItem
             label="Prompt ID"
             name={['baseConfig', 'uid']}
-            tooltip="Prompt唯一标识，通过此标识引用Prompt；不填写则由系统默认生成"
-            rules={AlphanumericWithDashesValidator}
+            tooltip={t('PROMPT_8')}
+            rules={AlphanumericWithDashesValidator(t)}
           >
-            <Input
-              placeholder="自定义 Prompt ID, 不填写则由系统默认生成"
-              disabled={Boolean(initialValues?.baseConfig?.uid)}
-            />
+            <Input placeholder={t('PLACEHOLDER_4')} disabled={Boolean(initialValues?.baseConfig?.uid)} />
           </FormItem>
 
           {/* -----Prompt 内容配置----- */}
-          <AccentBorderHeader title="Prompt 内容配置" className={cn('mb-6 mt-10 text-[16px]')} />
+          <AccentBorderHeader title={t('TAG_26')} className={cn('mb-6 mt-10 text-[16px]')} />
           <FormItem
-            label="模版框架"
+            label={t('PROMPT_22')}
             name={['detail', 'framework']}
             required
-            rules={RequiredValidator}
+            rules={RequiredValidator(t)}
             initialValue={PromptFrameworkEnum.COMMON}
             extra={
               frameworkDescription ? <div className={cn('text-[12px]')}>{frameworkDescription}</div> : null
@@ -117,16 +117,21 @@ const PromptEditDrawer: FC<PromptEditDrawerProps> = ({
             <FrameworkRadio
               onChange={v => {
                 if (v) {
-                  form.setFieldValue(['detail', 'promptContent'], PROMPT_FRAMEWORK_MAP[v]?.template);
+                  form.setFieldValue(['detail', 'promptContent'], PROMPT_FRAMEWORK_MAP(t)[v]?.template);
                 }
               }}
               promptContent={promptContentField}
             />
           </FormItem>
-          <FormItem label="Prompt 内容" name={['detail', 'promptContent']} required rules={RequiredValidator}>
+          <FormItem
+            label={t('PROMPT_23')}
+            name={['detail', 'promptContent']}
+            required
+            rules={RequiredValidator(t)}
+          >
             <PromptEditor promptFramework={frameworkField} initOptimize={initOptimize} />
           </FormItem>
-          <FormItem label="已识别到变量占位符" name={['detail', 'contentPlaceholders']}>
+          <FormItem label={t('PROMPT_30')} name={['detail', 'contentPlaceholders']}>
             <PromptVariables />
           </FormItem>
         </Form>

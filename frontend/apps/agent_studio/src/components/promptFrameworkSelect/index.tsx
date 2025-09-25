@@ -9,6 +9,7 @@ import { PromptFrameworkEnum } from '@/interface/prompt';
 import { PROMPT_FRAMEWORK_LIST, PROMPT_FRAMEWORK_MAP } from '@/constant/prompt';
 import ActionDropdown from '../actionDropdown';
 import Tooltip from '@/lib/tooltip';
+import { useTranslation } from 'react-i18next';
 
 interface PromptFrameworkSelectProps {
   onChange: (framework: PromptFrameworkEnum, template?: string) => void;
@@ -16,34 +17,36 @@ interface PromptFrameworkSelectProps {
 }
 
 const PromptFrameworkSelect: FC<PromptFrameworkSelectProps> = ({ onChange, className }) => {
-  const actionList: DropdownMenuItem[] = PROMPT_FRAMEWORK_LIST.filter(
-    f => f.value !== PromptFrameworkEnum.COMMON,
-  ).map(item => ({
-    key: item.value,
-    label: (
-      <div className={cn('flex items-center gap-1 text-[13px]')}>
-        {item.label}
-        <Tooltip title={PROMPT_FRAMEWORK_MAP?.[item.value]?.description}>
-          <InfoCircledIcon width={14} height={14} />
-        </Tooltip>
-      </div>
-    ),
-    onClick: () => onChange(item.value, PROMPT_FRAMEWORK_MAP?.[item.value]?.template),
-  }));
+  const { t } = useTranslation();
+
+  const actionList: DropdownMenuItem[] = PROMPT_FRAMEWORK_LIST(t)
+    .filter(f => f.value !== PromptFrameworkEnum.COMMON)
+    .map(item => ({
+      key: item.value,
+      label: (
+        <div className={cn('flex items-center gap-1 text-[13px]')}>
+          {item.label}
+          <Tooltip title={PROMPT_FRAMEWORK_MAP(t)?.[item.value]?.description}>
+            <InfoCircledIcon width={14} height={14} />
+          </Tooltip>
+        </div>
+      ),
+      onClick: () => onChange(item.value, PROMPT_FRAMEWORK_MAP(t)?.[item.value]?.template),
+    }));
 
   return (
     <div className={cn('flex items-center text-[13px]', className)}>
-      <span className={cn('opacity-[25%]')}>选择</span>
+      <span className={cn('opacity-[25%]')}>{t('BUTTON_21')}</span>
       <ActionDropdown placement="bottomLeft" trigger={['click']} actionList={actionList}>
         <Button
           type="link"
           icon={<DashboardIcon height={13} width={13} />}
           style={{ fontSize: 13, padding: '0 5px', gap: 4 }}
         >
-          框架创建
+          {t('BUTTON_22')}
         </Button>
       </ActionDropdown>
-      <span className={cn('opacity-[25%]')}>或直接输入</span>
+      <span className={cn('opacity-[25%]')}>{t('PLACEHOLDER_10')}</span>
     </div>
   );
 };

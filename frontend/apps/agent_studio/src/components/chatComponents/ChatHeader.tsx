@@ -12,6 +12,7 @@ import useQueryRouter from '@/utils/router';
 import useConversationManage from '@/hooks/useConversationManage';
 import { NAV_PATH_MAP } from '@/constant/nav';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 interface ChatHeaderProps {
   isSharePage?: boolean;
@@ -19,17 +20,19 @@ interface ChatHeaderProps {
 
 const ChatHeader: FC<ChatHeaderProps> = ({ isSharePage }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const queryRouter = useQueryRouter();
 
   const { __setShowConversationListModal } = useGlobalModel();
-  const { currentConversation, initConversation, clearConversation } = useConversationModel();
+  const { currentConversation, initConversation, clearConversation, cleanupAllConversationBackgroundTasks } =
+    useConversationModel();
 
   const { shareConversation } = useConversationManage();
 
   const dropdownItems: MenuProps['items'] = [
     {
       key: '1',
-      label: '保留配置',
+      label: t('BUTTON_7'),
       onClick: () => {
         if (isSharePage) {
           navigate(`${NAV_PATH_MAP.CHAT}?copyConfig=true`);
@@ -41,8 +44,10 @@ const ChatHeader: FC<ChatHeaderProps> = ({ isSharePage }) => {
     },
     {
       key: '2',
-      label: '清空配置',
+      label: t('BUTTON_8'),
       onClick: () => {
+        // 新建对话时，先取消上一个会话的后台任务
+        cleanupAllConversationBackgroundTasks();
         clearConversation();
         navigate(NAV_PATH_MAP.CHAT);
         initConversation();
@@ -52,10 +57,10 @@ const ChatHeader: FC<ChatHeaderProps> = ({ isSharePage }) => {
 
   const genHeaderTip = () => {
     if (isSharePage) {
-      return <div className={cn('flex-shrink-0 text-[12px]')}>来自他人分享</div>;
+      return <div className={cn('flex-shrink-0 text-[12px]')}>{t('CHAT_29')}</div>;
     }
     if (currentConversation.isShared === 1) {
-      return <div className={cn('flex-shrink-0 text-[12px]')}>⚠️当前会话已分享，请注意保密</div>;
+      return <div className={cn('flex-shrink-0 text-[12px]')}>{t('CHAT_30')}</div>;
     }
     return null;
   };
@@ -79,7 +84,7 @@ const ChatHeader: FC<ChatHeaderProps> = ({ isSharePage }) => {
             style={{ fontSize: 13, height: 28 }}
             onClick={() => __setShowConversationListModal(true)}
           >
-            历史
+            {t('BUTTON_9')}
           </Button>
         )}
 
@@ -92,7 +97,7 @@ const ChatHeader: FC<ChatHeaderProps> = ({ isSharePage }) => {
             disabled={Boolean(!queryRouter.get('sid'))}
             onClick={() => shareConversation(currentConversation)}
           >
-            分享
+            {t('BUTTON_1')}
           </Button>
         )}
 
@@ -103,7 +108,7 @@ const ChatHeader: FC<ChatHeaderProps> = ({ isSharePage }) => {
             color="default"
             style={{ fontSize: 13, height: 28 }}
           >
-            新对话
+            {t('BUTTON_10')}
           </Button>
         </Dropdown>
 
@@ -115,7 +120,7 @@ const ChatHeader: FC<ChatHeaderProps> = ({ isSharePage }) => {
             style={{ fontSize: 13, height: 28 }}
             onClick={() => navigate(`${NAV_PATH_MAP.CHAT}?copyChat=true`)}
           >
-            复制对话
+            {t('BUTTON_11')}
           </Button>
         )}
       </div>

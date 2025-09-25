@@ -9,6 +9,7 @@ import useFeedback from '@/context/feedbackContext';
 import { isJSON, tranJsonToObject } from '@/utils/json';
 import mcpTool from '@/services/mcpTool';
 import { conversationModel } from '@/store/chat/conversationModel';
+import { useTranslation } from 'react-i18next';
 
 interface FunctionCallModelState {
   /** state */
@@ -190,6 +191,8 @@ export const functionCallModel = create<FunctionCallModelState>()(
 );
 
 function useFunctionCallModel() {
+  const { t } = useTranslation();
+
   const {
     functionCallMap,
     enableFunctionCallMap,
@@ -218,18 +221,18 @@ function useFunctionCallModel() {
     const abortController = conversationModel.getState().abortControllerMap[msgGroupKey];
 
     if (!enableFunctionCall || !functionCall?.enabled) {
-      messageApi.error('未启用 Function Call');
+      messageApi.error(t('MESSAGE_9'));
       return { result: '', success: true };
     }
 
     if (!functionCall?.mcpServer?.endpointUrl) {
-      console.error('缺失 endpointUrl');
+      console.error(t('MESSAGE_3'));
       return { result: '', success: true };
     }
 
     if (!isJSON(toolCall.function.arguments)) {
-      messageApi.error('大模型参数格式不合法');
-      return { result: '执行参数格式错误，请重新生成参数', success: true };
+      messageApi.error(t('MESSAGE_10'));
+      return { result: t('MESSAGE_11'), success: true };
     }
 
     const params: McpToolCallParams = {
@@ -249,7 +252,8 @@ function useFunctionCallModel() {
       }
       return { result: '', success: true };
     } catch (err) {
-      messageApi.error(`调用 MCP 工具失败：${err}`);
+      messageApi.error(t('MESSAGE_ERROR_29'));
+      console.error(t('MESSAGE_ERROR_29'), ': ', err);
       return { result: '', success: false };
     }
   };

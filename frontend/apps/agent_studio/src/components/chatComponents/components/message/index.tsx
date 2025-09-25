@@ -11,6 +11,7 @@ import useMessageGroupModel from '@/store/chat/messageGroupModel';
 import ReactMarkdown from '@/components/reactMarkdown';
 import useMessageModel from '@/store/chat/messageModel';
 import FunctionInvoker from './FunctionInvoker';
+import { useTranslation } from 'react-i18next';
 
 const { TextArea } = Input;
 
@@ -33,6 +34,8 @@ const Message: FC<MessageProps> = ({ msgGroupKey, messageItem, isReadonly }) => 
       fontSize: 13,
     },
   };
+
+  const { t } = useTranslation();
 
   const { messageGroups } = useMessageGroupModel();
   const { __updateMessage } = useMessageModel();
@@ -90,7 +93,7 @@ const Message: FC<MessageProps> = ({ msgGroupKey, messageItem, isReadonly }) => 
           items={[
             {
               key: 'reasoningContent',
-              label: '思考过程',
+              label: t('CHAT_1'),
               children: genContent(messageItem.reasoningContent),
               styles,
             },

@@ -83,21 +83,21 @@ export function objectToArray(obj: Record<string, any>) {
 }
 
 // 校验对象是否符合 JSONSchema7 类型
-export function validateJsonSchema(schema: JSONSchema7): string | null {
+export function validateJsonSchema(schema: JSONSchema7, t: any): string | null {
   // 校验 schema 是否是一个对象
   if (typeof schema !== 'object' || schema === null) {
-    return 'schema 必须是一个对象';
+    return t('MESSAGE_17');
   }
 
   // 校验 type 属性是否是字符串
   if (schema.type && typeof schema.type !== 'string') {
-    return 'type 属性必须是一个字符串';
+    return t('MESSAGE_18');
   }
 
   // 校验 properties 属性是否是一个对象
   if (schema.properties) {
     if (typeof schema.properties !== 'object' || schema.properties === null) {
-      return 'properties 属性必须是一个对象';
+      return t('MESSAGE_19');
     }
 
     // 遍历 properties 的每个键值对，递归校验子属性是否符合 JSONSchema7 类型
@@ -108,7 +108,7 @@ export function validateJsonSchema(schema: JSONSchema7): string | null {
         continue; // boolean 类型的 schema 定义是合法的
       }
       // 当做 JSONSchema7 处理
-      const info = validateJsonSchema(property);
+      const info = validateJsonSchema(property, t);
       if (info) {
         return info;
       }
@@ -118,13 +118,13 @@ export function validateJsonSchema(schema: JSONSchema7): string | null {
   // 校验 required 属性是否是字符串数组
   if (schema.required) {
     if (!Array.isArray(schema.required) || !schema.required.every(item => typeof item === 'string')) {
-      return 'required 属性必须是 key 值数组';
+      return t('MESSAGE_20');
     }
   }
 
   // 校验 description 属性是否是字符串
   if (schema.description && typeof schema.description !== 'string') {
-    return 'description 属性必须是一个字符串';
+    return t('MESSAGE_21');
   }
 
   // 如果所有校验都通过，返回 null

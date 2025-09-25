@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "tsc -b && vite build && vite preview"
   },
   "dependencies": {
     "@ant-design/nextjs-registry": "^1.1.0",
@@ -19,6 +20,9 @@
     "class-variance-authority": "^0.7.1",
     "copy-to-clipboard": "^3.3.3",
     "dayjs": "^1.11.18",
+    "i18next": "^25.5.2",
+    "i18next-browser-languagedetector": "^8.2.0",
+    "i18next-http-backend": "^3.0.2",
     "immer": "^10.1.1",
     "json-bigint": "^1.0.0",
     "jsonata": "^2.1.0",
@@ -27,6 +31,7 @@
     "monaco-editor": "^0.52.2",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-i18next": "^15.7.3",
     "react-markdown": "^10.1.0",
     "react-mathjax": "^1.0.1",
     "react-router-dom": "^7.9.1",
@@ -43,6 +48,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
+    "@types/i18next-browser-languagedetector": "^3.0.0",
     "@types/json-schema": "^7.0.15",
     "@types/lodash-es": "^4.17.12",
     "@types/node": "^24.5.0",

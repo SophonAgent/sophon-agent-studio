@@ -9,10 +9,13 @@ import { RoleEnum } from '@/interface/chat';
 import useChat from '@/hooks/useChat';
 import Tooltip from '@/lib/tooltip';
 import useQueryRouter from '@/utils/router';
+import { useTranslation } from 'react-i18next';
+import { getSidFromHashUrl } from '@/utils/url';
 
 const { TextArea } = Input;
 
 const ChatInput: FC = () => {
+  const { t } = useTranslation();
   const queryRouter = useQueryRouter();
 
   const { currentConversation, getConversationList, stopAllRequest, saveConversation } =
@@ -44,7 +47,7 @@ const ChatInput: FC = () => {
       >
         <TextArea
           variant="borderless"
-          placeholder="请输入你的问题，按shift+enter可换行"
+          placeholder={t('PLACEHOLDER_1')}
           autoSize={{ minRows: 2, maxRows: 4 }}
           style={{ padding: 0, fontSize: 13 }}
           value={inputValue}
@@ -66,7 +69,7 @@ const ChatInput: FC = () => {
         />
 
         <div className={cn('mt-3 flex items-center justify-between')}>
-          <Tooltip title={`切换为 ${inputRole === RoleEnum.USER ? RoleEnum.ASSISTANT : RoleEnum.USER}`}>
+          <Tooltip title={t(inputRole === RoleEnum.USER ? t('CHAT_2') : t('CHAT_3'))}>
             <Button
               size="small"
               style={{ textTransform: 'capitalize' }}
@@ -89,7 +92,7 @@ const ChatInput: FC = () => {
               }}
               disabled={!inputValue}
             >
-              添加消息
+              {t('CHAT_4')}
             </Button>
 
             {isSomeChatRunning ? (
@@ -101,7 +104,7 @@ const ChatInput: FC = () => {
                   stopAllRequest();
                   await saveConversation();
                   // 更新 url sid
-                  const sid = new URLSearchParams(location.search).get('sid');
+                  const sid = getSidFromHashUrl();
                   if (!sid) {
                     queryRouter.set('sid', currentConversation.sessionId);
                     await getConversationList();

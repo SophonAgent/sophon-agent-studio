@@ -8,12 +8,15 @@ import MessagePanel from './components/MessagePanel';
 import Toolbar from './components/Toolbar';
 import SystemPromptPanel from './components/SystemPromptPanel';
 import FunctionPanel from './components/FunctionPanel';
+import { useTranslation } from 'react-i18next';
 
 interface CompareChatProps {
   isReadonly?: boolean;
 }
 
 const CompareChat: FC<CompareChatProps> = ({ isReadonly }) => {
+  const { t } = useTranslation();
+
   const { messageGroups } = useMessageGroupModel();
 
   return (
@@ -21,6 +24,7 @@ const CompareChat: FC<CompareChatProps> = ({ isReadonly }) => {
       <div className={cn('flex flex-1 overflow-hidden')}>
         {messageGroups.map((group, index) => {
           const { msgGroupKey } = group;
+          const groupName = `${t('CHAT_11')}${index + 1}`;
           return (
             <div
               key={msgGroupKey}
@@ -31,13 +35,13 @@ const CompareChat: FC<CompareChatProps> = ({ isReadonly }) => {
               )}
             >
               <div className={cn('border-b border-solid border-default')}>
-                <Toolbar msgGroupKey={msgGroupKey} isReadonly={isReadonly} />
+                <Toolbar msgGroupKey={msgGroupKey} isReadonly={isReadonly} groupName={groupName} />
               </div>
               <div className={cn('border-b border-solid border-default')}>
-                <SystemPromptPanel msgGroupKey={msgGroupKey} isReadonly={isReadonly} />
+                <SystemPromptPanel msgGroupKey={msgGroupKey} isReadonly={isReadonly} groupName={groupName} />
               </div>
               <div className={cn('border-b border-solid border-default')}>
-                <FunctionPanel msgGroupKey={msgGroupKey} isReadonly={isReadonly} />
+                <FunctionPanel msgGroupKey={msgGroupKey} isReadonly={isReadonly} groupName={groupName} />
               </div>
               <MessagePanel
                 className={cn('mt-4 flex-1', isReadonly ? 'mb-4' : '')}

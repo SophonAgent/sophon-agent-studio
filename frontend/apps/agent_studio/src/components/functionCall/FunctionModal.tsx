@@ -12,6 +12,7 @@ import { DEFAULT_PARAMETER } from '@/constant/functionCall';
 import { getUuid } from '@/utils/uuid';
 import useFeedback from '@/context/feedbackContext';
 import Modal from '@/lib/modal';
+import { useTranslation } from 'react-i18next';
 
 const { Item: FormItem } = Form;
 const { TextArea } = Input;
@@ -36,6 +37,8 @@ const FunctionModal: FC<FunctionModalProps> = ({
   onDelete,
   onCancel,
 }) => {
+  const { t } = useTranslation();
+
   const [form] = Form.useForm();
 
   const { messageApi } = useFeedback();
@@ -115,7 +118,7 @@ const FunctionModal: FC<FunctionModalProps> = ({
           name="qualifiedName"
           tooltip="The name of the function to be called."
           required
-          rules={RequiredValidator}
+          rules={RequiredValidator(t)}
         >
           <Input disabled={isMcpTool || isReadonly} />
         </FormItem>
@@ -124,7 +127,7 @@ const FunctionModal: FC<FunctionModalProps> = ({
           name="description"
           tooltip="A description of what the function does, used by the model to choose when and how to call the function."
           required
-          rules={RequiredValidator}
+          rules={RequiredValidator(t)}
         >
           <TextArea autoSize={{ minRows: 3, maxRows: 3 }} disabled={isReadonly} />
         </FormItem>
@@ -133,7 +136,7 @@ const FunctionModal: FC<FunctionModalProps> = ({
           name="parameters"
           tooltip="The parameters the functions accepts, described as a JSON Schema object."
           required
-          rules={JsonSchemaValidator}
+          rules={JsonSchemaValidator(t)}
         >
           <JsonEditor isReadonly={isReadonly} />
         </FormItem>

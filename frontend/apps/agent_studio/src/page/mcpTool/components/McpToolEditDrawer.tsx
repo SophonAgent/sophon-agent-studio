@@ -18,6 +18,7 @@ import RequestHeaderFormList from '@/components/requestHeaderFormList';
 import { arrayToObject, objectToArray } from '@/utils/json';
 import { cloneDeep } from 'lodash-es';
 import { cn } from '@/utils/tw';
+import { useTranslation } from 'react-i18next';
 
 const { Item: FormItem } = Form;
 const { TextArea } = Input;
@@ -43,6 +44,8 @@ interface McpToolEditDrawerProps {
 }
 
 const McpToolEditDrawer: FC<McpToolEditDrawerProps> = ({ initialValues, onCancel, onSuccess }) => {
+  const { t } = useTranslation();
+
   const [form] = Form.useForm();
 
   const { isMcpToolConfigSaveLoading, createMcpToolConfig, updateMcpToolConfig } = useMcpTool();
@@ -76,38 +79,38 @@ const McpToolEditDrawer: FC<McpToolEditDrawerProps> = ({ initialValues, onCancel
   return (
     <Drawer
       open
-      title={initialValues?.id ? '编辑工具' : '新建工具'}
+      title={initialValues?.id ? t('MCP_TOOL_6') : t('MCP_TOOL_5')}
       autoFocus={false}
       size="large"
       onCancel={onCancel}
       onOk={handleSubmit}
       confirmLoading={isMcpToolConfigSaveLoading}
     >
-      <Form form={form} labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
+      <Form form={form} labelCol={{ span: 7 }} wrapperCol={{ span: 17 }}>
         <FormItem name="serverQualifiedName" hidden>
           <Input />
         </FormItem>
 
         {/* -----基本信息----- */}
-        <AccentBorderHeader title="基本信息" className={cn('mb-6 text-[16px]')} />
-        <FormItem label="工具展示名称" name="displayName" required rules={RequiredValidator}>
+        <AccentBorderHeader title={t('TAG_9')} className={cn('mb-6 text-[16px]')} />
+        <FormItem label={t('MCP_TOOL_7')} name="displayName" required rules={RequiredValidator(t)}>
           <Input />
         </FormItem>
         <FormItem
-          label="工具唯一标识名"
+          label={t('MCP_TOOL_8')}
           name="qualifiedName"
           required
-          rules={[...RequiredValidator, ...LowerCasePathValidator]}
-          tooltip="AI Agent（大模型）调用 MCP Server Tool 的唯一标识"
+          rules={[...RequiredValidator(t), ...LowerCasePathValidator(t)]}
+          tooltip={t('MCP_TOOL_9')}
         >
           <Input />
         </FormItem>
         <FormItem
-          label="模型描述"
+          label={t('TAG_6')}
           name="description"
           required
-          rules={RequiredValidator}
-          tooltip="帮助AI Agent（大模型）理解 MCP Server Tool的功能，是用于决定使用当前tool的重要依据"
+          rules={RequiredValidator(t)}
+          tooltip={t('MCP_TOOL_10')}
         >
           <TextArea autoSize={{ minRows: 3, maxRows: 3 }} />
         </FormItem>
@@ -115,20 +118,20 @@ const McpToolEditDrawer: FC<McpToolEditDrawerProps> = ({ initialValues, onCancel
           label="Input Schema"
           name="inputSchema"
           required
-          rules={JsonSchemaValidator}
-          tooltip="AI Agent 思考后调用 MCP Server Tool 的输入参数，使用 JSON Schema 描述"
+          rules={JsonSchemaValidator(t)}
+          tooltip={t('MCP_TOOL_11')}
           initialValue={defaultInputSchema}
         >
           <JsonEditor />
         </FormItem>
 
         {/* -----工具能力配置----- */}
-        <AccentBorderHeader title="工具能力配置" className={cn('mb-6 mt-10 text-[16px]')} />
+        <AccentBorderHeader title={t('TAG_10')} className={cn('mb-6 mt-10 text-[16px]')} />
         <FormItem
-          label="类型"
+          label={t('TAG_11')}
           name="proxyType"
           required
-          rules={RequiredValidator}
+          rules={RequiredValidator(t)}
           initialValue={McpToolProxyType.HTTP}
         >
           <RadioGroup
@@ -140,13 +143,13 @@ const McpToolEditDrawer: FC<McpToolEditDrawerProps> = ({ initialValues, onCancel
         </FormItem>
         {proxyTypeField === McpToolProxyType.HTTP && (
           <Fragment>
-            <FormItem label="URL" name="requestUrl" required rules={RequiredValidator}>
+            <FormItem label="URL" name="requestUrl" required rules={RequiredValidator(t)}>
               <Input />
             </FormItem>
             <FormItem
-              label="请求方式"
+              label={t('TAG_12')}
               name="requestMethod"
-              rules={RequiredValidator}
+              rules={RequiredValidator(t)}
               required
               initialValue={McpToolRequestMethodType.GET}
             >
@@ -168,16 +171,16 @@ const McpToolEditDrawer: FC<McpToolEditDrawerProps> = ({ initialValues, onCancel
         <FormItem
           label="Request Schema"
           name="requestJson"
-          rules={JSONataValidator}
-          tooltip="JSONata 格式，用于在 POST 请求下替换 Request Body"
+          rules={JSONataValidator(t)}
+          tooltip={t('MCP_TOOL_12')}
         >
           <JsonEditor />
         </FormItem>
         <FormItem
           label="Response Schema"
           name="responseJson"
-          rules={JSONataValidator}
-          tooltip="JSONata 格式，用于描述 Response 的裁剪、重命名等"
+          rules={JSONataValidator(t)}
+          tooltip={t('MCP_TOOL_13')}
         >
           <JsonEditor />
         </FormItem>

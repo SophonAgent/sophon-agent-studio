@@ -5,6 +5,7 @@ import useFeedback from '@/context/feedbackContext';
 import modelConfig from '@/services/modelConfig';
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
+import { useTranslation } from 'react-i18next';
 
 interface ModelConfigState {
   /** state */
@@ -53,6 +54,8 @@ export const modelConfigModel = create<ModelConfigState>()(
 );
 
 function useModelConfigModel() {
+  const { t } = useTranslation();
+
   const {
     chatModelConfigMap,
     modelList,
@@ -69,7 +72,8 @@ function useModelConfigModel() {
       const res = await modelConfig.getModelConfigList();
       __setModelList(res?.data || []);
     } catch (err) {
-      messageApi.error(`获取模型列表失败：${err}`);
+      messageApi.error(t('MESSAGE_ERROR_18'));
+      console.error(t('MESSAGE_ERROR_18'), ': ', err);
     }
   };
 

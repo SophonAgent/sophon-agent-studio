@@ -20,13 +20,16 @@ import CompareIcon from '@/icons/compareIcon';
 import CloseIcon from '@/icons/closeIcon';
 import useModelConfigModel from '@/store/chat/modelConfigModel';
 import useQueryRouter from '@/utils/router';
+import { useTranslation } from 'react-i18next';
+import { getSidFromHashUrl } from '@/utils/url';
 
 interface ToolbarPros {
   msgGroupKey: string;
   isReadonly?: boolean;
+  groupName?: string;
 }
 
-const Toolbar: FC<ToolbarPros> = ({ msgGroupKey, isReadonly }) => {
+const Toolbar: FC<ToolbarPros> = ({ msgGroupKey, isReadonly, groupName }) => {
   const btnStyle = {
     border: 'none',
     boxShadow: 'none',
@@ -37,6 +40,7 @@ const Toolbar: FC<ToolbarPros> = ({ msgGroupKey, isReadonly }) => {
     padding: '0 8px',
   };
 
+  const { t, i18n } = useTranslation();
   const queryRouter = useQueryRouter();
 
   const { currentConversation, getConversationList, stopRequestByKey, saveConversation } =
@@ -57,14 +61,14 @@ const Toolbar: FC<ToolbarPros> = ({ msgGroupKey, isReadonly }) => {
   const [showRequestModal, setShowRequestModal] = useState<'import' | 'export'>();
   const [collapseBtns, setCollapseBtns] = useState<'switch' | 'all'>();
 
+  const isEnglishLng = i18n.language === 'en';
+
   const isRunning = useMemo(() => isRunningMap[msgGroupKey], [isRunningMap, msgGroupKey]);
 
   const messageGroup = useMemo(
     () => messageGroups.find(i => i.msgGroupKey === msgGroupKey),
     [messageGroups, msgGroupKey],
   );
-
-  const groupName = useMemo(() => messageGroup?.name, [messageGroup]);
 
   const displayConfig = useMemo(() => messageGroup?.displayConfig, [messageGroups, msgGroupKey]);
 
@@ -90,9 +94,9 @@ const Toolbar: FC<ToolbarPros> = ({ msgGroupKey, isReadonly }) => {
           return;
         }
         if (is2Groups) {
-          if (width <= 258) {
+          if ((!isEnglishLng && width <= 258) || (isEnglishLng && width <= 308)) {
             setCollapseBtns('all');
-          } else if (width <= 408) {
+          } else if ((!isEnglishLng && width <= 408) || (isEnglishLng && width <= 458)) {
             setCollapseBtns('switch');
           } else {
             setCollapseBtns(undefined);
@@ -116,7 +120,7 @@ const Toolbar: FC<ToolbarPros> = ({ msgGroupKey, isReadonly }) => {
     return () => {
       resizeObserver.unobserve(box);
     };
-  }, [is2Groups, is3Groups, isReadonly]);
+  }, [is2Groups, is3Groups, isReadonly, isEnglishLng]);
 
   const onCloseRequestModal = () => {
     setShowRequestModal(undefined);
@@ -127,7 +131,7 @@ const Toolbar: FC<ToolbarPros> = ({ msgGroupKey, isReadonly }) => {
       <div className={cn('flex items-center')}>
         {/* 导入 request params */}
         {isReadonly ? null : (
-          <Tooltip title="导入 Request">
+          <Tooltip title={t('CHAT_12')}>
             <Button
               icon={<DownloadIcon className={cn('h-[16px] w-[16px]')} />}
               style={{ ...btnStyle, height: 28, width: 28 }}
@@ -139,7 +143,7 @@ const Toolbar: FC<ToolbarPros> = ({ msgGroupKey, isReadonly }) => {
 
         {/* 导出 request params */}
         {isReadonly ? null : (
-          <Tooltip title="导出 Request">
+          <Tooltip title={t('CHAT_13')}>
             <Button
               icon={<UploadIcon className={cn('h-[16px] w-[16px]')} />}
               style={{ ...btnStyle, height: 28, width: 28 }}
@@ -156,7 +160,7 @@ const Toolbar: FC<ToolbarPros> = ({ msgGroupKey, isReadonly }) => {
     return (
       <div className={cn('flex items-center gap-1')}>
         {/* 完整展示 tool output */}
-        <Tooltip title={isMultiToolOutput ? '切换为单行展示工具输出' : '切换为多行展示工具输出'}>
+        <Tooltip title={isMultiToolOutput ? t('CHAT_14') : t('CHAT_15')}>
           <Button
             icon={<CenterRowsIcon className={cn('h-[16px] w-[16px]')} />}
             style={{ ...btnStyle, background: isMultiToolOutput ? 'var(--bg-tertiary)' : 'transparent' }}
@@ -168,7 +172,7 @@ const Toolbar: FC<ToolbarPros> = ({ msgGroupKey, isReadonly }) => {
 
         {/* 自动执行 mcp */}
         {isReadonly ? null : (
-          <Tooltip title={isAutoRunMcpTool ? '切换为手动执行MCP工具' : '切换为自动执行MCP工具'}>
+          <Tooltip title={isAutoRunMcpTool ? t('CHAT_16') : t('CHAT_17')}>
             <Button
               icon={<PlayIcon className={cn('h-[16px] w-[16px]')} />}
               style={{ ...btnStyle, background: isAutoRunMcpTool ? 'var(--bg-tertiary)' : 'transparent' }}
@@ -180,7 +184,7 @@ const Toolbar: FC<ToolbarPros> = ({ msgGroupKey, isReadonly }) => {
         )}
 
         {/* markdown 展示 */}
-        <Tooltip title={isMarkdown ? '切换为普通文本显示' : '切换为 Markdown 格式显示'}>
+        <Tooltip title={isMarkdown ? t('CHAT_18') : t('CHAT_19')}>
           <Button
             icon={<MarkdownIcon className={cn('h-[16px] w-[16px]')} />}
             style={{ ...btnStyle, background: isMarkdown ? 'var(--bg-tertiary)' : 'transparent' }}
@@ -190,7 +194,7 @@ const Toolbar: FC<ToolbarPros> = ({ msgGroupKey, isReadonly }) => {
 
         {/* 是否流式输出 */}
         {isReadonly ? null : (
-          <Tooltip title={isStream ? '切换为整体输出' : '切换为流式输出'}>
+          <Tooltip title={isStream ? t('CHAT_20') : t('CHAT_21')}>
             <Button
               icon={<StreamIcon className={cn('h-[16px] w-[16px]')} />}
               style={{ ...btnStyle, background: isStream ? 'var(--bg-tertiary)' : 'transparent' }}
@@ -201,7 +205,7 @@ const Toolbar: FC<ToolbarPros> = ({ msgGroupKey, isReadonly }) => {
 
         {/* 单轮 多轮 */}
         {isReadonly ? null : (
-          <Tooltip title={isMultiTurn ? '切换为单轮对话' : '切换为多轮对话'}>
+          <Tooltip title={isMultiTurn ? t('CHAT_22') : t('CHAT_23')}>
             <Button
               icon={<MultiTurnIcon className={cn('h-[16px] w-[16px]')} />}
               style={{ ...btnStyle, background: isMultiTurn ? 'var(--bg-tertiary)' : 'transparent' }}
@@ -262,7 +266,9 @@ const Toolbar: FC<ToolbarPros> = ({ msgGroupKey, isReadonly }) => {
   };
 
   return (
-    <div className={cn('mx-5 my-[10px] flex items-center gap-[6px]')}>
+    <div
+      className={cn('mx-5 my-[10px] flex items-center gap-[6px]', isCompareMode ? 'h-[32px]' : 'h-[36px]')}
+    >
       {isCompareMode ? <div className="flex-shrink-0 text-[14px] font-medium">{groupName}</div> : null}
 
       <PopoverModelButton msgGroupKey={msgGroupKey} isReadonly={isReadonly} />
@@ -270,7 +276,7 @@ const Toolbar: FC<ToolbarPros> = ({ msgGroupKey, isReadonly }) => {
       <div className={cn('flex flex-1 items-center justify-end')} ref={boxRef}>
         {/* 清除对话 */}
         {isReadonly ? null : (
-          <Tooltip title="清除对话">
+          <Tooltip title={t('CHAT_24')}>
             <Button
               icon={<BrushIcon className={cn('h-[16px] w-[16px]')} />}
               style={{ ...btnStyle, height: 28, width: 28 }}
@@ -282,7 +288,7 @@ const Toolbar: FC<ToolbarPros> = ({ msgGroupKey, isReadonly }) => {
 
         {/* 停止对话 */}
         {isReadonly ? null : (
-          <Tooltip title="停止对话">
+          <Tooltip title={t('CHAT_25')}>
             <Button
               icon={<RadiobuttonIcon className={cn('h-[16px] w-[16px]')} />}
               style={{ ...btnStyle, height: 28, width: 28, color: undefined }}
@@ -291,7 +297,7 @@ const Toolbar: FC<ToolbarPros> = ({ msgGroupKey, isReadonly }) => {
                 stopRequestByKey(msgGroupKey);
                 await saveConversation();
                 // 更新 url sid
-                const sid = new URLSearchParams(location.search).get('sid');
+                const sid = getSidFromHashUrl();
                 if (!sid) {
                   queryRouter.set('sid', currentConversation.sessionId);
                   await getConversationList();
@@ -312,13 +318,13 @@ const Toolbar: FC<ToolbarPros> = ({ msgGroupKey, isReadonly }) => {
             onClick={() => addCompareMessageGroup(msgGroupKey)}
             disabled={isRunning || !modelConfig}
           >
-            添加对比
+            {t('CHAT_26')}
           </Button>
         ) : null}
 
         {/* 退出对比 */}
         {showExitCompare && !isReadonly ? (
-          <Tooltip title="退出对比">
+          <Tooltip title={t('CHAT_27')}>
             <Button
               icon={<CloseIcon className={cn('h-[16px] w-[16px]')} />}
               style={{ ...btnStyle, height: 28, width: 28 }}

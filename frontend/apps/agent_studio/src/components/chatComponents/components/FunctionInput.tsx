@@ -13,6 +13,7 @@ import DeleteIcon from '@/icons/deleteIcon';
 import useFeedback from '@/context/feedbackContext';
 import McpToolModal from '@/components/mcpToolModal';
 import McpToolDiffModal from '@/components/mcpToolDiffModal';
+import { useTranslation } from 'react-i18next';
 
 interface FunctionInputProps {
   className?: string;
@@ -21,6 +22,8 @@ interface FunctionInputProps {
 }
 
 const FunctionInput: FC<FunctionInputProps> = ({ className, msgGroupKey, disabled }) => {
+  const { t } = useTranslation();
+
   const {
     functionCallMap,
     __addFunctionCallItem,
@@ -127,9 +130,9 @@ const FunctionInput: FC<FunctionInputProps> = ({ className, msgGroupKey, disable
           onClick={e => {
             e.stopPropagation();
             modalApi.confirm({
-              title: '确认删除所有 Functions 吗？',
+              title: t('MODAL_3'),
               centered: true,
-              content: '删除后不可恢复，请谨慎操作',
+              content: t('MODAL_2'),
               okButtonProps: { danger: true },
               onOk: () => __removeFunctionCallList({ msgGroupKey, isSync: isSyncMap.function }),
             });

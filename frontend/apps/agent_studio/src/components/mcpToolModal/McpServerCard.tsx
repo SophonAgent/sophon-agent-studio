@@ -10,14 +10,15 @@ interface McpServerCardProps {
   mcpServer: McpServerItem;
   checked: boolean;
   onChange: (checked: boolean, mcpServer: McpServerItem) => void;
+  isLoading?: boolean;
 }
 
-const McpServerCard: FC<McpServerCardProps> = ({ mcpServer, checked, onChange }) => {
+const McpServerCard: FC<McpServerCardProps> = ({ mcpServer, checked, onChange, isLoading }) => {
   return (
     <div className={cn('rounded-lg bg-background-tertiary p-[12px]')}>
       <div className={cn('mb-1 flex items-center justify-between')}>
         <Paragraph3Line value={mcpServer.displayName} rows={1} style={{ fontWeight: 500 }} />
-        <Switch checked={checked} size="small" onChange={v => onChange(v, mcpServer)} />
+        <Switch checked={checked} size="small" onChange={v => onChange(v, mcpServer)} loading={isLoading} />
       </div>
       <Paragraph3Line
         value={mcpServer.description}

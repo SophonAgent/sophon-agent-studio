@@ -5,6 +5,7 @@ import { cn } from '@/utils/tw';
 import { EnterFullScreenIcon } from '@radix-ui/react-icons';
 import { Checkbox, Empty, Input } from 'antd';
 import Modal from '@/lib/modal';
+import { useTranslation } from 'react-i18next';
 
 const { TextArea } = Input;
 
@@ -24,6 +25,8 @@ const VariableModal: FC<VariableInputProps & { onCancel: () => void }> = ({
   onCancel,
   isReadonly,
 }) => {
+  const { t } = useTranslation();
+
   const variableList = useMemo(() => Object.entries(variables), [variables]);
 
   const genVariables = () => {
@@ -31,9 +34,7 @@ const VariableModal: FC<VariableInputProps & { onCancel: () => void }> = ({
       return (
         <Empty
           image={Empty.PRESENTED_IMAGE_SIMPLE}
-          description={
-            <span className={cn('text-[13px]')}>{`暂无变量。例：输入{xxx}，则xxx会被当作变量`}</span>
-          }
+          description={<span className={cn('text-[13px]')}>{t('CHAT_28')}</span>}
         />
       );
     }
@@ -76,7 +77,7 @@ const VariableModal: FC<VariableInputProps & { onCancel: () => void }> = ({
               checked={replace}
               onChange={e => onReplaceChange(e.target.checked)}
             >
-              预览完整 System Prompt
+              {t('PROMPT_9')}
             </Checkbox>
           </div>
         ) : null}
@@ -88,6 +89,8 @@ const VariableModal: FC<VariableInputProps & { onCancel: () => void }> = ({
 const VariableInput: FC<VariableInputProps> = props => {
   const { variables = {}, onVariableChange, replace, onReplaceChange, isReadonly } = props;
 
+  const { t } = useTranslation();
+
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
 
   const variableList = useMemo(() => Object.entries(variables), [variables]);
@@ -97,9 +100,7 @@ const VariableInput: FC<VariableInputProps> = props => {
       return (
         <Empty
           image={Empty.PRESENTED_IMAGE_SIMPLE}
-          description={
-            <span className={cn('text-[13px]')}>{`暂无变量。例：输入{xxx}，则xxx会被当作变量`}</span>
-          }
+          description={<span className={cn('text-[13px]')}>{t('CHAT_28')}</span>}
         />
       );
     }
@@ -152,7 +153,7 @@ const VariableInput: FC<VariableInputProps> = props => {
             checked={replace}
             onChange={e => onReplaceChange(e.target.checked)}
           >
-            预览完整 System Prompt
+            {t('PROMPT_9')}
           </Checkbox>
         </div>
       ) : null}

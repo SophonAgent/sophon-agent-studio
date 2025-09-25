@@ -12,8 +12,12 @@ import { dataColumns } from './constant';
 import { cloneDeep } from 'lodash-es';
 import ModelEditDrawer from './ModelEditDrawer';
 import { tranJsonToObject } from '@/utils/json';
+import { useTranslation } from 'react-i18next';
+import { MODEL_FAMILY_LIST } from '@/constant/model';
 
 const ModelManagement: FC = () => {
+  const { t } = useTranslation();
+
   const { modelList, isModelListLoading, getModelList, deleteModel } = useModelManagement();
 
   const [filterRecord, setFilterRecord] = useState<{
@@ -55,30 +59,31 @@ const ModelManagement: FC = () => {
     {
       key: 'name',
       type: 'input',
-      placeholder: '模型展示名',
+      placeholder: t('TAG_18'),
       value: filterRecord.name,
       onChange: e => setFilterRecord(prev => ({ ...prev, name: e.target.value })),
     },
     {
       key: 'modelName',
       type: 'input',
-      placeholder: '模型名称',
+      placeholder: t('TAG_19'),
       value: filterRecord.modelName,
       onChange: e => setFilterRecord(prev => ({ ...prev, modelName: e.target.value })),
     },
     {
       key: 'provider',
-      type: 'input',
-      placeholder: '模型家族',
+      type: 'select',
+      placeholder: t('TAG_20'),
       value: filterRecord.provider,
-      onChange: e => setFilterRecord(prev => ({ ...prev, provider: e.target.value })),
+      onChange: v => setFilterRecord(prev => ({ ...prev, provider: v })),
+      options: MODEL_FAMILY_LIST,
     },
   ];
 
   const actionList: TableActionItem[] = [
     {
       key: 'edit',
-      label: '编辑',
+      label: t('BUTTON_5'),
       onClick: (record: ModelConfigItem) => {
         setCurrentModelConfig(record);
         setShowModelEditDrawer(true);
@@ -86,7 +91,7 @@ const ModelManagement: FC = () => {
     },
     {
       key: 'delete',
-      label: '删除',
+      label: t('BUTTON_3'),
       danger: true,
       onConfirm: async (record: ModelConfigItem) => {
         await deleteModel(record.id);
@@ -99,9 +104,9 @@ const ModelManagement: FC = () => {
     <div className={cn('flex h-full flex-col pb-4')}>
       <PageHeader
         className={cn('mb-4')}
-        title={[{ label: '模型管理' }]}
+        title={[{ label: t('MODEL_6') }]}
         filterList={headerFilterList}
-        actionLabel="接入模型"
+        actionLabel={t('MODEL_7')}
         onActionClick={() => setShowModelEditDrawer(true)}
       />
 
@@ -110,11 +115,11 @@ const ModelManagement: FC = () => {
           rowKey="id"
           tableLayout="fixed"
           dataSource={filteredModelList}
-          dataColumns={dataColumns}
+          dataColumns={dataColumns(t)}
           actionList={actionList}
-          actionWidth={100}
+          actionWidth={110}
           loading={isModelListLoading}
-          scroll={{ x: dataColumns ? dataColumns.length * 180 : undefined }}
+          scroll={{ x: (dataColumns(t) as any[]).length * 180 }}
           pagination={{ hideOnSinglePage: true, showSizeChanger: true }}
         />
       </div>

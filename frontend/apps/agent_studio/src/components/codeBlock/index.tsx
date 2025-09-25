@@ -10,6 +10,7 @@ import { EyeOpenIcon } from '@radix-ui/react-icons';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import Modal from '@/lib/modal';
+import { useTranslation } from 'react-i18next';
 
 interface CodeBlockProps {
   language?: string;
@@ -17,6 +18,8 @@ interface CodeBlockProps {
 }
 
 const CodeBlock: FC<CodeBlockProps> = ({ language, code = '' }) => {
+  const { t } = useTranslation();
+
   const [showHtml, setShowHtml] = useState<boolean>(false);
 
   const title = useMemo(() => language?.toUpperCase() || '', [language]);
@@ -38,7 +41,7 @@ const CodeBlock: FC<CodeBlockProps> = ({ language, code = '' }) => {
 
         <div className={cn('flex items-center gap-1')}>
           {isHtml ? (
-            <Tooltip title="预览 HTML">
+            <Tooltip title={t('CHAT_31')}>
               <Button
                 type="link"
                 icon={<EyeOpenIcon />}

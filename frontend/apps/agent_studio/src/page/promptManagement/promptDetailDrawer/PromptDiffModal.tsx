@@ -6,6 +6,7 @@ import Modal from '@/lib/modal';
 import { cn } from '@/utils/tw';
 import MonacoDiffEditor from '@/lib/monacoDiffEditor';
 import PromptVariables from '@/components/promptVariables';
+import { useTranslation } from 'react-i18next';
 
 const DescriptionItem: FC<{ label: string; value: ReactNode }> = ({ label, value }) => {
   return (
@@ -27,21 +28,23 @@ const PromptDiffModal: FC<PromptDiffModalProps> = ({
   modifiedPromptDetail,
   onCancel,
 }) => {
+  const { t } = useTranslation();
+
   return (
-    <Modal open title="版本对比" onCancel={onCancel} size="large" footer={null}>
+    <Modal open title={t('PROMPT_29')} onCancel={onCancel} size="large" footer={null}>
       <div className={cn('mb-4 grid grid-cols-2 gap-3')}>
         <div className={cn('flex flex-col gap-2')}>
-          <DescriptionItem label="版本:" value={`V${originalPromptDetail?.version}`} />
+          <DescriptionItem label={`${t('TAG_24')}:`} value={`V${originalPromptDetail?.version}`} />
           <DescriptionItem
-            label="变量占位符:"
+            label={`${t('PROMPT_30')}:`}
             value={<PromptVariables value={originalPromptDetail?.contentPlaceholders} />}
           />
         </div>
 
         <div className={cn('flex flex-col gap-2')}>
-          <DescriptionItem label="版本:" value={`V${modifiedPromptDetail?.version}`} />
+          <DescriptionItem label={`${t('TAG_24')}:`} value={`V${modifiedPromptDetail?.version}`} />
           <DescriptionItem
-            label="变量占位符:"
+            label={`${t('PROMPT_30')}:`}
             value={<PromptVariables value={modifiedPromptDetail?.contentPlaceholders} />}
           />
         </div>

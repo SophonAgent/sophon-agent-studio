@@ -9,6 +9,7 @@ import { Button, Input } from 'antd';
 import { CodeIcon } from '@radix-ui/react-icons';
 import Tooltip from '@/lib/tooltip';
 import { isJSON } from '@/utils/json';
+import { useTranslation } from 'react-i18next';
 
 const { TextArea } = Input;
 
@@ -29,6 +30,8 @@ const JsonEditor: FC<JsonEditorProps> = ({
   isReadonly,
   placeholder,
 }) => {
+  const { t } = useTranslation();
+
   const handleEditorChange = (v?: string) => {
     onChange?.(v);
   };
@@ -52,7 +55,7 @@ const JsonEditor: FC<JsonEditorProps> = ({
           'flex h-[32px] items-center justify-end gap-3 overflow-hidden rounded-t-md bg-background-tertiary px-3 py-1 text-foreground-primary',
         )}
       >
-        <Tooltip title="格式化">
+        <Tooltip title={t('BUTTON_15')}>
           <Button type="text" icon={<CodeIcon />} size="small" onClick={() => onFormat()} />
         </Tooltip>
         <CopyButton value={value} size="small" />

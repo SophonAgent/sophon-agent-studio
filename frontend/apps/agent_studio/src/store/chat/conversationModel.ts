@@ -20,17 +20,19 @@ import { getUuid } from '@/utils/uuid';
 import { modelConfigModel } from './modelConfigModel';
 import useFeedback from '@/context/feedbackContext';
 import { globalModel } from '@/store/globalModel';
+import { useTranslation } from 'react-i18next';
 
 interface ConversationModelState {
   /** state */
   conversationList: SimpleConversationItem[];
-  isConversationLoading: boolean;
+  isConversationListLoading: boolean;
   currentConversation: Pick<SimpleConversationItem, 'id' | 'name' | 'sessionId' | 'isShared'>;
   abortControllerMap: Record<MsgGroupKeyType, AbortController>;
+  conversationCleanupTasks: Array<() => void>;
 
   /** actions */
   __setConversationList: (conversationHistoryList: SimpleConversationItem[]) => void;
-  __setIsConversationLoading: (isConversationHistoryLoading: boolean) => void;
+  __setIsConversationListLoading: (isConversationHistoryLoading: boolean) => void;
   __setCurrentConversation: (
     conversation: Pick<SimpleConversationItem, 'id' | 'name' | 'sessionId' | 'isShared'>,
   ) => void;
@@ -38,14 +40,16 @@ interface ConversationModelState {
     conversation: Partial<Pick<SimpleConversationItem, 'id' | 'name' | 'sessionId' | 'isShared'>>,
   ) => void;
   __setAbortControllerMapByKey: (msgGroupKey: string, abortController: AbortController) => void;
+  __setConversationCleanupTasks: (conversationCleanupTasks: Array<() => void>) => void;
 }
 
 export const conversationModel = create<ConversationModelState>()(
   immer((set, get) => ({
     conversationList: [],
-    isConversationLoading: false,
+    isConversationListLoading: false,
     currentConversation: {},
     abortControllerMap: {},
+    conversationCleanupTasks: [],
 
     __setConversationList: (conversationList: SimpleConversationItem[]) => {
       set(state => {
@@ -53,9 +57,9 @@ export const conversationModel = create<ConversationModelState>()(
       });
     },
 
-    __setIsConversationLoading: (isConversationLoading: boolean) => {
+    __setIsConversationListLoading: (isConversationListLoading: boolean) => {
       set(state => {
-        state.isConversationLoading = isConversationLoading;
+        state.isConversationListLoading = isConversationListLoading;
       });
     },
 
@@ -79,20 +83,30 @@ export const conversationModel = create<ConversationModelState>()(
         Object.assign(state.abortControllerMap, { [msgGroupKey]: abortController });
       });
     },
+
+    __setConversationCleanupTasks: (conversationCleanupTasks: Array<() => void>) => {
+      set(state => {
+        state.conversationCleanupTasks = conversationCleanupTasks;
+      });
+    },
   })),
 );
 
 function useConversationModel() {
+  const { t } = useTranslation();
+
   const {
     conversationList,
-    isConversationLoading,
+    isConversationListLoading,
     currentConversation,
     abortControllerMap,
+    conversationCleanupTasks,
     __setConversationList,
-    __setIsConversationLoading,
+    __setIsConversationListLoading,
     __setCurrentConversation,
     __updateCurrentConversation,
     __setAbortControllerMapByKey,
+    __setConversationCleanupTasks,
   } = conversationModel();
   const { userId } = globalModel();
   const { __setMessageGroups, __updateMessageGroupDisplayConfig, __setIsSyncMap } = messageGroupModel();
@@ -107,16 +121,17 @@ function useConversationModel() {
     if (!userId) return;
 
     if (!silent) {
-      __setIsConversationLoading(true);
+      __setIsConversationListLoading(true);
     }
     try {
       const res = await chat.getConversationList({ userId });
       __setConversationList(res?.data?.datas || []);
     } catch (err) {
-      messageApi.error(`获取对话列表失败：${err}`);
+      messageApi.error(t('MESSAGE_ERROR_2'));
+      console.error(t('MESSAGE_ERROR_2'), ': ', err);
     } finally {
       if (!silent) {
-        __setIsConversationLoading(false);
+        __setIsConversationListLoading(false);
       }
     }
   };
@@ -155,7 +170,7 @@ function useConversationModel() {
     stopAllRequest();
 
     const msgGroupKey = 'basic';
-    __setCurrentConversation({ name: '新对话', sessionId: getUuid(8) });
+    __setCurrentConversation({ name: t('CHAT_10'), sessionId: getUuid(8) });
 
     // 保留当前配置
     if (!keepCurrentCfg) {
@@ -249,7 +264,7 @@ function useConversationModel() {
     }
 
     // name
-    const newName = name === '新对话' ? data[0]?.completeContent?.[0]?.content?.slice(0, 32) : name;
+    const newName = name === t('CHAT_10') ? data[0]?.completeContent?.[0]?.content?.slice(0, 32) : name;
     __updateCurrentConversation({ name: newName });
 
     const params: ConversationItem = {
@@ -283,19 +298,38 @@ function useConversationModel() {
     __setChatModelConfigMap({});
   };
 
+  const registerConversationCleanup = (fn: () => void) => {
+    __setConversationCleanupTasks([...conversationModel.getState().conversationCleanupTasks, fn]);
+    return () => {
+      const tasks = conversationModel.getState().conversationCleanupTasks;
+      const index = tasks.indexOf(fn);
+      if (index > -1) {
+        const newTasks = tasks.filter((_, i) => i !== index);
+        __setConversationCleanupTasks(newTasks);
+      }
+    };
+  };
+
+  const cleanupAllConversationBackgroundTasks = () => {
+    conversationModel.getState().conversationCleanupTasks.forEach(task => task());
+    __setConversationCleanupTasks([]);
+  };
+
   return {
     /** state */
     conversationList,
-    isConversationLoading,
+    isConversationListLoading,
     currentConversation,
     abortControllerMap,
+    conversationCleanupTasks,
 
     /** actions */
     __setConversationList,
-    __setIsConversationLoading,
+    __setIsConversationListLoading,
     __setCurrentConversation,
     __updateCurrentConversation,
     __setAbortControllerMapByKey,
+    __setConversationCleanupTasks,
 
     getConversationList,
     stopRequestByKey,
@@ -303,6 +337,8 @@ function useConversationModel() {
     initConversation,
     saveConversation,
     clearConversation,
+    registerConversationCleanup,
+    cleanupAllConversationBackgroundTasks,
   };
 }
 

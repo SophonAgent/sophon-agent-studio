@@ -11,6 +11,7 @@ import { McpImplementTypeTextMap } from '@/constant/mcpServer';
 import { cn } from '@/utils/tw';
 import Tooltip from '@/lib/tooltip';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
+import { useTranslation } from 'react-i18next';
 
 const { Item: FormItem } = Form;
 const { TextArea } = Input;
@@ -22,6 +23,8 @@ interface McpServerEditModalProps {
 }
 
 const McpServerEditModal: FC<McpServerEditModalProps> = ({ initialValues, onCancel, onSuccess }) => {
+  const { t } = useTranslation();
+
   const [form] = Form.useForm();
 
   const { isMcpServerSaveLoading, createMcpServer, updateMcpServer } = useMcpServer();
@@ -48,7 +51,7 @@ const McpServerEditModal: FC<McpServerEditModalProps> = ({ initialValues, onCanc
     <Modal
       open
       size="large"
-      title={initialValues?.id ? '编辑 MCP Server' : '新建 MCP Server'}
+      title={initialValues?.id ? t('MCP_2') : t('MCP_3')}
       onCancel={onCancel}
       onOk={handleSubmit}
       confirmLoading={isMcpServerSaveLoading}
@@ -58,20 +61,20 @@ const McpServerEditModal: FC<McpServerEditModalProps> = ({ initialValues, onCanc
           <Input />
         </FormItem>
 
-        <FormItem label="MCP Server 展示名称" name="displayName" required rules={RequiredValidator}>
+        <FormItem label={t('MCP_4')} name="displayName" required rules={RequiredValidator(t)}>
           <Input />
         </FormItem>
-        <FormItem label="MCP Server 描述" name="description" required rules={RequiredValidator}>
+        <FormItem label={t('MCP_5')} name="description" required rules={RequiredValidator(t)}>
           <TextArea autoSize={{ minRows: 3, maxRows: 3 }} />
         </FormItem>
-        <FormItem label="所属分类" name="category">
+        <FormItem label={t('MCP_6')} name="category">
           <Input />
         </FormItem>
         <FormItem
-          label="服务来源"
+          label={t('MCP_7')}
           name="implementType"
           required
-          rules={RequiredValidator}
+          rules={RequiredValidator(t)}
           hidden={Boolean(initialValues?.id)}
         >
           <Select
@@ -79,8 +82,8 @@ const McpServerEditModal: FC<McpServerEditModalProps> = ({ initialValues, onCanc
               {
                 label: (
                   <div className={cn('flex items-center gap-1')}>
-                    {McpImplementTypeTextMap[McpImplementType.PROXY]}
-                    <Tooltip title="将 OpenAPI 接口发布成 MCP Server">
+                    {McpImplementTypeTextMap(t)[McpImplementType.PROXY]}
+                    <Tooltip title={t('MCP_8')}>
                       <InfoCircledIcon />
                     </Tooltip>
                   </div>
@@ -90,8 +93,8 @@ const McpServerEditModal: FC<McpServerEditModalProps> = ({ initialValues, onCanc
               {
                 label: (
                   <div className={cn('flex items-center gap-1')}>
-                    {McpImplementTypeTextMap[McpImplementType.EXTERNAL]}
-                    <Tooltip title="注册登记已有 MCP Server">
+                    {McpImplementTypeTextMap(t)[McpImplementType.EXTERNAL]}
+                    <Tooltip title={t('MCP_9')}>
                       <InfoCircledIcon />
                     </Tooltip>
                   </div>
@@ -102,7 +105,7 @@ const McpServerEditModal: FC<McpServerEditModalProps> = ({ initialValues, onCanc
           />
         </FormItem>
         {implementTypeField === McpImplementType.EXTERNAL ? (
-          <FormItem label="Endpoint Url" name="endpointUrl" required rules={RequiredValidator}>
+          <FormItem label="Endpoint Url" name="endpointUrl" required rules={RequiredValidator(t)}>
             <Input />
           </FormItem>
         ) : null}

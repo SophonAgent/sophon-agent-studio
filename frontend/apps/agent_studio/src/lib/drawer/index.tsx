@@ -5,6 +5,7 @@ import { memo } from 'react';
 import { Drawer as AntdDrawer, Button } from 'antd';
 import { Cross1Icon } from '@radix-ui/react-icons';
 import { cn } from '@/utils/tw';
+import { useTranslation } from 'react-i18next';
 
 interface DrawerProps extends Omit<AntdDrawerProps, 'size' | 'onClose'> {
   size?: AntdDrawerProps['size'];
@@ -14,11 +15,13 @@ interface DrawerProps extends Omit<AntdDrawerProps, 'size' | 'onClose'> {
 }
 
 const Drawer: FC<DrawerProps> = ({ size = 'large', onCancel, onOk, confirmLoading, ...props }) => {
+  const { t } = useTranslation();
+
   const footer = (
     <div className={cn('flex items-center justify-end gap-2 p-2')}>
-      <Button onClick={onCancel}>取消</Button>
+      <Button onClick={onCancel}>{t('BUTTON_19')}</Button>
       <Button type="primary" onClick={onOk} loading={confirmLoading}>
-        确定
+        {t('BUTTON_24')}
       </Button>
     </div>
   );
