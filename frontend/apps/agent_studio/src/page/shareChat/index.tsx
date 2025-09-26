@@ -19,7 +19,6 @@ import { useNavigate } from 'react-router-dom';
 const ShareChat: FC = () => {
   const navigate = useNavigate();
   const queryRouter = useQueryRouter();
-  const sid = queryRouter.get('sid');
 
   const { userId } = useGlobalModel();
   const { initConversation } = useConversationModel();
@@ -40,6 +39,7 @@ const ShareChat: FC = () => {
   }, [userId]);
 
   const getShareChatPageDetail = async () => {
+    const sid = queryRouter.get('sid');
     if (!sid) return;
 
     const res = await getConversationBySessionId(sid);
