@@ -1,0 +1,115 @@
+CREATE TABLE `sophon_agent_model_config` (
+      `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'primary_id',
+      `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'create time',
+      `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'update time',
+      `name` varchar(128)  NOT NULL DEFAULT '' COMMENT '用户自定义名称',
+      `description` varchar(512)  NOT NULL DEFAULT '' COMMENT '模型描述',
+      `model_url` varchar(1000)  NOT NULL DEFAULT '' COMMENT '接入模型的基础地址',
+      `model_key` varchar(1000)  NOT NULL DEFAULT '' COMMENT '接入模型的api-key',
+      `model_name` varchar(1000)  NOT NULL DEFAULT '' COMMENT '对应接入方模型名称',
+      `config` longtext  COMMENT '模型配置其他扩展信息,如接入模型方类型,方舟、百炼等',
+      `is_delete` tinyint NOT NULL DEFAULT '0' COMMENT '是否删除，0否，1是',
+      `modify_user` varchar(128)  DEFAULT NULL COMMENT '修改人',
+      `create_user` varchar(128)  DEFAULT NULL COMMENT '创建人',
+      `modalities` varchar(1024)  DEFAULT NULL COMMENT '模态支持',
+      `max_completion_token_limit` int DEFAULT NULL COMMENT '模型最大输出token长度',
+      `model_app_tag` varchar(256)  DEFAULT '[]' COMMENT '模型应用标签',
+      `default_params` varchar(512)  DEFAULT '{}' COMMENT '默认参数',
+      `support_stream` tinyint(1) DEFAULT '1' COMMENT '是否支持stream',
+      `support_system` tinyint(1) DEFAULT '1' COMMENT '是否支持system指令',
+      `support_reasoning` tinyint(1) DEFAULT '0' COMMENT '是否兼容思维链标准协议',
+      `timeout_seconds` int DEFAULT NULL COMMENT '超时时间',
+      PRIMARY KEY (`id`),
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='模型配置信息表';
+
+CREATE TABLE `sophon_mcp_server` (
+      `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'primary_id',
+      `type` varchar(64)  NOT NULL DEFAULT 'sse' COMMENT 'MCPserver类型stdio/sse',
+      `qualified_name` varchar(255)  NOT NULL COMMENT '服务唯一名称(如"baidu-map")',
+      `display_name` varchar(255)  NOT NULL COMMENT '展示名称(如"Brave Search")',
+      `description` varchar(1024)  NOT NULL COMMENT '服务描述',
+      `category` varchar(256)  NOT NULL DEFAULT '' COMMENT '所属分类',
+      `endpoint_url` text  COMMENT 'MCP服务端点地址',
+      `icon_url` varchar(255)  NOT NULL DEFAULT '' COMMENT '服务图标地址',
+      `create_user` varchar(255)  NOT NULL DEFAULT '' COMMENT '创建用户',
+      `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'create time',
+      `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'update time',
+      `command` varchar(255)  NOT NULL DEFAULT '' COMMENT 'stdio时生效,安装命令',
+      `implement_type` varchar(256)  NOT NULL DEFAULT 'DIRECT_LINK' COMMENT '实现类型(DIRECT_LINK/PROXY)',
+      `status` int DEFAULT '0' COMMENT '0:正常、-1:删除',
+      `modify_user` varchar(255)  NOT NULL DEFAULT '' COMMENT '更新用户',
+      `context_config` varchar(1024)  NOT NULL DEFAULT '' COMMENT 'mcp server上下文配置',
+      PRIMARY KEY (`id`),
+      KEY `idx_server_qualified_name` (`qualified_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='sophon mcp服务注册表';
+
+CREATE TABLE `sophon_mcp_server_tool_detail` (
+    `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'primary_id',
+    `qualified_name` varchar(256)  NOT NULL COMMENT '工具唯一名称(如"brave_web_search")',
+    `display_name` varchar(255)  NOT NULL COMMENT '展示名称(如"Brave Search")',
+    `server_qualified_name` varchar(256)  NOT NULL COMMENT '所属服务ID',
+    `description` text  COMMENT '工具功能描述 ',
+    `input_schema` text  COMMENT '输入参数结构 jsonSchema定义',
+    `proxy_type` varchar(256)  NOT NULL DEFAULT '' COMMENT '注册代理类型http/rpc',
+    `request_method` varchar(256)  NOT NULL DEFAULT '' COMMENT 'get/post',
+    `request_url` varchar(2048)  NOT NULL DEFAULT '' COMMENT '请求地址 ',
+    `request_headers` text  COMMENT '请求头信息列表 ',
+    `request_json` text  COMMENT '输入json, jsonata格式，定义json内容，转化逻辑',
+    `response_json` text  COMMENT '输入json, jsonata格式，定义json内容，转化逻辑',
+    `status` int DEFAULT '0' COMMENT '0:正常、-1:删除',
+    `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'create time',
+    `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'update time',
+    `create_user` varchar(255)  NOT NULL DEFAULT '' COMMENT '创建用户',
+    `modify_user` varchar(255)  NOT NULL DEFAULT '' COMMENT '更新用户'
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='MCP server的tool注册表';
+
+CREATE TABLE `sophon_prompt_config` (
+   `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'primary_id',
+   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+   `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
+   `uid` varchar(128)  NOT NULL COMMENT '场景唯一标识',
+   `name` varchar(128)  NOT NULL COMMENT '场景名称',
+   `description` varchar(256)  DEFAULT NULL COMMENT '场景描述',
+   `create_user` varchar(128)  DEFAULT NULL COMMENT '创建人',
+   `status` int NOT NULL COMMENT '1生效、0失效、-1删除',
+   `classify` varchar(64)  DEFAULT '' COMMENT '分类，枚举值：system、customized',
+   PRIMARY KEY (`id`),
+   KEY `idx_uid` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='prompt配置表';
+
+CREATE TABLE `sophon_prompt_config_detail` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'primary_id',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
+  `prompt_uid` varchar(128)  NOT NULL COMMENT 'prompt表的uid',
+  `prompt_content` longtext  COMMENT 'prompt详情',
+  `content_placeholder` varchar(2000)  DEFAULT NULL COMMENT 'prompt内容中的参数变量，存储格式为list',
+  `status` int NOT NULL COMMENT '1生效、0失效、-1删除',
+  `version` int NOT NULL DEFAULT '1' COMMENT '版本',
+  `create_user` varchar(128)  DEFAULT NULL COMMENT '操作人',
+  `comment` varchar(512)  DEFAULT NULL COMMENT '说明',
+  `framework` varchar(50)  DEFAULT 'COMMON' COMMENT 'prompt生成框架',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 OMMENT='prompt配置关联模型表';
+
+CREATE TABLE `sophon_playground_chat_record` (
+     `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'primary_id',
+     `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'create time',
+     `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'update time',
+     `user_id` varchar(128)  DEFAULT NULL COMMENT '用户id',
+     `session_id` varchar(128)  NOT NULL COMMENT '会话id',
+     `model_args` longtext  COMMENT '模型参数',
+     `complete_content` longtext  COMMENT '完整对话内容',
+     `prompt_uid` varchar(128)  DEFAULT NULL COMMENT 'prompt表的uid',
+     `prompt_content` longtext  COMMENT '场景描述',
+     `prompt_dynamic_values` text  COMMENT 'prompt动态替换值',
+     `name` longtext  COMMENT '对话记录名称',
+     `is_shared` tinyint DEFAULT '0' COMMENT '0 未被分享 1 被分享',
+     `extra` longtext  COMMENT '额外信息',
+     `prompt_version` int DEFAULT NULL COMMENT '版本',
+     `chat_id` varchar(128)  NOT NULL DEFAULT '' COMMENT '对话id',
+     PRIMARY KEY (`id`),
+     KEY `idx_user_id` (`user_id`),
+     KEY `idx_session_id` (`session_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='playground对话记录'
