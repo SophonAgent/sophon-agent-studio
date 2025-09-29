@@ -27,6 +27,7 @@ export const INIT_CHAT_MODEL_CONFIG: Partial<ChatModelConfig> = {
   temperature: 1,
   top_p: 1,
   tool_choice: undefined,
+  reasoning_effort: undefined,
 };
 
 export const CHAT_MODEL_CONFIG_TOOLTIP_CONTENT: Record<string, ReactNode> = {
@@ -37,6 +38,7 @@ export const CHAT_MODEL_CONFIG_TOOLTIP_CONTENT: Record<string, ReactNode> = {
   stop: `Up to 4 sequences where the API will stop generating further tokens. The returned text will not contain the stop sequence.`,
   temperature: `What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. We generally recommend altering this or top_p but not both.`,
   top_p: `An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered. We generally recommend altering this or temperature but not both.`,
+  reasoning_effort: `Constrains effort on reasoning for reasoning models. Currently supported values are minimal, low, medium, and high. Reducing reasoning effort can result in faster responses and fewer tokens used on reasoning in a response.`,
   tool_choice: (
     <div className={cn('flex flex-col gap-4')}>
       <div>

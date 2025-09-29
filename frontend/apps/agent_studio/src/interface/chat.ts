@@ -92,6 +92,7 @@ export interface ChatModelConfig {
   temperature?: number;
   top_p?: number;
   tool_choice?: 'none' | 'auto' | 'required' | Record<string, any>;
+  reasoning_effort?: 'minimal' | 'low' | 'medium' | 'high';
   /** 对话用 */
   model_config_id: number;
 }
