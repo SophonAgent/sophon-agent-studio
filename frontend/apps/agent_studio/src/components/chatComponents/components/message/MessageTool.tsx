@@ -72,7 +72,7 @@ const MessageTool: FC<MessageToolProps> = ({ msgGroupKey, messageItem, onEdit, i
     const resizeObserver = new ResizeObserver(entries => {
       for (const entry of entries) {
         const width = entry.contentRect.width;
-        if (!isReadonly && width <= 123) {
+        if (!isReadonly && width <= 110) {
           setCollapseBtns(true);
         } else {
           setCollapseBtns(false);
@@ -197,7 +197,7 @@ const MessageTool: FC<MessageToolProps> = ({ msgGroupKey, messageItem, onEdit, i
         ) : null}
       </div>
 
-      <div className={cn('hidden flex-1 justify-end', 'group-hover/msg:flex')} ref={boxRef}>
+      <div className={cn('hidden flex-1 justify-end', 'flex', 'group-hover/msg:flex')} ref={boxRef}>
         {collapseBtns ? (
           <Tooltip title={genActions()} color="#fff">
             <Button

@@ -115,6 +115,22 @@ const ChatModelConfigForm: FC<ChatModelConfigFormProps> = ({ msgGroupKey, isRead
         <InputNumber min={1} style={{ width: '100%' }} />
       </FormItem>
       <FormItem
+        label="reasoning_effort"
+        name="reasoning_effort"
+        tooltip={CHAT_MODEL_CONFIG_TOOLTIP_CONTENT.reasoning_effort}
+        style={{ marginBottom: 8 }}
+      >
+        <Select
+          options={[
+            { label: 'minimal', value: 'minimal' },
+            { label: 'low', value: 'low' },
+            { label: 'medium', value: 'medium' },
+            { label: 'high', value: 'high' },
+          ]}
+          allowClear
+        />
+      </FormItem>
+      <FormItem
         label="tool_choice"
         name="tool_choice"
         tooltip={CHAT_MODEL_CONFIG_TOOLTIP_CONTENT.tool_choice}

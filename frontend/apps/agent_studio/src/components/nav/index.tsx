@@ -140,7 +140,10 @@ const Nav: FC = () => {
               icon={item.icon}
               tip={isExpanded ? '' : item.label}
               checked={pathname?.match(/^(\/[^/]+)/)?.[0] === item.path}
-              onChange={() => navigate(item.path)}
+              onChange={() => {
+                clearConversation();
+                navigate(item.path);
+              }}
             />
           ))}
         </div>

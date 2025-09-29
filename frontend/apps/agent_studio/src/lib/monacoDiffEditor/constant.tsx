@@ -45,4 +45,5 @@ export const DIFF_EDITOR_OPTIONS: editor.IDiffEditorConstructionOptions = {
   enableSplitViewResizing: true,
   wordWrap: 'on',
   unicodeHighlight: { ambiguousCharacters: false },
+  stickyScroll: { enabled: false },
 };

@@ -38,4 +38,6 @@ export const EDITOR_OPTIONS: editor.IEditorOptions = {
   foldingImportsByDefault: true,
   foldingHighlight: true,
   folding: true,
+  wordWrap: 'on',
+  stickyScroll: { enabled: false },
 };
