@@ -1,6 +1,7 @@
 package com.sophon.agent.studio.service;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sophon.agent.model.SophonAgentModelConfig;
 import com.sophon.agent.studio.dto.ChatCompletionRequest;
@@ -19,6 +20,7 @@ import reactor.core.publisher.Mono;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -121,6 +123,7 @@ public class ModelExecutionService {
     }
     
     private Flux<String> executeChatCompletionStream(SophonAgentModelConfig config, ChatCompletionRequest request) {
+        String requestUid = UUID.randomUUID().toString().replace("-", "");
         return Flux.create(sink -> {
             try {
                 String apiUrl = config.getModelUrl();
@@ -159,15 +162,15 @@ public class ModelExecutionService {
                                 while (!source.exhausted()) {
                                     String data = source.readUtf8Line();
                                     if (data != null && data.startsWith("data: ")) {
-//                                        String data = line.substring(6);
-                                        
-
                                         LOGGER.info("获取流式返回,参数为:{}", data);
-                                        sink.next(data);
                                         if (data.equals("data: [DONE]")) {
                                             sink.complete();
                                             return;
                                         }
+                                        String json = data.substring(6);
+                                        JSONObject jsonObject = objectMapper.readValue(json, JSONObject.class);
+                                        jsonObject.put("logId", requestUid);
+                                        sink.next("data: "+JSON.toJSONString(jsonObject));
                                     }
                                 }
                                 sink.complete();
