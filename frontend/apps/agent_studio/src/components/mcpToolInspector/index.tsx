@@ -9,6 +9,7 @@ import DividingLine from '@/lib/dividingLine';
 import McpToolCallTest from '@/components/mcpToolCallTest';
 import RunHistoryPanel from '@/components/mcpToolInspector/RunHistoryPanel';
 import { Empty, Skeleton } from 'antd';
+import useQueryRouter from '@/utils/router';
 
 interface McpToolInspectorProps {
   mcpServer?: McpServerItem;
@@ -17,15 +18,24 @@ interface McpToolInspectorProps {
 }
 
 const McpToolInspector: FC<McpToolInspectorProps> = ({ mcpServer, toolList, isLoading }) => {
+  const queryRouter = useQueryRouter();
+
   const [selectedTool, setSelectedTool] = useState<McpToolInfo>();
   const [runHistory, setRunHistory] = useState<McpToolRunHistoryItem[]>([]);
 
   useEffect(() => {
     if (toolList.length) {
       setRunHistory([{ title: 'tools/list', responseJson: JSON.stringify({ tools: toolList }) }]);
-      setSelectedTool(toolList[0]);
+      const name = queryRouter.get('name');
+      const tool = toolList.find(item => item.name === name);
+      if (name && tool) {
+        setSelectedTool(tool);
+        queryRouter.remove('name');
+      } else {
+        setSelectedTool(toolList[0]);
+      }
     }
-  }, [toolList]);
+  }, [toolList.length]);
 
   return (
     <Skeleton active loading={isLoading}>
@@ -44,7 +54,7 @@ const McpToolInspector: FC<McpToolInspectorProps> = ({ mcpServer, toolList, isLo
                 className={cn(
                   'cursor-pointer rounded-lg border border-solid bg-background-primary p-2',
                   'hover:shadow-md',
-                  selectedTool === item ? 'border-select' : 'border-default',
+                  selectedTool?.name === item.name ? 'border-select' : 'border-default',
                 )}
                 onClick={() => setSelectedTool(item)}
               >

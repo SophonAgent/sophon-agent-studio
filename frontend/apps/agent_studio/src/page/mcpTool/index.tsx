@@ -22,7 +22,7 @@ import { useTranslation } from 'react-i18next';
 const McpToolTabKey = {
   DETAIL: 'detail',
   TOOL: 'tool',
-  INSPECTOR: 'inspector',
+  DEBUG: 'debug',
 } as const;
 type McpToolTabKey = (typeof McpToolTabKey)[keyof typeof McpToolTabKey];
 
@@ -114,8 +114,8 @@ const McpTool: FC = () => {
         ]
       : []),
     {
-      key: McpToolTabKey.INSPECTOR,
-      label: 'Inspector',
+      key: McpToolTabKey.DEBUG,
+      label: t('TAG_27'),
       children: (
         <McpToolInspector
           mcpServer={currentMcpServer}

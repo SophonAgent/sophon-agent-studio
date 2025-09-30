@@ -14,6 +14,8 @@ import { dataColumns } from '../constant';
 import McpToolEditDrawer from './McpToolEditDrawer';
 import useMcpTool from '@/hooks/useMcpTool';
 import { useTranslation } from 'react-i18next';
+import { NAV_PATH_MAP } from '@/constant/nav';
+import useQueryRouter from '@/utils/router';
 
 interface ToolPanelProps {
   mcpServer?: McpServerItem;
@@ -24,6 +26,7 @@ interface ToolPanelProps {
 
 const ToolPanel: FC<ToolPanelProps> = ({ mcpServer, toolList, isLoading, onRefresh }) => {
   const { t } = useTranslation();
+  const queryRouter = useQueryRouter();
 
   const { deleteMcpToolConfig } = useMcpTool();
 
@@ -107,6 +110,14 @@ const ToolPanel: FC<ToolPanelProps> = ({ mcpServer, toolList, isLoading, onRefre
       },
     },
     {
+      key: 'debug',
+      label: t('BUTTON_31'),
+      onClick: (record: McpToolConfigItem) => {
+        const url = `/paas#${NAV_PATH_MAP.MCP_TOOL}?id=${queryRouter.get('id')}&tab=debug&name=${record.qualifiedName}`;
+        window.open(url, '_blank');
+      },
+    },
+    {
       key: 'delete',
       label: t('BUTTON_3'),
       danger: true,
@@ -136,7 +147,7 @@ const ToolPanel: FC<ToolPanelProps> = ({ mcpServer, toolList, isLoading, onRefre
           dataSource={filteredMcpServerList}
           dataColumns={dataColumns(t)}
           actionList={actionList}
-          actionWidth={150}
+          actionWidth={200}
           loading={isLoading}
           scroll={{ x: (dataColumns(t) as any[]).length * 180 }}
           pagination={{ hideOnSinglePage: true, showSizeChanger: true }}

@@ -148,7 +148,7 @@ function usePromptManage() {
     if (!uid) {
       return;
     }
-    const url = `${NAV_PATH_MAP.CHAT}?uid=${uid}`;
+    const url = `/paas#${NAV_PATH_MAP.CHAT}?uid=${uid}`;
     window.open(url, '_blank');
   };
 
