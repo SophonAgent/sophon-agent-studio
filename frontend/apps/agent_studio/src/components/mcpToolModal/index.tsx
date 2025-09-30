@@ -6,7 +6,7 @@ import type { JSONSchema7 } from 'json-schema';
 import { memo, useEffect, useMemo, useState } from 'react';
 import Modal from '@/lib/modal';
 import useMcpServer from '@/hooks/useMcpServer';
-import { Input, Skeleton } from 'antd';
+import { Button, Input, Skeleton } from 'antd';
 import { cn } from '@/utils/tw';
 import McpServerCard from './McpServerCard';
 import DividingLine from '@/lib/dividingLine';
@@ -18,6 +18,8 @@ import useFeedback from '@/context/feedbackContext';
 import { uniqBy } from 'lodash-es';
 import { useTranslation } from 'react-i18next';
 import { McpImplementType } from '@/interface/mcpServer';
+import { NAV_PATH_MAP } from '@/constant/nav';
+import { PlusIcon, ReloadIcon } from '@radix-ui/react-icons';
 
 interface McpToolModalProps {
   initialValues?: FunctionDefinition[];
@@ -168,18 +170,36 @@ const McpToolModal: FC<McpToolModalProps> = ({ initialValues = [], onCancel, onO
     setSelectedMcpIds(newMcpTools.map(m => m.mcpServer?.id).filter(f => f !== undefined) as number[]);
   };
 
+  const footer = (
+    <div className={cn('flex items-center justify-between')}>
+      <Button
+        type="link"
+        icon={<PlusIcon />}
+        onClick={() => {
+          const url = `/paas#${NAV_PATH_MAP.MCP}?type=create`;
+          window.open(url, '_blank');
+        }}
+      >
+        {t('MCP_3')}
+      </Button>
+      <div className={cn('flex items-center justify-end gap-2')}>
+        <Button onClick={handleCancel}>{t('BUTTON_19')}</Button>
+        <Button
+          type="primary"
+          onClick={handleSubmit}
+          disabled={isMcpToolConfigListLoading || isMcpToolListLoading}
+        >
+          {t('BUTTON_24')}
+        </Button>
+      </div>
+    </div>
+  );
+
   return (
-    <Modal
-      open
-      title="MCP Tool"
-      size="large"
-      onCancel={handleCancel}
-      onOk={handleSubmit}
-      okButtonProps={{ disabled: isMcpToolConfigListLoading || isMcpToolListLoading }}
-    >
-      <Skeleton loading={isMcpServerListLoading} active>
+    <Modal open title="MCP Tool" size="large" onCancel={handleCancel} footer={footer}>
+      <Skeleton loading={isMcpServerListLoading} active style={{ height: 560 }}>
         <div className={cn('flex h-[560px] gap-2 text-foreground-primary')}>
-          <div className={cn('flex h-full w-[250px] flex-col overflow-hidden')}>
+          <div className={cn('flex h-full w-[290px] flex-col overflow-hidden')}>
             <div className={cn('flex items-center gap-2')}>
               <span className={cn('text-[14px] font-medium')}>MCP</span>
               <Input
@@ -189,6 +209,7 @@ const McpToolModal: FC<McpToolModalProps> = ({ initialValues = [], onCancel, onO
                 onChange={e => setMcpServerKeyword(e.target.value)}
                 style={{ width: 200 }}
               />
+              <Button type="link" icon={<ReloadIcon />} onClick={getMcpServerList} />
             </div>
 
             <div className={cn('mt-2 flex flex-1 flex-col gap-2 overflow-y-auto px-1')}>

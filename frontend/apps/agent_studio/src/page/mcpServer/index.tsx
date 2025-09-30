@@ -16,10 +16,12 @@ import McpServerEditModal from '@/components/mcpServerEditModal';
 import { NAV_PATH_MAP } from '@/constant/nav';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import useQueryRouter from '@/utils/router';
 
 const McpServer: FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const queryRouter = useQueryRouter();
 
   const { mcpServerList, isMcpServerListLoading, getMcpServerList, deleteMcpServer } = useMcpServer();
 
@@ -48,6 +50,11 @@ const McpServer: FC = () => {
 
   useEffect(() => {
     getMcpServerList();
+    const type = queryRouter.get('type');
+    if (type === 'create') {
+      setShowMcpServerEditModal(true);
+      queryRouter.remove('type');
+    }
   }, []);
 
   const onCloseModal = () => {

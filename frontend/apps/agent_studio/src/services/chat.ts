@@ -141,7 +141,7 @@ export async function* createChatCompletion(
                 return;
               }
             });
-            // console.log('chunkObj>>>', chunkObj);
+            console.log('chunkObj>>>', chunkObj);
           }
         });
         yield {

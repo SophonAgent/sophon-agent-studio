@@ -3,10 +3,11 @@ import type { FunctionDefinition } from '@/interface/functionCall';
 
 import { memo, useMemo } from 'react';
 import { Button } from 'antd';
-import { Cross2Icon } from '@radix-ui/react-icons';
+import { Cross2Icon, OpenInNewWindowIcon } from '@radix-ui/react-icons';
 import { cn } from '@/utils/tw';
 import Paragraph3Line from '@/components/paragraph3Line';
 import { useTranslation } from 'react-i18next';
+import { NAV_PATH_MAP } from '@/constant/nav';
 
 interface McpToolCardProps {
   tool: FunctionDefinition;
@@ -27,11 +28,24 @@ const McpToolCard: FC<McpToolCardProps> = ({ tool, onRemove }) => {
   return (
     <div
       className={cn(
-        'flex items-center justify-between gap-3 rounded-lg px-[10px] py-[6px] hover:bg-background-tertiary',
+        'group/mcpTool flex items-center justify-between gap-3 rounded-lg px-[10px] py-[6px] hover:bg-background-tertiary',
       )}
     >
       <div className={cn('flex-1 overflow-hidden')}>
-        <Paragraph3Line value={toolName} rows={1} style={{ fontWeight: 500 }} />
+        <div className={cn('flex items-center gap-1')}>
+          <Paragraph3Line value={toolName} rows={1} style={{ fontWeight: 500 }} />
+          <div className={cn('invisible group-hover/mcpTool:visible')}>
+            <Button
+              type="link"
+              icon={<OpenInNewWindowIcon />}
+              style={{ width: 20, height: 20 }}
+              onClick={() => {
+                const url = `/paas#${NAV_PATH_MAP.MCP_TOOL}?id=${tool.mcpServer?.id}&tab=debug&name=${tool.qualifiedName}`;
+                window.open(url, '_blank');
+              }}
+            />
+          </div>
+        </div>
         <Paragraph3Line
           value={tool.description}
           rows={1}
